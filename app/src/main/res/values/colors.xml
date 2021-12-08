@@ -16,5 +16,12 @@
     <color name="Cyan">#9708cc</color>
     <color name="secbarcolor">#4DB6FA</color>
     <color name="DatePickerDialog">#2f8eb3</color>
+    <color name="sale">#4e25a5</color>
+    <color name="saleenq">#93009d</color>
+    <color name="saleorder">#13caec</color>
+    <color name="saleorderenq">#ce452f</color>
+    <color name="stock">#ad0746</color>
+    <color name="outstand">#0fb10c</color>
+    <color name="setting">#0d8dcb</color>
 
 </resources>
