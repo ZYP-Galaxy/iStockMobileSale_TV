@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ECF0F5"
+    tools:context=".frmstockstatuslist">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            app:cardBackgroundColor="#2F4658"
+            android:elevation="20dp"
+            android:padding="10dp"
+            android:id="@+id/head"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Stock Status"
+                    android:id="@+id/txtstockstatus"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"/>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/head"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="1dp">
+
+            <Button
+                android:id="@+id/txtdate"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/btnround2"
+                android:text="Today"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+            <!--android:background="@drawable/btnround2"-->
+            <Button
+                android:id="@+id/txtchooseLocation"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="140dp"
+                android:background="@drawable/btnround2"
+                android:text="Choose Location"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textStyle="bold">
+
+            </Button>
+
+            <Button
+                android:id="@+id/selectfilter"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="150dp"
+                android:layout_toRightOf="@+id/txtdate"
+                android:background="@drawable/btnround2"
+                android:text="Choose"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/filtermenu"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="0dp"
+                android:layout_toRightOf="@+id/selectfilter"
+                android:background="@drawable/cyclebutton2"
+                app:srcCompat="@drawable/selectfilter" />
+
+            <!--  <EditText
+                android:id="@+id/searchEditText"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="550dp"
+                /> -->
+
+
+            <!--  <CheckBox
+                  android:id="@+id/chkspOrd"
+                  android:layout_width="85dp"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:layout_marginLeft="550dp"
+                  android:buttonTint="@android:color/holo_blue_dark"
+                  android:checked="false"
+                  android:text="Sale/Pur Ord" />
+
+              <CheckBox
+                  android:id="@+id/chkRecDel"
+                  android:layout_width="75dp"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:layout_marginLeft="650dp"
+                  android:buttonTint="@android:color/holo_blue_dark"
+                  android:checked="false"
+
+                  android:text="Rec/Deliver" />
+
+              <CheckBox
+                  android:id="@+id/chkInactive"
+                  android:layout_width="63dp"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:layout_marginLeft="750dp"
+                  android:buttonTint="@android:color/holo_blue_dark"
+                  android:checked="false"
+                  android:text="Inactive" /> -->
+
+            <EditText
+                android:id="@+id/searchcode"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="520dp"
+                android:drawableRight="@drawable/searchcode"
+                android:gravity="left"
+                android:hint="Search Code"></EditText>
+
+            <ImageButton
+                android:id="@+id/filterSpecial"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="735dp"
+                android:background="@drawable/cyclebutton2"
+                app:srcCompat="@drawable/selectfilter" />
+
+            <ImageButton
+                android:id="@+id/refresh"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="63dp"
+                android:background="@drawable/cyclebutton2"
+                app:srcCompat="@drawable/refresh" />
+
+            <ImageButton
+                android:id="@+id/imgFilterClear"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/cyclebutton2"
+                app:srcCompat="@drawable/clearsalelist" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="0dp"
+            android:background="#ECF0F5">
+            <!-- <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textColor="#6960EF"
+                android:id="@+id/txtEnqCount"
+                android:layout_marginLeft="10dp"
+                android:text="Count:"
+                /> -->
+
+            <CheckBox
+                android:id="@+id/chkspOrd"
+                android:layout_width="128dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="0dp"
+                android:buttonTint="@android:color/holo_blue_dark"
+                android:checked="false"
+                android:text="Sale/Pur Ord" />
+
+            <CheckBox
+                android:id="@+id/chkRecDel"
+                android:layout_width="wrap_content"
+                android:layout_height="41dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="135dp"
+                android:buttonTint="@android:color/holo_blue_dark"
+                android:checked="false"
+
+                android:text="Rec/Deliver" />
+
+            <CheckBox
+                android:id="@+id/chkInactive"
+                android:layout_width="91dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="256dp"
+                android:buttonTint="@android:color/holo_blue_dark"
+                android:checked="false"
+                android:text="Inactive" />
+
+            <CheckBox
+                android:id="@+id/chkPlus"
+                android:layout_width="54dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="355dp"
+                android:buttonTint="@android:color/holo_blue_dark"
+                android:checked="false"
+                android:textSize="20dp"
+                android:text="+" />
+
+            <CheckBox
+                android:id="@+id/chkMinus"
+                android:layout_width="54dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="425dp"
+                android:buttonTint="@android:color/holo_blue_dark"
+                android:checked="false"
+                android:text="-"
+                android:textSize="30dp" />
+
+
+            <!-- <TextView
+                android:id="@+id/txtUsername"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="0dp"
+                android:gravity="center"
+
+                android:hint="   Username"
+                android:padding="10dp"
+                android:textColor="#6960EF"
+                android:textColorHint="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold" />-->
+
+            <!--<TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textColor="#6960EF"
+                android:id="@+id/txtCount"
+                android:layout_toRightOf="@+id/txtEnqCount"
+                android:text="0"
+                />-->
+            <!--  <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:hint="Username"
+                  android:textSize="19dp"
+                  android:id="@+id/txtUsername"
+                  android:textStyle="bold"
+                  android:textColorHint="@color/white"
+                  android:layout_centerHorizontal="true"
+                  android:textColor="@color/white"
+                  android:visibility="gone"
+                  android:drawableLeft="@drawable/showuser"
+                  />-->
+
+
+            <CheckBox
+                android:id="@+id/chkZero"
+                android:layout_width="62dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="500dp"
+                android:buttonTint="@android:color/holo_blue_dark"
+                android:textSize="20dp"
+                android:checked="false"
+                android:text="0" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="13dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp">
+
+                <!-- <TextView
+                    android:id="@+id/txtEnqTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="0dp"
+                    android:text="Total : "
+                    android:textColor="#6960EF"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_toRightOf="@+id/txtEnqTotal"
+                    android:text="0.0"
+                    android:textColor="#6960EF"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />-->
+
+                <ImageButton
+                    android:id="@+id/imgEdit"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginRight="100dp"
+                    android:background="@drawable/cyclebutton"
+                    app:srcCompat="@drawable/edit"
+                    android:visibility="gone" />
+
+                <ImageButton
+                    android:id="@+id/imgDelete"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_toRightOf="@id/imgEdit"
+                    android:background="@drawable/cyclebutton"
+                    app:srcCompat="@drawable/delete"
+                    android:visibility="gone" />
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_above="@+id/footer"
+            android:layout_below="@+id/header"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:id="@+id/middle"
+            android:elevation="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/column"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="#dddddd">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:text="    Code"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:text=" Description"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:text=" SaleAmount"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:layout_marginRight="0dp"
+                        android:text=" Balance"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:layout_marginRight="0dp"
+                        android:text="Location"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <!--<TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text=" Pay Type"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text=" Currency"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtbalance"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_gravity="end"
+                        android:gravity="center_vertical"
+                        android:text="Balance"
+                        android:textAlignment="textEnd"
+                        android:layout_marginRight="10dp"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />-->
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvstockstatusList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/column"
+                    android:background="@drawable/rcvback">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

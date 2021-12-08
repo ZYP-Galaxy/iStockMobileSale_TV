@@ -1,0 +1,508 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:focusable="false"
+    android:background="#d9d4d4"
+    android:padding="10dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="500dp"
+        app:cardBackgroundColor="#d9d4d4">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#2F4658">
+
+                <TextView
+                    android:id="@+id/caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="Unit"
+                    android:textColor="#dad4d4"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/imgSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    app:srcCompat="@drawable/editsavesmall" />
+
+            </RelativeLayout>
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/rlqty"
+                        android:layout_marginBottom="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="Qty"
+                            android:textColor="#46509E"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/imgAddqty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@null"
+                            app:srcCompat="@drawable/addqtycopy" />
+
+                        <TextView
+                            android:id="@+id/txtChangeQty"
+                            android:layout_width="150dp"
+                            android:background="@drawable/txtbg"
+                            android:layout_height="35dp"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/imgAddqty"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#46509E"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/imgSubqty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/txtChangeQty"
+                            android:background="@null"
+                            app:srcCompat="@drawable/subqtycopy" />
+
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/rlPetrol"
+                        android:visibility="gone"
+                        android:layout_marginBottom="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="Liter"
+                            android:textColor="#46509E"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/imgPAddqty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@null"
+                           android:src="@drawable/addqtycopy" />
+
+                        <TextView
+                            android:id="@+id/txtPChangeQty"
+                            android:layout_width="150dp"
+                            android:background="@drawable/txtbg"
+                            android:layout_height="35dp"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/imgPAddqty"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#46509E"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/imgPSubqty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/txtPChangeQty"
+                            android:background="@null"
+                            app:srcCompat="@drawable/subqtycopy" />
+
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="Item Discount"
+                            android:textColor="#46509E"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+                        <Button
+                            android:id="@+id/btndiscountype"
+                            android:layout_width="185dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="0dp"
+                            android:background="@drawable/entrybtn"
+                            android:text="Choose"
+                            android:textAllCaps="false"
+                            android:textColor="#ffffff"
+                            android:textSize="12dp"
+                            android:textStyle="bold" />
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:id="@+id/rlsale"
+                        android:layout_marginBottom="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="Sale Price"
+                            android:textColor="#46509E"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/imgChangePrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@null"
+                            android:visibility="invisible"
+                            app:srcCompat="@drawable/addqtycopy" />
+
+                        <TextView
+                            android:id="@+id/txtChangePrice"
+                            android:layout_width="100dp"
+                            android:background="@drawable/txtbg"
+                            android:layout_height="50dp"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/imgChangePrice"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#46509E"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:id="@+id/rlSQTY"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="Sqty"
+                            android:textColor="#46509E"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtSQTY"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="42dp"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#46509E"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:id="@+id/rlSprice"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="Sprice"
+                            android:textColor="#46509E"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtSprice"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="42dp"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#46509E"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:id="@+id/rlUnit"
+                        android:layout_marginBottom="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:id="@+id/txtunit"
+                            android:text="Unit"
+                            android:textColor="#46509E"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+                        <LinearLayout
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/txtunit"
+                            android:layout_marginLeft="20dp"
+                            android:orientation="horizontal"
+                            >
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:text="pkg"
+                                    android:id="@+id/showpkg"
+                                    android:textStyle="bold"
+                                    android:layout_centerVertical="true"
+                                    android:textColor="#46509E"
+                                    android:textSize="15dp"
+                                    android:visibility="gone"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_toLeftOf="@+id/rcvUnit"
+                                    android:layout_height="wrap_content"
+                                    />
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:id="@+id/rcvUnit"
+                                    >
+
+                                </androidx.recyclerview.widget.RecyclerView>
+
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:id="@+id/rllevel"
+                        android:layout_marginBottom="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="Level"
+                            android:textColor="#46509E"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+
+
+                        <LinearLayout
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:orientation="horizontal"
+                            >
+
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/showSP"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_toLeftOf="@+id/rcvSP"
+                                    android:text="SP"
+                                    android:visibility="gone"
+                                    android:textColor="#46509E"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold" />
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/rcvSP"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true">
+
+                                </androidx.recyclerview.widget.RecyclerView>
+
+                            </RelativeLayout>
+
+
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="Remark"
+                            android:textColor="#46509E"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+                        <EditText
+                            android:id="@+id/txtDetRemark"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="130dp"
+                            android:layout_marginRight="5dp"
+                            android:hint="Enter remark"
+                            android:textColorHint="#f2dcdc"
+                            android:textColor="@color/white"
+                            android:background="@drawable/txtinvoice"
+                            android:imeOptions="actionDone|flagNoExtractUi"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:visibility="gone"
+                        android:layout_marginBottom="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="Qty"
+                            android:textColor="#111"
+                            android:textSize="20dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtChangeSQty"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="35dp"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#111"
+                            android:textSize="20dp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:id="@+id/rlamt"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="Amount"
+                            android:textColor="#46509E"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtChangeAmt"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="42dp"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#46509E"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+            </ScrollView>
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

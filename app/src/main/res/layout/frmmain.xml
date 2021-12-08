@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/mainsecondbgcolor"
+    >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:clipToPadding="false"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="84dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/cardlogout"
+                android:layout_width="60dp"
+                android:layout_height="90dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:padding="10dp"
+                app:srcCompat="@drawable/logout" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+   <LinearLayout
+       android:id="@+id/lmenu"
+       android:orientation="horizontal"
+       android:layout_centerInParent="true"
+       android:padding="20dp"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content">
+
+       <androidx.cardview.widget.CardView
+           android:id="@+id/cardsale"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_margin="10dp"
+           app:cardCornerRadius="10dp"
+           android:layout_weight="1"
+           app:cardElevation="6dp"
+           android:elevation="50dp"
+           app:cardMaxElevation="10dp"
+           app:contentPadding="8dp">
+
+           <LinearLayout
+               android:layout_width="140dp"
+               android:layout_height="150dp"
+               android:layout_gravity="center"
+               android:gravity="center"
+               android:orientation="vertical">
+
+               <ImageView
+                   android:layout_width="70dp"
+                   android:layout_height="70dp"
+                   android:layout_marginTop="5dp"
+                   android:layout_marginBottom="30dp"
+                   android:background="@drawable/salecirclebg"
+                   android:padding="10dp"
+                   app:srcCompat="@drawable/sale" />
+
+               <View
+                   android:layout_width="match_parent"
+                   android:layout_height="2dp"
+                   android:layout_margin="5dp"
+                   android:background="@drawable/btnround1"></View>
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:gravity="center"
+                   android:text="Sale"
+                   android:textColor="@color/black"
+                   android:textSize="15dp"
+                   android:textStyle="bold" />
+
+           </LinearLayout>
+       </androidx.cardview.widget.CardView>
+       <androidx.cardview.widget.CardView
+           android:id="@+id/cardsalelist"
+           android:layout_width="0dp"
+           android:layout_weight="1"
+           android:layout_height="wrap_content"
+           android:layout_margin="10dp"
+           android:padding="5dp"
+           app:cardCornerRadius="10dp"
+           app:cardElevation="6dp"
+           app:cardMaxElevation="10dp"
+           app:contentPadding="8dp">
+
+           <LinearLayout
+               android:layout_width="140dp"
+               android:layout_height="150dp"
+               android:layout_gravity="center"
+               android:gravity="center"
+               android:orientation="vertical">
+
+               <ImageView
+                   android:layout_width="70dp"
+                   android:layout_height="70dp"
+                   android:layout_marginTop="5dp"
+                   android:layout_marginBottom="30dp"
+                   android:background="@drawable/salehistorycirclebg"
+                   android:padding="10dp"
+                   app:srcCompat="@drawable/salelist" />
+
+               <View
+                   android:layout_width="match_parent"
+                   android:layout_height="2dp"
+                   android:layout_margin="5dp"
+                   android:background="@drawable/btnround1"></View>
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:gravity="center"
+                   android:text="Sale History"
+                   android:textColor="@color/black"
+                   android:textSize="15dp"
+                   android:textStyle="bold" />
+
+           </LinearLayout>
+       </androidx.cardview.widget.CardView>
+
+       <androidx.cardview.widget.CardView
+           android:id="@+id/cardstock"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_margin="10dp"
+           android:padding="5dp"
+           android:elevation="50dp"
+           android:visibility="gone"
+           app:cardCornerRadius="10dp"
+           app:cardElevation="6dp"
+           app:cardMaxElevation="10dp"
+           app:contentPadding="8dp">
+
+           <LinearLayout
+               android:layout_width="140dp"
+               android:layout_height="150dp"
+               android:layout_gravity="center"
+               android:gravity="center"
+               android:orientation="vertical">
+
+               <ImageView
+                   android:layout_width="70dp"
+                   android:layout_height="70dp"
+                   android:layout_marginTop="5dp"
+                   android:layout_marginBottom="30dp"
+                   android:background="@drawable/stockcirclebg"
+                   android:padding="10dp"
+                   app:srcCompat="@drawable/stockbalance" />
+
+               <View
+                   android:layout_width="match_parent"
+                   android:layout_height="2dp"
+                   android:layout_margin="5dp"
+                   android:background="@drawable/btnround1"></View>
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:gravity="center"
+                   android:text="Stock Balance"
+                   android:textColor="@color/black"
+                   android:textSize="15dp"
+                   android:textStyle="bold" />
+
+           </LinearLayout>
+       </androidx.cardview.widget.CardView>
+
+       <androidx.cardview.widget.CardView
+           android:id="@+id/cardsaleOrder"
+           android:layout_width="0dp"
+           android:layout_weight="1"
+           android:layout_height="wrap_content"
+           android:layout_margin="10dp"
+           app:cardCornerRadius="10dp"
+           app:cardElevation="6dp"
+           android:elevation="50dp"
+           app:cardMaxElevation="10dp"
+           app:contentPadding="8dp">
+
+           <LinearLayout
+               android:layout_width="140dp"
+               android:layout_height="150dp"
+               android:layout_gravity="center"
+               android:gravity="center"
+               android:orientation="vertical">
+
+               <ImageView
+                   android:layout_width="70dp"
+                   android:layout_height="70dp"
+                   android:layout_marginTop="5dp"
+                   android:layout_marginBottom="30dp"
+                   android:background="@drawable/ordercirclebg"
+                   android:padding="10dp"
+                   app:srcCompat="@drawable/saleorderimage_foreground" />
+
+               <View
+                   android:layout_width="match_parent"
+                   android:layout_height="2dp"
+                   android:layout_margin="5dp"
+                   android:background="@drawable/btnround1"></View>
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:gravity="center"
+                   android:text="Order"
+                   android:textColor="@color/black"
+                   android:textSize="15dp"
+                   android:textStyle="bold" />
+
+           </LinearLayout>
+       </androidx.cardview.widget.CardView>
+       <!--> added by YLT on 20-04-2020</-->
+       <!--> added by YLT on 24-04-2020</-->
+       <androidx.cardview.widget.CardView
+           android:id="@+id/cardsaleOrderlist"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:layout_margin="10dp"
+           android:padding="5dp"
+           app:cardCornerRadius="10dp"
+           app:cardElevation="6dp"
+           android:elevation="50dp"
+           app:cardMaxElevation="10dp"
+           app:contentPadding="8dp">
+
+           <LinearLayout
+               android:layout_width="140dp"
+               android:layout_height="150dp"
+               android:layout_gravity="center"
+               android:gravity="center"
+               android:orientation="vertical">
+
+               <ImageView
+                   android:layout_width="70dp"
+                   android:layout_height="70dp"
+                   android:layout_marginTop="5dp"
+                   android:layout_marginBottom="30dp"
+                   android:background="@drawable/saleorderhistorycircelbg"
+                   android:padding="10dp"
+                   app:srcCompat="@drawable/salelist" />
+
+               <View
+                   android:layout_width="match_parent"
+                   android:layout_height="2dp"
+                   android:layout_margin="5dp"
+                   android:background="@drawable/btnround1"></View>
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:gravity="center"
+                   android:text="Order History"
+                   android:textColor="@color/black"
+                   android:textSize="15dp"
+                   android:textStyle="bold" />
+
+           </LinearLayout>
+
+
+       </androidx.cardview.widget.CardView>
+       <androidx.cardview.widget.CardView
+           android:id="@+id/cardStockstatuslist"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:layout_margin="10dp"
+           android:padding="5dp"
+           app:cardCornerRadius="10dp"
+           app:cardElevation="6dp"
+           app:cardMaxElevation="10dp"
+           android:elevation="50dp"
+           app:contentPadding="8dp">
+
+           <LinearLayout
+               android:layout_width="140dp"
+               android:layout_height="150dp"
+               android:layout_gravity="center"
+               android:gravity="center"
+               android:orientation="vertical">
+
+               <ImageView
+                   android:layout_width="70dp"
+                   android:layout_height="70dp"
+                   android:layout_marginTop="5dp"
+                   android:layout_marginBottom="30dp"
+                   android:background="@drawable/stockstatuscirclebag"
+                   android:padding="10dp"
+                   app:srcCompat="@drawable/stock_refresh_foreground" />
+
+               <View
+                   android:layout_width="match_parent"
+                   android:layout_height="2dp"
+                   android:layout_margin="5dp"
+                   android:background="@drawable/btnround1"></View>
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:gravity="center"
+                   android:text="Stock Status"
+                   android:textColor="@color/black"
+                   android:textSize="15dp"
+                   android:textStyle="bold" />
+
+           </LinearLayout>
+
+
+       </androidx.cardview.widget.CardView>
+
+
+       <androidx.cardview.widget.CardView
+           android:id="@+id/cardOutstandlist"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:layout_margin="10dp"
+           android:padding="5dp"
+           app:cardCornerRadius="10dp"
+           app:cardElevation="6dp"
+           app:cardMaxElevation="10dp"
+           android:elevation="50dp"
+           app:contentPadding="8dp">
+
+           <LinearLayout
+               android:layout_width="140dp"
+               android:layout_height="150dp"
+               android:layout_gravity="center"
+               android:gravity="center"
+               android:orientation="vertical">
+
+               <ImageView
+                   android:layout_width="70dp"
+                   android:layout_height="70dp"
+                   android:layout_marginTop="5dp"
+                   android:layout_marginBottom="30dp"
+                   android:background="@drawable/outstandcirclebag"
+                   android:baselineAligned="false"
+                   android:padding="10dp"
+                   app:srcCompat="@drawable/outstandimg_foreground" />
+
+               <View
+                   android:layout_width="match_parent"
+                   android:layout_height="2dp"
+                   android:layout_margin="5dp"
+                   android:background="@drawable/btnround1"></View>
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:gravity="center"
+                   android:text="Outstand"
+                   android:textColor="@color/black"
+                   android:textSize="15dp"
+                   android:textStyle="bold" />
+
+           </LinearLayout>
+
+
+       </androidx.cardview.widget.CardView>
+
+   </LinearLayout>
+
+
+</RelativeLayout>

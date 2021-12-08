@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/column"
+        android:layout_marginBottom="10dp"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Date"
+           android:id="@+id/txtdate"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="User"
+            android:id="@+id/txtuserid"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Docid"
+            android:id="@+id/txtdocid"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center_vertical"
+            android:text=" Customer"
+            android:textSize="15dp"
+            android:id="@+id/txtcustomer"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Pay Type"
+            android:textStyle="bold"
+            android:id="@+id/txtpaytype"
+            android:textSize="15dp"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Currency"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:id="@+id/txtcurrency"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Balance"
+            android:textStyle="bold"
+            android:id="@+id/txtbalance"
+            android:textSize="15dp"
+            android:layout_marginRight="10dp"
+            android:textAlignment="textEnd"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

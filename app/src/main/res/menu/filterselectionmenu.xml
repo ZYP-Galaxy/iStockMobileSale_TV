@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/customermenu"
+        android:title="Customer"/>
+    <item
+        android:id="@+id/usermenu"
+        android:title="User"/>
+
+    <item android:id="@+id/locmenu"
+        android:title="Location"/>
+
+    <item android:id="@+id/brandmenu"
+        android:title="Brand"/>
+</menu>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bgcolor"
+    tools:context=".stock_balance">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:layout_alignParentTop="true"
+            app:cardBackgroundColor="#2F4658"
+            android:elevation="20dp"
+            android:padding="10dp"
+            android:id="@+id/stockheader"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Stock Balance"
+                    android:id="@+id/txtsalehistory"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"/>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/stockhead"
+            android:layout_below="@+id/stockheader"
+            android:padding="5dp"
+            >
+            <Button
+                android:layout_width="200dp"
+                android:text="Today"
+                android:layout_centerVertical="true"
+                android:textStyle="bold"
+                android:id="@+id/btndate"
+                android:textColor="@color/btntxtcolor"
+                android:textAllCaps="false"
+                android:background="@drawable/btnround2"
+                android:layout_height="40dp" />
+
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/btndate"
+                android:layout_marginLeft="20dp"
+                android:textAllCaps="false"
+                android:id="@+id/choosefilter"
+                android:textStyle="bold"
+                android:background="@drawable/btnround2"
+                android:textColor="@color/btntxtcolor"
+                android:text="Choose"/>
+
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/choosefilter"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/locfilter"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:background="@drawable/btnround2"
+                android:textColor="@color/btntxtcolor"
+                android:text="Location"/>
+
+            <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/btnrefresh"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/locfilter"
+                app:srcCompat="@drawable/refresh"
+                android:background="@drawable/cyclebutton2"
+                android:layout_marginLeft="20dp"
+                />
+            <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/btnclear"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/btnrefresh"
+                app:srcCompat="@drawable/clearsalelist"
+                android:background="@drawable/cyclebutton2"
+                android:layout_marginLeft="20dp"
+                />
+
+            <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/btnmenu"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                app:srcCompat="@drawable/stockmenu"
+                android:background="@drawable/cyclebutton2"
+                android:layout_marginLeft="20dp"
+                />
+
+
+        </RelativeLayout>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_below="@+id/stockhead"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:id="@+id/middle"
+            android:elevation="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/column"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#0A5C88">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center_vertical"
+                android:text="    Description"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="    Bal1"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Bal2"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Bal3"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="  Purprice"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:textAlignment="textEnd"
+                android:layout_marginRight="10dp"
+                android:text="Amount"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvstockbal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/column"
+                android:background="@drawable/rcvback">
+
+            </androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,355 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:focusable="false"
+    android:background="#d9d4d4"
+    android:padding="10dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#2F4658">
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/custadd"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            app:srcCompat="@drawable/custadd"
+            android:visibility="gone"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/imgSave"/>
+
+        <ImageButton
+            android:id="@+id/imgSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            app:srcCompat="@drawable/editsave" />
+
+    </RelativeLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="500dp"
+        app:cardBackgroundColor="#d9d4d4">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:visibility="visible"
+            android:layout_height="50dp">
+
+
+           <!-- <TextView
+                android:id="@+id/lblToDeliver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="To Deliver"
+                android:textColor="#46509E"
+                android:textStyle="bold"
+                android:textSize="14dp"/>-->
+
+            <CheckBox
+                android:id="@+id/chkToDeliver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:text="To Deliver"
+                android:textColor="#46509E"
+                android:textSize="15dp"
+                android:textStyle="bold">
+
+            </CheckBox>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:visibility="visible"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="Invoice No"
+                android:textColor="#46509E"
+                android:textStyle="bold"
+                android:textSize="14dp"/>
+            <EditText
+                android:layout_width="185dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:hint="Enter Invoice Number"
+                android:textColorHint="#fff"
+                android:textColor="@color/white"
+                android:id="@+id/txtInvoiceNo"
+                android:layout_height="35dp"
+                android:textSize="15dp"
+                android:background="@drawable/txtinvoice"
+                android:textStyle="bold"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:visibility="visible"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="Remark"
+                android:textColor="#46509E"
+                android:textStyle="bold"
+                android:textSize="15dp"/>
+
+            <EditText
+                android:layout_width="185dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+
+
+
+                android:hint="Enter remark"
+                android:textColorHint="#fff"
+                android:textColor="@color/white"
+                android:id="@+id/txtheadremark"
+                android:layout_height="35dp"
+                android:textSize="15dp"
+                android:background="@drawable/txtinvoice"
+                android:textStyle="bold"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/rlCustGroup"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="Customer Group"
+                android:textColor="#46509E"
+                android:textStyle="bold"
+                android:textSize="15dp"/>
+            <Button
+                android:layout_width="185dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/btnCustGroup"
+                android:layout_height="40dp"
+                android:background="@drawable/entrybtn"
+                android:textColor="#FFFFFF"
+                android:textSize="15dp"
+                android:textAllCaps="false"
+                android:text="Choose"
+                />
+
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/rlTownship"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="Township"
+                android:textColor="#46509E"
+                android:textStyle="bold"
+                android:textSize="15dp"/>
+            <Button
+                android:layout_width="185dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textAllCaps="false"
+                android:text="Choose"
+                android:layout_height="40dp"
+                android:background="@drawable/entrybtn"
+                android:textColor="#FFFFFF"
+                android:id="@+id/btnTownship"
+                android:textSize="15dp"
+                />
+
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="Customer"
+                android:textColor="#46509E"
+                android:textStyle="bold"
+                android:textSize="15dp"/>
+            <Button
+                android:layout_width="185dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textAllCaps="false"
+                android:text="Choose"
+                android:id="@+id/btnCustomer"
+                android:layout_height="40dp"
+                android:background="@drawable/entrybtn"
+                android:textColor="#FFFFFF"
+                android:textSize="15dp"
+                />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="Pay Type"
+                android:textColor="#46509E"
+                android:textStyle="bold"
+                android:textSize="15dp"/>
+
+            <Button
+                android:id="@+id/btnpaytype"
+                android:layout_width="185dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/entrybtn"
+                android:text="Choose"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="15dp" />
+
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/rlcash"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="Cash In"
+                android:textColor="#46509E"
+                android:textStyle="bold"
+                android:textSize="15dp"/>
+            <Button
+                android:layout_width="185dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textAllCaps="false"
+                android:text="Choose"
+                android:layout_height="40dp"
+                android:background="@drawable/entrybtn"
+                android:textColor="#FFFFFF"
+                android:id="@+id/cash"
+                android:textSize="15dp"
+                />
+
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/rlLocation"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="30dp"
+                android:text="Location"
+                android:textColor="#46509E"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+            <Button
+                android:layout_width="185dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textAllCaps="false"
+                android:text="Choose"
+                android:layout_height="40dp"
+                android:background="@drawable/entrybtn"
+                android:textColor="#FFFFFF"
+                android:id="@+id/location"
+                android:textSize="15dp"
+                />
+
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/rlsalesmen"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="Salesmen"
+                android:textColor="#46509E"
+                android:textStyle="bold"
+                android:textSize="15dp"/>
+            <Button
+                android:layout_width="185dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textAllCaps="false"
+                android:text="Choose"
+                android:layout_height="40dp"
+                android:background="@drawable/entrybtn"
+                android:textColor="#FFFFFF"
+                android:id="@+id/salesmen"
+                android:textSize="15dp"
+                />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>
+
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

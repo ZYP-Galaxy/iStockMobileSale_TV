@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:background="#ECF0F5"
+   tools:context=".frmoustandlist">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            app:cardBackgroundColor="#2F4658"
+            android:elevation="20dp"
+            android:padding="10dp"
+            android:id="@+id/head"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Customer Outstand"
+                    android:id="@+id/txtstockstatus"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"/>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/head"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="1dp">
+
+            <Button
+                android:id="@+id/txtdate"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/btnround2"
+                android:text="Today"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+            <!--android:background="@drawable/btnround2"-->
+            <Button
+                android:id="@+id/txtBranch"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="140dp"
+                android:background="@drawable/btnround2"
+                android:text="Choose Branch"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textStyle="bold">
+
+            </Button>
+
+            <Button
+                android:id="@+id/txtCustomer"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="150dp"
+                android:layout_toRightOf="@+id/txtdate"
+                android:background="@drawable/btnround2"
+                android:text="Choose Customer"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <!--<ImageButton
+                android:id="@+id/filtermenu"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="0dp"
+                android:layout_toRightOf="@+id/selectfilter"
+                android:background="@drawable/cyclebutton2"
+                android:src="@drawable/selectfilter" />-->
+
+            <ImageButton
+                android:id="@+id/refresh"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="63dp"
+                android:background="@drawable/cyclebutton2"
+                app:srcCompat="@drawable/refresh" />
+
+            <ImageButton
+                android:id="@+id/imgFilterClear"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/cyclebutton2"
+                app:srcCompat="@drawable/clearsalelist" />
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/footer"
+            android:layout_alignParentBottom="true"
+            android:background="#ECF0F5"
+            android:layout_height="45dp">
+            <!--<TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textColor="#6960EF"
+                android:id="@+id/txtEnqCount"
+                android:layout_marginLeft="10dp"
+                android:text="Count:"
+                />-->
+
+            <!--<TextView
+                android:id="@+id/txtUsername"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="0dp"
+                android:gravity="center"
+
+                android:hint="   Username"
+                android:padding="10dp"
+                android:textColor="#6960EF"
+                android:textColorHint="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold" />-->
+
+           <!-- <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textColor="#6960EF"
+                android:id="@+id/txtCount"
+                android:layout_toRightOf="@+id/txtEnqCount"
+                android:text="0"
+                />-->
+            <!--  <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:hint="Username"
+                  android:textSize="19dp"
+                  android:id="@+id/txtUsername"
+                  android:textStyle="bold"
+                  android:textColorHint="@color/white"
+                  android:layout_centerHorizontal="true"
+                  android:textColor="@color/white"
+                  android:visibility="gone"
+                  android:drawableLeft="@drawable/showuser"
+                  />-->
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:id="@+id/txtEnqTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="0dp"
+                    android:text="Total : "
+                    android:textColor="#6960EF"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_toRightOf="@+id/txtEnqTotal"
+                    android:text="0.0"
+                    android:textColor="#6960EF"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/imgEdit"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginRight="100dp"
+                    android:background="@drawable/cyclebutton"
+                    app:srcCompat="@drawable/edit"
+                    android:visibility="gone" />
+
+                <ImageButton
+                    android:id="@+id/imgDelete"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_toRightOf="@id/imgEdit"
+                    android:background="@drawable/cyclebutton"
+                    app:srcCompat="@drawable/delete"
+                    android:visibility="gone" />
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+
+
+
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_above="@+id/footer"
+            android:layout_below="@+id/header"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:id="@+id/middle"
+            android:elevation="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/column"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="#dddddd">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:text="  Customer"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text=" Currency"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text=" Opening"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:gravity="center_vertical"
+                        android:layout_marginRight="0dp"
+                        android:text=" Sale"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:gravity="center_vertical"
+                        android:layout_marginRight="0dp"
+                        android:text="ReturnIn"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text=" Discount"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text=" Paid"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text=" Balance"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvoutstandList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/column"
+                    android:background="@drawable/rcvback">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </RelativeLayout>
+
+
+
+
+
+
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

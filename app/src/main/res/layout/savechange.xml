@@ -1,0 +1,363 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:focusable="false"
+    android:background="#d9d4d4"
+    android:padding="10dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="500dp"
+        app:cardBackgroundColor="#d9d4d4">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#2F4658">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="Sale Change"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:textSize="20dp"/>
+
+                <ImageButton
+                    android:id="@+id/imgSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/imgClose"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    app:srcCompat="@drawable/editsavesmall" />
+                <ImageButton
+                    android:id="@+id/imgClose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    app:srcCompat="@drawable/arrow" />
+
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:id="@+id/rlCustGroup"
+                android:layout_marginTop="10dp"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="Amount"
+                    android:textColor="#46509E"
+                    android:id="@+id/txtAmounttext"
+                    android:textStyle="bold"
+                    android:textSize="20dp"/>
+
+                <RelativeLayout
+                    android:layout_width="185dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_height="50dp"
+                    android:background="@drawable/txtinvoice">
+                    <TextView
+                        android:id="@+id/txtAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:text="0"
+                        android:textColor="#ffffff"
+                        android:textAlignment="textEnd"
+                        android:textStyle="bold"
+                        android:textSize="20dp"/>
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="Amount Paid"
+                    android:textColor="#46509E"
+                    android:textStyle="bold"
+                    android:textSize="20dp"/>
+
+                <RelativeLayout
+                    android:layout_width="185dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_height="50dp"
+                    android:id="@+id/rlPaid"
+                    android:background="@drawable/txtinvoice">
+                    <TextView
+                        android:id="@+id/txtpaidAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:text="0"
+                        android:textColor="#ffffff"
+                        android:textAlignment="textEnd"
+                        android:textStyle="bold"
+                        android:textSize="20dp"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="Change"
+                    android:textColor="#46509E"
+                    android:textStyle="bold"
+                    android:textSize="20dp"/>
+
+                <RelativeLayout
+                    android:layout_width="185dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_height="50dp"
+                    android:background="@drawable/txtinvoice">
+                    <TextView
+                        android:id="@+id/txtChange"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:text="0"
+                        android:textColor="#ffffff"
+                        android:textAlignment="textEnd"
+                        android:textStyle="bold"
+                        android:textSize="20dp"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="40dp">
+                <CheckBox
+                    android:id="@+id/chkBluetooth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="0dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Use Bluetooth"
+                    android:textColor="#46509E"
+                    android:textSize="20sp"
+                    android:layout_toLeftOf="@+id/chkBluetooth"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:id="@+id/billcounttxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Bill Count"
+                    android:textColor="#46509E"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="10dp"
+                    android:textStyle="bold" />
+                <RelativeLayout
+                    android:layout_width="50dp"
+                    android:layout_toRightOf="@+id/billcounttxt"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_height="50dp"
+                    android:id="@+id/rlBillCount"
+                    android:background="@drawable/txtinvoice">
+                    <TextView
+                        android:id="@+id/billcount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:text="0"
+                        android:textColor="#ffffff"
+                        android:textAlignment="textEnd"
+                        android:textStyle="bold"
+                        android:textSize="20dp"/>
+
+                </RelativeLayout>
+
+                <CheckBox
+                    android:id="@+id/chkPrint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/billcounttxt"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="0dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Bill Not Print"
+                    android:textColor="#46509E"
+                    android:textSize="20sp"
+                    android:layout_toLeftOf="@+id/chkPrint"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:visibility="invisible"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="Change"
+                    android:textColor="#46509E"
+                    android:textStyle="bold"
+                    android:textSize="20dp"/>
+
+                <RelativeLayout
+                    android:layout_width="185dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_height="50dp"
+                    android:background="@drawable/txtinvoice">
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:text="0"
+                        android:textColor="#ffffff"
+                        android:textAlignment="textEnd"
+                        android:textStyle="bold"
+                        android:textSize="20dp"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:visibility="invisible"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="Change"
+                    android:textColor="#46509E"
+                    android:textStyle="bold"
+                    android:textSize="20dp"/>
+
+                <RelativeLayout
+                    android:layout_width="185dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_height="50dp"
+                    android:background="@drawable/txtinvoice">
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:text="0"
+                        android:textColor="#ffffff"
+                        android:textAlignment="textEnd"
+                        android:textStyle="bold"
+                        android:textSize="20dp"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:visibility="invisible"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="Change"
+                    android:textColor="#46509E"
+                    android:textStyle="bold"
+                    android:textSize="20dp"/>
+
+                <RelativeLayout
+                    android:layout_width="185dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_height="50dp"
+                    android:background="@drawable/txtinvoice">
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:text="0"
+                        android:textColor="#ffffff"
+                        android:textAlignment="textEnd"
+                        android:textStyle="bold"
+                        android:textSize="20dp"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#2F4658">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/imgOK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            app:srcCompat="@drawable/searchtablet"
+            android:background="@null"
+            android:textAllCaps="false" />
+
+        <ImageButton
+            android:id="@+id/imgFilterCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:textSize="20dp"
+            android:layout_toLeftOf="@+id/imgOK"
+            android:textColor="#111"
+            app:srcCompat="@drawable/filtertablet"
+            android:visibility="gone"
+            android:background="@null"
+            android:textAllCaps="false" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/white"
+            android:layout_toLeftOf="@+id/imgFilterCode"
+            app:boxStrokeColor="@color/white">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/etdSearch"
+                android:textColor="@color/white"
+                android:hint="Searching"
+                android:textColorHint="@color/whitesmoke"/>
+        </com.google.android.material.textfield.TextInputLayout>
+    </RelativeLayout>
+</LinearLayout>
+
+

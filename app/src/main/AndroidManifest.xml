@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.abbp.istockmobilesalenew">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+
+    <uses-feature
+        android:name="android.hardware.camera" android:required="true" />
+    <uses-permission android:name="android.permission.CAMERA"></uses-permission>
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        android:theme="@style/Theme1">
+        <activity android:name=".frmscancode" android:screenOrientation="landscape"
+            android:label="Scan stock"
+            android:theme="@style/Theme.Design.NoActionBar"></activity>
+        <activity
+            android:name=".stock_balance"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme1" />
+        <activity
+            android:name=".sale_entry"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme2" />
+        <activity
+            android:name=".saleorder_entry"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme2" />
+
+        <activity
+            android:name=".frmstockstatuslist"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme2" />
+
+
+        <activity
+            android:name=".frmoustandlist"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme2" />
+
+
+        <activity
+            android:name=".frmlogin"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".frmmain"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme2" />
+        <activity
+            android:name=".frmsalelist"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme2" />
+        <activity
+            android:name=".frmsaleorderlist"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme2" />
+        <activity
+            android:name=".reportviewer"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".ChoosePrinterActivity"></activity>
+    </application>
+
+</manifest>

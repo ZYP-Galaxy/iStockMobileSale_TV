@@ -1,0 +1,125 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:focusable="false"
+    android:background="@drawable/bgcolor"
+    android:padding="5dp">
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_alignParentTop="true"
+                android:id="@+id/header"
+                android:layout_height="50dp">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/searchtablet"
+                    android:background="@null"
+                    android:id="@+id/imgSearch"
+                    android:layout_marginLeft="10dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:hint="Search"
+                    android:textColor="#ffffff"
+                    android:textColorHint="#999393"
+                    android:id="@+id/etdSearch"
+                    android:layout_toLeftOf="@+id/imgNochange"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/imgSearch"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/arrow"
+                    android:background="@null"
+                    android:id="@+id/imgNochange"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentRight="true"
+                    />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/customerdownload"
+                    android:background="@null"
+                    android:id="@+id/imgDowloadCustomer"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@id/imgAddCustomer"
+                    android:visibility="gone"
+                    />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/add"
+                    android:background="@null"
+                    android:id="@+id/imgAddCustomer"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@id/imgClear"
+                    android:visibility="gone"
+                    />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/confirm"
+                    android:background="@null"
+                    android:id="@+id/imgChangeSave"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@id/imgNochange"
+                    android:visibility="gone"
+                    />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/clearfilter"
+                    android:background="@null"
+                    android:id="@+id/imgClear"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/imgChangeSave"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/header"
+                android:layout_centerInParent="true"
+                >
+              <androidx.recyclerview.widget.RecyclerView
+                  android:layout_width="match_parent"
+                  android:id="@+id/rcvChange"
+                  android:layout_height="wrap_content">
+
+              </androidx.recyclerview.widget.RecyclerView>
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+
+</LinearLayout>

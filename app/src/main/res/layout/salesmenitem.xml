@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:background="#0A5C88"
+    android:id="@+id/rlCheck"
+    android:padding="10dp">
+   <TextView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:id="@+id/txtCheck"
+       android:layout_centerVertical="true"
+       android:textStyle="bold"
+       android:textColor="@color/white"
+       android:text="Choose Salesmen"
+       android:textSize="20dp"
+       />
+   <ImageButton
+       android:layout_centerVertical="true"
+       android:layout_alignParentRight="true"
+       android:background="@null"
+       app:srcCompat="@drawable/checked"
+       android:id="@+id/imgCheck"
+       android:layout_width="wrap_content"
+       android:visibility="gone"
+       android:layout_height="wrap_content" />
+</RelativeLayout>
