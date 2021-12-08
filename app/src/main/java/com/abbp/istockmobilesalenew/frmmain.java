@@ -29,6 +29,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
     private CardView cardsaleOrderlist;
     private CardView cardStockstatuslist;
     private CardView cardoutstandlist;
+    private CardView cardsetting; //added by MPPA on [08-12-2021]
     AlertDialog showmsg;
 
     private RequestQueue requestQueue;
@@ -84,12 +85,13 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
     private void SetUI() {
 
         cardsale = (CardView) findViewById(R.id.cardsale);
-        cardsaleOrder = (CardView) findViewById(R.id.cardsaleOrder);//added by YLT on [20-04-2020]
-        cardsaleOrderlist = (CardView) findViewById(R.id.cardsaleOrderlist);//added by YLT on [24-04-2020]
-        cardStockstatuslist = (CardView) findViewById(R.id.cardStockstatuslist);//added by YLT on [24-07-2020]
+        cardsaleOrder = (CardView) findViewById(R.id.cardsaleorder);//added by YLT on [20-04-2020]
+        cardsaleOrderlist = (CardView) findViewById(R.id.cardsaleorderlist);//added by YLT on [24-04-2020]
+        //cardStockstatuslist = (CardView) findViewById(R.id.cardStockstatuslist);//added by YLT on [24-07-2020]
         cardoutstandlist = (CardView) findViewById(R.id.cardOutstandlist);//added by YLT on [09-08-2020]
         cardsalelist = (CardView) findViewById(R.id.cardsalelist);
         cardstock = (CardView) findViewById(R.id.cardstock);
+        cardsetting = (CardView) findViewById(R.id.cardSetting); //added by MPPA on [08-12-2021]
         cardlogout = (ImageView) findViewById(R.id.cardlogout);
 
         //txtUsername=(TextView)findViewById(R.id.txtUsername);
@@ -200,7 +202,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
                 }
                 break;
             //added by YLT on 20/04/2020
-            case R.id.cardsaleOrder:
+            case R.id.cardsaleorder:
                 if (Allow_SaleOrder) {
                     intent = new Intent(frmmain.this, saleorder_entry.class);
                     startActivity(intent);
@@ -213,7 +215,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
             //added by YLT on 20/04/2020
 
             //added by YLT on 24/04/2020
-            case R.id.cardsaleOrderlist:
+            case R.id.cardsaleorderlist:
                 if (Allow_SaleOrder) {
                     intent = new Intent(frmmain.this, frmsaleorderlist.class);
                     startActivity(intent);
@@ -228,7 +230,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
             //added by YLT on 24/04/2020
 
             //added by YLT on 27/04/2020
-            case R.id.cardStockstatuslist:
+           /* case R.id.cardStockstatuslist:
                 if (Allow_StockStatus) {
                     intent = new Intent(frmmain.this, frmstockstatuslist.class);
                     startActivity(intent);
@@ -237,7 +239,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
                 } else {
                     Toast.makeText(this, "This User have no Permission for StockList", Toast.LENGTH_LONG).show();
                 }
-                break;
+                break;*/
             //added by YLT on 24/04/2020
 
             //added by YLT on 27/04/2020
