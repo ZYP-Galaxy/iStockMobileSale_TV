@@ -50,6 +50,7 @@
            android:layout_weight="1"
            app:cardElevation="6dp"
            android:elevation="50dp"
+           app:cardBackgroundColor="@color/black"
            app:cardMaxElevation="10dp"
            app:contentPadding="8dp">
 
