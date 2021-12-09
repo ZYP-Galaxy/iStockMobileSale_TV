@@ -56,14 +56,14 @@
 
     <LinearLayout
         android:id="@+id/lmenu"
-        android:layout_width="wrap_content"
-        android:layout_height="250dp"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
         android:layout_centerInParent="true"
         android:gravity="center_horizontal">
 
         <TableLayout
-            android:layout_width="400dp"
-            android:layout_height="250dp">
+            android:layout_width="350dp"
+            android:layout_height="match_parent">
 
             <TableRow
                 android:layout_width="wrap_content"
@@ -261,7 +261,7 @@
 
                     <LinearLayout
                         android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_height="80dp"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="vertical">
