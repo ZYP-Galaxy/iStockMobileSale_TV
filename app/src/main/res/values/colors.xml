@@ -25,5 +25,9 @@
     <color name="stock">#ad0746</color>
     <color name="outstand">#0fb10c</color>
     <color name="setting">#0d8dcb</color>
+    <color name="headerinfo">#4b5d67</color>
+    <color name="headerbar">#235667</color>
+    <color name="headertext">#ededed</color>
+
 
 </resources>

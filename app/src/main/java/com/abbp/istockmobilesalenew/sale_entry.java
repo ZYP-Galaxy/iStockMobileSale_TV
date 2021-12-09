@@ -1847,9 +1847,10 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 btntownship=view.findViewById(R.id.btnTownship);
                 btncustomer=view.findViewById(R.id.btnCustomer);
                 btnStlocation=view.findViewById(R.id.location);
-                btnSalesmen=view.findViewById(R.id.salesmen);
-                btncustadd=view.findViewById(R.id.custadd);
+               //btnSalesmen=view.findViewById(R.id.salesmen);
+                //btncustadd=view.findViewById(R.id.custadd);
                 btnCash=view.findViewById(R.id.cash);
+                /*
                 chkDeliver=view.findViewById(R.id.chkToDeliver);
                 if(!Use_Delivery)
                 {
@@ -1862,6 +1863,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     chkDeliver.setVisibility(View.VISIBLE);
                     chkDeliver.setChecked(sh.get(0).getDeliverValue());//added by YLT on [18-06-20220]
                 }
+                */
+
                 if(!use_salesperson) {
                     rlsalesmen.setVisibility(View.GONE);
                 }
@@ -1948,13 +1951,13 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                         ChangeHeader("Customer Group",btncustgroup,btnpaytype);
                     }
                 });
-                btnSalesmen.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v)
+//                btnSalesmen.setOnClickListener(new View.OnClickListener() {
+          //          @Override
+              //      public void onClick(View v)
                     {
                         ChangeHeader("Salesmen",btnSalesmen,btnpaytype);
                     }
-                });
+           //     });
                 btntownship.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -2003,6 +2006,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                         invoice_no=txtinvoiceNo.getText().toString().trim().isEmpty()?"NULL":txtinvoiceNo.getText().toString().trim();
                         sh.get(0).setInvoice_no(invoice_no);
 
+                        /*
                         //region by YLT on [15-06-2020]
                         if(Use_Delivery)
                         {
@@ -2021,6 +2025,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                             //ToDeliver = "";
                             sh.get(0).setDeliverValue(false);//added by YLT on [18-06-2020]
                         }
+                        */
+
                         //endregion
                         headRemark=headremark.getText().toString().trim().isEmpty()?"NULL":headremark.getText().toString().trim();
                         sh.get(0).setHeadremark(headRemark);
@@ -3052,7 +3058,9 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             imgClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    btnSalesmen.setText("Choose");
+                    intent = new Intent(sale_entry.this, sale_entry.class);
+                    startActivity(intent);
+                    finish();
                     da.dismiss();
                 }
             });
@@ -3062,12 +3070,12 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             ImageButton imgDownloadCustomer=view.findViewById(R.id.imgDowloadCustomer);
             imgDownloadCustomer.setVisibility(View.GONE);
             imgAddCustomer.setVisibility(View.GONE);
-            if(name.equals("Salesmen"))
-            {
-                imgChangSave.setVisibility(View.VISIBLE);
-                imgClear.setVisibility(View.VISIBLE);
-            }
-            else if(name.equals("Customer"))
+            //if(name.equals("Salesmen"))
+            //{
+               // imgChangSave.setVisibility(View.VISIBLE);
+               // imgClear.setVisibility(View.VISIBLE);
+            //}
+            if(name.equals("Customer"))
             {
                 imgAddCustomer.setVisibility(View.VISIBLE);
                 imgDownloadCustomer.setVisibility(View.VISIBLE);
@@ -3097,7 +3105,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             imgChangSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(SaleVouSalesmen.size()>0) {
+                   /* if(SaleVouSalesmen.size()>0) {
                         String salesmen="";
                         if(SaleVouSalesmen.size()>4){
 
@@ -3128,6 +3136,11 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     }else{
                         btnSalesmen.setText("Choose");
                     }
+                    da.dismiss();
+                    */
+                    intent = new Intent(sale_entry.this, sale_entry.class);
+                    startActivity(intent);
+                    finish();
                     da.dismiss();
                 }
             });
@@ -3336,7 +3349,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                             da.show();
                                             break;
 
-                                        case "Salesmen":
+                                       /* case "Salesmen":
 
                                             ArrayList<Salesmen> filteredsalesmen = new ArrayList<>();
 
@@ -3350,6 +3363,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                             LinearLayoutManager linearLayoutManagerSalesmen = new LinearLayoutManager(sale_entry.this,LinearLayoutManager.VERTICAL,false);
                                             rv.setLayoutManager(linearLayoutManagerSalesmen);
                                             break;
+
+                                        */
                                     }
                                     msg.dismiss();
                                 }
@@ -3400,6 +3415,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     cashCursor = null;
                     da.show();
                     break;
+                    /*
                 case "Salesmen":
                     if(salesmen.size()>0)
                     {
@@ -3436,6 +3452,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
                     break;
 
+
+                     */
                 case "Customer Group":
                     if (cg.size() > 0) {
                         cg.clear();

@@ -56,7 +56,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_toLeftOf="@+id/btnposdown"
                 android:background="@null"
-                android:drawableTop="@drawable/wifidis"
+                android:drawableTop="@drawable/wificonnect"
                 android:text="Connect"
                 android:textColor="#ffffff"
                 android:textSize="15dp"
