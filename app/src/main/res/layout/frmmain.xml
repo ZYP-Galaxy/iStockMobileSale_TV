@@ -39,13 +39,13 @@
     <LinearLayout
         android:id="@+id/lmenu"
         android:layout_width="wrap_content"
-        android:layout_height="250dp"
+        android:layout_height="260dp"
         android:layout_centerInParent="true"
         android:gravity="center_horizontal">
 
         <TableLayout
             android:layout_width="350dp"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <TableRow
                 android:layout_width="wrap_content"
@@ -56,7 +56,7 @@
                     android:id="@+id/cardsale"
                     android:layout_width="120dp"
                     android:layout_height="80dp"
-                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="3dp"
                     android:layout_weight="1"
                     android:elevation="10dp"
                     app:cardBackgroundColor="@color/sale"
@@ -82,12 +82,12 @@
                             android:textStyle="bold" />
 
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="3dp"
                             android:layout_marginBottom="0dp"
-                            android:background="@drawable/cart"
-                            android:padding="10dp" />
+                            android:background="@drawable/salecart"
+                            android:padding="5dp" />
 
 
                     </LinearLayout>
@@ -107,16 +107,25 @@
                     app:contentPadding="8dp">
 
                     <LinearLayout
-                        android:layout_width="80dp"
+                        android:layout_width="100dp"
                         android:layout_height="80dp"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="vertical">
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Sale History"
+                            android:textColor="@color/white"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="3dp"
                             android:layout_marginBottom="0dp"
                             android:background="@drawable/salelist"
                             android:padding="10dp" />
@@ -124,14 +133,6 @@
 
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Sale History"
-                        android:textColor="@color/white"
-                        android:textSize="15dp"
-                        android:textStyle="bold" />
                 </androidx.cardview.widget.CardView>
             </TableRow>
 
@@ -144,7 +145,8 @@
                     android:id="@+id/cardsaleorder"
                     android:layout_width="1dp"
                     android:layout_height="80dp"
-                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginTop="3dp"
                     android:layout_weight="1"
                     android:elevation="10dp"
                     app:cardBackgroundColor="@color/saleorder"
@@ -170,11 +172,11 @@
                             android:textStyle="bold" />
 
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="0dp"
-                            android:background="@drawable/cart"
+                            android:background="@drawable/saleordercart"
                             android:padding="10dp" />
 
 
@@ -185,7 +187,7 @@
                     android:id="@+id/cardsaleorderlist"
                     android:layout_width="237dp"
                     android:layout_height="80dp"
-                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="3dp"
                     android:layout_weight="1"
                     android:elevation="10dp"
                     app:cardBackgroundColor="@color/saleorderenq"
@@ -195,31 +197,32 @@
                     app:contentPadding="8dp">
 
                     <LinearLayout
-                        android:layout_width="80dp"
+                        android:layout_width="100dp"
                         android:layout_height="80dp"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="vertical">
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Sale Order List"
+                            android:textColor="@color/white"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="5dp"
                             android:layout_marginBottom="0dp"
-                            android:background="@drawable/salelist"
+                            android:background="@drawable/saleorderlist"
                             android:padding="10dp" />
 
 
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Sale Order List"
-                        android:textColor="@color/white"
-                        android:textSize="15dp"
-                        android:textStyle="bold" />
                 </androidx.cardview.widget.CardView>
             </TableRow>
 
@@ -231,8 +234,9 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardstock"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="0dp"
+                    android:layout_height="90dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginTop="3dp"
                     android:layout_weight="1"
                     android:elevation="10dp"
                     app:cardBackgroundColor="@color/stock"
@@ -258,11 +262,11 @@
                             android:textStyle="bold" />
 
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="5dp"
                             android:layout_marginBottom="0dp"
-                            android:background="@drawable/cart"
+                            android:background="@drawable/check"
                             android:padding="10dp" />
 
 
@@ -272,8 +276,10 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardOutstandlist"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
+                    android:layout_height="90dp"
                     android:layout_weight="1"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginTop="3dp"
                     android:elevation="10dp"
                     android:layout_centerInParent="true"
                     app:cardBackgroundColor="@color/outstand"
@@ -283,38 +289,38 @@
                     app:contentPadding="8dp">
 
                     <LinearLayout
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="vertical">
-
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Outstand"
+                            android:textColor="@color/white"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="5dp"
                             android:layout_marginBottom="0dp"
-                            android:background="@drawable/salelist"
+                            android:background="@drawable/coin"
                             android:padding="10dp" />
 
 
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Outstand"
-                        android:textColor="@color/white"
-                        android:textSize="15dp"
-                        android:textStyle="bold" />
+
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardSetting"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="0dp"
+                    android:layout_height="90dp"
+                    android:layout_marginTop="3dp"
                     android:layout_weight="1"
                     android:elevation="10dp"
                     app:cardBackgroundColor="@color/setting"
@@ -330,25 +336,26 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Settings"
+                            android:textColor="@color/white"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="5dp"
                             android:layout_marginBottom="0dp"
-                            android:background="@drawable/salelist"
+                            android:background="@drawable/setting"
                             android:padding="10dp" />
 
 
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Settings"
-                        android:textColor="@color/white"
-                        android:textSize="15dp"
-                        android:textStyle="bold" />
+
                 </androidx.cardview.widget.CardView>
             </TableRow>
         </TableLayout>
