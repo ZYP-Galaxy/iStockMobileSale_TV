@@ -12,23 +12,27 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +63,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
 
 import me.myatminsoe.mdetect.MDetect;
 
@@ -132,13 +138,17 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
     private boolean isData;
     private boolean isOnline;
 
+    LinearLayout layoutUpload;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MDetect.INSTANCE.init(this);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.frmlogin);
+        MDetect.INSTANCE.init(this);
         isOnline = true;
-        dateFormat = dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dataBaseHelper = DatabaseHelper.getInstance(this, DB_NAME);
         sh_ip = getSharedPreferences("ip", MODE_PRIVATE);
         sh_port = getSharedPreferences("port", MODE_PRIVATE);
@@ -215,7 +225,6 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.btnSetting:
                 try {
@@ -339,7 +348,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             case R.id.btnUpload:
                 checkofflinedata = false;
                 pb.setTitle("Importing Data");
-                pb.setMessage("Please Wait a Few minute");
+                pb.setMessage("Please wait a few minute ...");
                 UploadData();
                 break;
             case R.id.btnposdown:
@@ -358,7 +367,6 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                                 }
                             })
                             .create().show();
-
                 }
                 break;
             case R.id.login:
@@ -373,8 +381,6 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             case R.id.btnRegister:
                 final String id = RegisterID.getString("register", "0");
                 if (isRegister()) {
-
-
                     new AlertDialog.Builder(this, R.style.AlertDialogTheme)
                             .setTitle("iStock")
                             .setMessage("Your tablet has been already registerd!Do you register next again?")
@@ -405,43 +411,357 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
 
     }
 
+    //region AndroidTVSale
     private void showRegisterSetup() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.dialog_setup, null);
-        builder.setView(view);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
+        final AlertDialog.Builder builder = new AlertDialog.Builder(frmlogin.this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_setup, null);
+        builder.setView(dialogView);
+        builder.setCancelable(false);
+        AlertDialog alertDialog = builder.create();
 
-    private void getSavedPrinter(TextView connectedTo) {
-        BluetoothDevice connectedPrinter = Printama.with(this).getConnectedPrinter();
-        if (connectedPrinter != null) {
-            String text = "Connected to : " + connectedPrinter.getName();
-            connectedTo.setText(text);
+        ip = sh_ip.getString("ip", "empty");
+        port = sh_port.getString("port", "empty");
+        edtserver = dialogView.findViewById(R.id.edtserver);
+        edtport = dialogView.findViewById(R.id.edtport);
+        if (!ip.equals("empty")) {
+            edtserver.setText(ip);
         }
-    }
+        if (!port.equals("empty")) {
+            edtport.setText(port);
+        }
 
-    private void showPrinterList(TextView connectedTo, CardView btnprintertest) {
-        Printama.showPrinterList(this, R.color.colorBlue, printerName -> {
-            //Toast.makeText(this, printerName, Toast.LENGTH_SHORT).show();
-            //TextView connectedTo = findViewById(R.id.tv_printer_info);
-            String text = "Connected to : " + printerName;
-            connectedTo.setText(text);
-            if (!printerName.contains("failed")) {
-                btnprintertest.setVisibility(View.VISIBLE);
-                btnprintertest.setOnClickListener(v -> testPrinter());
-            }
+        final String[] setUpForm = {"ip"};
+        Button btnConfigure = dialogView.findViewById(R.id.btn_setup_config);
+        btnConfigure.setOnClickListener(v -> {
+            frmlogin.this.changeSetupView(v, dialogView);
+            setUpForm[0] = "ip";
         });
+
+        Button btnKey = dialogView.findViewById(R.id.btn_setup_key);
+        btnKey.setOnClickListener(v -> {
+            changeSetupView(v, dialogView);
+            setUpForm[0] = "key";
+        });
+
+
+        LinearLayout layoutDownload = dialogView.findViewById(R.id.layout_download);
+        layoutDownload.setVisibility(View.GONE);
+        Button btnDownload = dialogView.findViewById(R.id.btn_setup_download);
+        btnDownload.setOnClickListener(v -> {
+            changeSetupView(v, dialogView);
+            setUpForm[0] = "download";
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this, R.style.AlertDialogTheme);
+            dialog.setTitle("iStock");
+            dialog.setMessage("Are you sure want to download data?");
+            dialog.setCancelable(false);
+            dialog.setPositiveButton("OK", (dialog1, which) -> {
+                if (isRegister()) {
+                    layoutDownload.setVisibility(View.VISIBLE);
+                    GetTableNames();
+                    GetData(dialogView);
+                } else {
+                    GlobalClass.showAlertDialog(this, "iStock", "Please Register Before Downloading!");
+                }
+            });
+            dialog.setNegativeButton("Cancel", (dialog1, which) -> {
+
+            });
+            dialog.create().show();
+
+        });
+
+        layoutUpload = dialogView.findViewById(R.id.layout_upload);
+        layoutUpload.setVisibility(View.GONE);
+        Button btnUpload = dialogView.findViewById(R.id.btn_setup_upload);
+        btnUpload.setOnClickListener(v -> {
+            changeSetupView(v, dialogView);
+            setUpForm[0] = "upload";
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this, R.style.AlertDialogTheme);
+            dialog.setTitle("iStock");
+            dialog.setMessage("Are you sure want to upload data!");
+            dialog.setCancelable(false);
+            dialog.setPositiveButton("OK", (dialog1, which) -> {
+                checkofflinedata = false;
+                UploadData();
+            });
+            dialog.setNegativeButton("Cancel", (dialog1, which) -> {
+            });
+            dialog.create().show();
+        });
+
+        ImageView btnSave = dialogView.findViewById(R.id.btn_setup_save);
+        btnSave.setOnClickListener(v -> {
+            if (setUpForm[0].equals("ip")) {
+                setUpIP();
+            } else if (setUpForm[0].equals("key")) {
+                final String id = RegisterID.getString("register", "0");
+                setUpRegister(id, dialogView);
+            }
+
+        });
+
+        ImageView btnClose = dialogView.findViewById(R.id.btn_setup_close);
+        btnClose.setOnClickListener(v -> {
+            alertDialog.dismiss();
+        });
+
+        alertDialog.show();
+
     }
 
-    private void testPrinter() {
-        String s = "Your Printer is Connected.";
-        SpannableString ss1 = new SpannableString(s);
-        ss1.setSpan(new RelativeSizeSpan(2f), 0, 5, 0); // set size
-        ss1.setSpan(new ForegroundColorSpan(Color.RED), 0, 5, 0);// set color
-        Printama.with(this).printTest(ss1.toString());
+    private void changeSetupView(View button, View dialogView) {
+        RelativeLayout containerLayout = dialogView.findViewById(R.id.layout_container);
+        for (int i = 0; i < containerLayout.getChildCount(); i++) {
+            containerLayout.getChildAt(i).setVisibility(View.GONE);
+        }
+
+        LinearLayout tabLayout = dialogView.findViewById(R.id.layout_tab);
+        for (int i = 0; i < tabLayout.getChildCount(); i++) {
+            tabLayout.getChildAt(i).setBackgroundColor(Color.parseColor("#333333"));
+        }
+
+        switch (button.getId()) {
+            case R.id.btn_setup_config:
+                containerLayout.getChildAt(0).setVisibility(View.VISIBLE);
+                tabLayout.getChildAt(0).setBackgroundColor(Color.parseColor("#E87D2D"));
+                break;
+            case R.id.btn_setup_key:
+                containerLayout.getChildAt(1).setVisibility(View.VISIBLE);
+                tabLayout.getChildAt(1).setBackgroundColor(Color.parseColor("#E87D2D"));
+                break;
+            case R.id.btn_setup_download:
+                //containerLayout.getChildAt(2).setVisibility(View.VISIBLE);
+                tabLayout.getChildAt(2).setBackgroundColor(Color.parseColor("#E87D2D"));
+                break;
+            case R.id.btn_setup_upload:
+                //containerLayout.getChildAt(3).setVisibility(View.VISIBLE);
+                tabLayout.getChildAt(3).setBackgroundColor(Color.parseColor("#E87D2D"));
+                break;
+        }
+
     }
 
+    private void setUpIP() {
+        if ((!edtserver.getText().toString().trim().isEmpty() || !edtserver.getText().toString().trim().equals(""))) {
+            SharedPreferences.Editor editor = sh_ip.edit();
+            editor.remove("ip");
+            editor.apply();
+
+            editor = sh_ip.edit();
+            editor.putString("ip", edtserver.getText().toString().trim());
+            editor.apply();
+
+            SharedPreferences.Editor editor_port = sh_port.edit();
+            editor_port.remove("port");
+            editor_port.apply();
+            editor_port = sh_port.edit();
+            if (edtport.getText().toString().trim().isEmpty() || edtport.getText().toString().trim().equals("")) {
+                edtport.setText("80");
+            }
+            editor_port.putString("port", edtport.getText().toString().trim());
+            editor_port.commit();
+            CheckConnection();
+        } else {
+            Toast.makeText(frmlogin.this, "Enter Server Information!", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void setUpRegister(final String id, View dialogView) {
+        final EditText etdPass = dialogView.findViewById(R.id.edtkey);
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DATE);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int year = calendar.get(Calendar.YEAR);
+        int PlusResult = day + month + year;
+
+        String divResult = String.valueOf(day) + String.valueOf(month) + String.valueOf(year);
+        String Result = String.valueOf(Long.parseLong(divResult) / PlusResult);
+        if (etdPass.getText().toString().contentEquals(Result)) {
+            String Device_ID = Build.ID;
+            String Build_Number = Build.DISPLAY;
+            String sqlstring = "RegisterID=" + id + "&ID=" + Device_ID + "&Build=" + Build_Number + "&Name=" + Device_Name;
+            Register(sqlstring);
+        }
+
+    }
+
+    private void GetData(View dialogView) {
+        try {
+            ResetData();
+            pbDownload = dialogView.findViewById(R.id.progressDownload);
+            txtProgress = dialogView.findViewById(R.id.txtProgress);
+            txtTable = dialogView.findViewById(R.id.txtTable);
+
+            pbDownload.setProgress(0);
+            txtProgress.setText("0/" + tableNames.size());
+            pbDownload.setMax(tableNames.size());
+            ip = sh_ip.getString("ip", "empty");
+            port = sh_port.getString("port", "empty");
+            String url = "http://" + ip + ":" + port + "/api/DataSync/GetData?download=true&language=" + frmlogin.Font_Language;
+
+            RequestQueue request = Volley.newRequestQueue(context);
+            final Response.Listener<String> listener = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONArray jsonArray = new JSONArray(response);
+                        data = jsonArray.getJSONObject(0).getJSONArray("data");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    new Thread(() -> {
+                        try {
+                            for (progress = 0; progress < tableNames.size(); progress++) {
+                                insertingData(tableNames.get(progress), progress);
+                                pbDownload.setProgress(progress + 1);
+
+                                try {
+                                    Thread.sleep(200);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+//                            dialog.dismiss();
+                            GlobalClass.showAlertDialog(frmlogin.this, "iStock", "Download Complete.");
+                        } catch (Exception ee) {
+                            Toast.makeText(context, ee.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+
+                    }).start();
+                }
+            };
+
+            final Response.ErrorListener error = new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(frmlogin.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            };
+
+            StringRequest req = new StringRequest(Request.Method.GET, url, listener, error);
+            req.setRetryPolicy(new DefaultRetryPolicy(100000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            request.add(req);
+
+        } catch (Exception ee) {
+            GlobalClass.showAlertDialog(this, "iStock", ee.getMessage());
+        }
+
+    }
+
+    //endregion
+
+    private void Register(String sqlString) {
+        ip = sh_ip.getString("ip", "empty");
+        port = sh_port.getString("port", "empty");
+        try {
+            sqlString = URLEncoder.encode(sqlString, "UTF-8").replace("+", "%20")
+                    .replace("%26", "&").replace("%3D", "=")
+                    .replace("%2C", ",");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String url = "http://" + ip + ":" + port + "/api/DataSync/GetData?" + sqlString + "&register=true";
+        RequestQueue request = Volley.newRequestQueue(context);
+        Response.Listener listener = new Response.Listener() {
+            @Override
+            public void onResponse(Object response) {
+                final String[] result = response.toString().split("/");
+                AlertDialog.Builder bd = new AlertDialog.Builder(frmlogin.this, R.style.AlertDialogTheme);
+                bd.setMessage(result[0]);
+                bd.setTitle("iStock");
+                bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (!result[1].isEmpty()) {
+                            SharedPreferences.Editor editor = RegisterID.edit();
+                            editor.remove("register");
+                            editor.apply();
+
+                            editor = RegisterID.edit();
+                            editor.putString("register", result[1]);
+                            editor.commit();
+                        }
+                        dialog.dismiss();
+                    }
+                });
+                bd.create().show();
+            }
+        };
+
+        final Response.ErrorListener error = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                GlobalClass.showAlertDialog(frmlogin.this, "iStock",
+                        "Process is Fail!\nCheck your Network Connection");
+            }
+        };
+        StringRequest req = new StringRequest(Request.Method.GET, url, listener, error);
+        request.add(req);
+    }
+
+    private void ResetData() {
+        sqlString = "delete from Customer";
+        DatabaseHelper.execute(sqlString);
+        sqlString = "delete from usr_code";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Posuser";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Location";
+        DatabaseHelper.execute(sqlString);
+
+
+        sqlString = "delete from SystemSetting";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Payment_Type";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Dis_Type";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from AppSetting";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Salesmen";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Alias_Code";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from usr_code_img";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from menu_user";
+        DatabaseHelper.execute(sqlString);
+
+//        sqlString = "delete from S_Sprice";
+//        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Sale_Head_Main";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Sale_Det";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Tranid";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Sale_Head_Tmp_Mp";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from SalesVoucher_Salesmen_Tmp";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from cash";
+        DatabaseHelper.execute(sqlString);
+    }
 
     private void UploadData() {
         try {
@@ -450,29 +770,15 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             getSaleHeadMain();
             getSaleDet();
             getSaleHeadTmpMP();
-            getsalemen();
+            getSalemen();
             if (isData) {
                 importjson = GetJson();
                 ImportingData();
             } else {
-                AlertDialog.Builder bd = new AlertDialog.Builder(frmlogin.this);
-                bd.setMessage("No Data To Upload");
-                bd.setTitle("iStock");
-                bd.setCancelable(false);
-                bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        msg.dismiss();
-                    }
-                });
-                msg = bd.create();
-                msg.setOnShowListener(new DialogInterface.OnShowListener() {
-                    @Override
-                    public void onShow(DialogInterface dialog) {
-                        msg.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                    }
-                });
-                msg.show();
+                layoutUpload.setVisibility(View.VISIBLE);
+                Thread.sleep(1000);
+                layoutUpload.setVisibility(View.GONE);
+                GlobalClass.showAlertDialog(this, "iStock", "No Data To Upload");
             }
 
         } catch (Exception ee) {
@@ -481,81 +787,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
 
     }
 
-    private void getsalemen() {
-        String sqlString = "select * from SalesVoucher_Salesmen_Tmp";
-        Cursor cursor = DatabaseHelper.rawQuery(sqlString);
-        if (cursor != null && cursor.getCount() != 0) {
-            if (cursor.moveToFirst()) {
-                do {
-
-                    long Sales_TranID = cursor.getLong(cursor.getColumnIndex("Sales_TranID"));
-                    long Salesmen_ID = cursor.getLong(cursor.getColumnIndex("Salesmen_ID"));
-                    int rmt_copy = cursor.getInt(cursor.getColumnIndex("rmt_copy"));
-                    int userid = cursor.getInt(cursor.getColumnIndex("userid"));
-                    sm.add(new SalesVoucher_Salesmen_Tmp(Sales_TranID, Salesmen_ID, rmt_copy, userid));
-
-
-                } while (cursor.moveToNext());
-            }
-
-        }
-        cursor.close();
-    }
-
-    private void getSaleHeadTmpMP() {
-        String sqlString = "select * from Sale_Head_Tmp_Mp";
-        Cursor cursor = DatabaseHelper.rawQuery(sqlString);
-        if (cursor != null && cursor.getCount() != 0) {
-            if (cursor.moveToFirst()) {
-                do {
-
-                    long mpTranid = cursor.getLong(cursor.getColumnIndex("tranid"));
-                    int currency = cursor.getInt(cursor.getColumnIndex("currency"));
-                    double exg_rate = cursor.getDouble(cursor.getColumnIndex("exg_rate"));
-                    double amount = cursor.getDouble(cursor.getColumnIndex("amount"));
-                    double change = cursor.getDouble(cursor.getColumnIndex("change"));
-                    smp.add(new Sale_Head_Tmp_Mp(mpTranid, currency, exg_rate, amount, change));
-
-                } while (cursor.moveToNext());
-            }
-
-        }
-        cursor.close();
-    }
-
-    private void ImportingData() {
-        String ip = sh_ip.getString("ip", "empty");
-        String port = sh_port.getString("port", "empty");
-        String sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/SaveData?userid=" + frmlogin.LoginUserid;
-        new ImportingData().execute(sqlUrl);
-    }
-
-    private String GetJson() {
-        String json = "";
-        try {
-
-            Gson gson = new Gson();
-            String shmjson = gson.toJson(shm);
-            String sdjson = gson.toJson(sd);
-            String smpjson = gson.toJson(smp);
-            String smjson = gson.toJson(sm);
-            json = "[{\"data\":";
-            json = json + "[{\"sale_head_main\":" + shmjson + "," +
-                    "\"sale_det\":" + sdjson + "," +
-                    "\"SalesVoucher_Salesmen_Tmp\":" + smjson + "," +
-                    "\"sale_head_tmp_mp\":" + smpjson;
-            json = json + "}]}]";
-
-        } catch (Exception ee) {
-
-        }
-
-        return json;
-    }
-
     private void getSaleHeadMain() {
-
-
         String sqlString = "select * from Sale_Head_Main where tranid in(select tranid from Sale_Det) order by date asc,tranid desc";
         Cursor cursor = DatabaseHelper.rawQuery(sqlString);
         if (cursor != null && cursor.getCount() != 0) {
@@ -607,7 +839,6 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
         }
         cursor.close();
 
-
     }
 
     private void getSaleDet() {
@@ -643,9 +874,110 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             isData = false;
         }
         cursor.close();
-        ;
+
     }
 
+    private void getSaleHeadTmpMP() {
+        String sqlString = "select * from Sale_Head_Tmp_Mp";
+        Cursor cursor = DatabaseHelper.rawQuery(sqlString);
+        if (cursor != null && cursor.getCount() != 0) {
+            if (cursor.moveToFirst()) {
+                do {
+
+                    long mpTranid = cursor.getLong(cursor.getColumnIndex("tranid"));
+                    int currency = cursor.getInt(cursor.getColumnIndex("currency"));
+                    double exg_rate = cursor.getDouble(cursor.getColumnIndex("exg_rate"));
+                    double amount = cursor.getDouble(cursor.getColumnIndex("amount"));
+                    double change = cursor.getDouble(cursor.getColumnIndex("change"));
+                    smp.add(new Sale_Head_Tmp_Mp(mpTranid, currency, exg_rate, amount, change));
+
+                } while (cursor.moveToNext());
+            }
+
+        }
+        cursor.close();
+    }
+
+    private void getSalemen() {
+        String sqlString = "select * from SalesVoucher_Salesmen_Tmp";
+        Cursor cursor = DatabaseHelper.rawQuery(sqlString);
+        if (cursor != null && cursor.getCount() != 0) {
+            if (cursor.moveToFirst()) {
+                do {
+
+                    long Sales_TranID = cursor.getLong(cursor.getColumnIndex("Sales_TranID"));
+                    long Salesmen_ID = cursor.getLong(cursor.getColumnIndex("Salesmen_ID"));
+                    int rmt_copy = cursor.getInt(cursor.getColumnIndex("rmt_copy"));
+                    int userid = cursor.getInt(cursor.getColumnIndex("userid"));
+                    sm.add(new SalesVoucher_Salesmen_Tmp(Sales_TranID, Salesmen_ID, rmt_copy, userid));
+
+
+                } while (cursor.moveToNext());
+            }
+
+        }
+        cursor.close();
+    }
+
+    private String GetJson() {
+        String json = "";
+        try {
+
+            Gson gson = new Gson();
+            String shmjson = gson.toJson(shm);
+            String sdjson = gson.toJson(sd);
+            String smpjson = gson.toJson(smp);
+            String smjson = gson.toJson(sm);
+            json = "[{\"data\":";
+            json = json + "[{\"sale_head_main\":" + shmjson + "," +
+                    "\"sale_det\":" + sdjson + "," +
+                    "\"SalesVoucher_Salesmen_Tmp\":" + smjson + "," +
+                    "\"sale_head_tmp_mp\":" + smpjson;
+            json = json + "}]}]";
+
+        } catch (Exception ee) {
+
+        }
+
+        return json;
+    }
+
+    private void ImportingData() {
+        String ip = sh_ip.getString("ip", "empty");
+        String port = sh_port.getString("port", "empty");
+        String sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/SaveData?userid=" + frmlogin.LoginUserid;
+        new ImportingData().execute(sqlUrl);
+
+    }
+
+    private void getSavedPrinter(TextView connectedTo) {
+        BluetoothDevice connectedPrinter = Printama.with(this).getConnectedPrinter();
+        if (connectedPrinter != null) {
+            String text = "Connected to : " + connectedPrinter.getName();
+            connectedTo.setText(text);
+        }
+    }
+
+    private void showPrinterList(TextView connectedTo, CardView btnprintertest) {
+        Printama.showPrinterList(this, R.color.colorBlue, printerName -> {
+            //Toast.makeText(this, printerName, Toast.LENGTH_SHORT).show();
+            //TextView connectedTo = findViewById(R.id.tv_printer_info);
+            String text = "Connected to : " + printerName;
+            connectedTo.setText(text);
+            if (!printerName.contains("failed")) {
+                btnprintertest.setVisibility(View.VISIBLE);
+                btnprintertest.setOnClickListener(v -> testPrinter());
+            }
+        });
+    }
+
+    private void testPrinter() {
+        String s = "Your Printer is Connected.";
+        SpannableString ss1 = new SpannableString(s);
+        ss1.setSpan(new RelativeSizeSpan(2f), 0, 5, 0); // set size
+        ss1.setSpan(new ForegroundColorSpan(Color.RED), 0, 5, 0);// set color
+        Printama.with(this).printTest(ss1.toString());
+    }
 
     private void setRegister(final String id) {
         AlertDialog.Builder pass = new AlertDialog.Builder(frmlogin.this, R.style.AlertDialogTheme);
@@ -675,76 +1007,6 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
         });
         showmsg = pass.create();
         showmsg.show();
-    }
-
-    private void Register(String sqlString) {
-        ip = sh_ip.getString("ip", "empty");
-        port = sh_port.getString("port", "empty");
-        try {
-            sqlString = URLEncoder.encode(sqlString, "UTF-8").replace("+", "%20")
-                    .replace("%26", "&").replace("%3D", "=")
-                    .replace("%2C", ",")
-            ;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        String url = "http://" + ip + ":" + port + "/api/DataSync/GetData?" + sqlString + "&register=true";
-        RequestQueue request = Volley.newRequestQueue(context);
-        Response.Listener listener = new Response.Listener() {
-            @Override
-            public void onResponse(Object response) {
-
-                final String[] result = response.toString().split("/");
-                AlertDialog.Builder bd = new AlertDialog.Builder(frmlogin.this, R.style.AlertDialogTheme);
-                bd.setMessage(result[0]);
-                bd.setTitle("iStock");
-
-                bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        if (!result[1].isEmpty()) {
-
-                            SharedPreferences.Editor editor = RegisterID.edit();
-                            editor.remove("register");
-                            editor.commit();
-
-                            editor = RegisterID.edit();
-                            editor.putString("register", result[1]);
-                            editor.commit();
-                            isRegister();
-                            showmsg.dismiss();
-                        }
-                        dialog.dismiss();
-                        showmsg.dismiss();
-
-                    }
-                });
-                dialog = bd.create();
-                dialog.show();
-            }
-        };
-
-        final Response.ErrorListener error = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                AlertDialog.Builder bd = new AlertDialog.Builder(frmlogin.this, R.style.AlertDialogTheme);
-                bd.setMessage("Process is Fail!Check your Network Connection");
-                bd.setTitle("iStock");
-
-                bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        showmsg.dismiss();
-                    }
-                });
-                dialog = bd.create();
-                dialog.show();
-            }
-        };
-        StringRequest req = new StringRequest(Request.Method.GET, url, listener, error);
-        request.add(req);
     }
 
     private void GetTableNames() {
@@ -779,7 +1041,6 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                 public void onClick(DialogInterface dialog, int which) {
                     msg.dismiss();
                     UploadData();
-
                 }
             });
             ch.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -800,70 +1061,10 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             msg.show();
         } else {
             GetData();
-
         }
 
-
     }
 
-    private void ResetData() {
-        sqlString = "delete from Customer";
-        DatabaseHelper.execute(sqlString);
-        sqlString = "delete from usr_code";
-        DatabaseHelper.execute(sqlString);
-
-        sqlString = "delete from Posuser";
-        DatabaseHelper.execute(sqlString);
-
-        sqlString = "delete from Location";
-        DatabaseHelper.execute(sqlString);
-
-
-        sqlString = "delete from SystemSetting";
-        DatabaseHelper.execute(sqlString);
-
-        sqlString = "delete from Payment_Type";
-        DatabaseHelper.execute(sqlString);
-
-        sqlString = "delete from Dis_Type";
-        DatabaseHelper.execute(sqlString);
-
-        sqlString = "delete from AppSetting";
-        DatabaseHelper.execute(sqlString);
-
-        sqlString = "delete from Salesmen";
-        DatabaseHelper.execute(sqlString);
-
-        sqlString = "delete from Alias_Code";
-        DatabaseHelper.execute(sqlString);
-
-        sqlString = "delete from usr_code_img";
-        DatabaseHelper.execute(sqlString);
-
-        sqlString = "delete from menu_user";
-        DatabaseHelper.execute(sqlString);
-
-        sqlString = "delete from S_Sprice";
-        DatabaseHelper.execute(sqlString);
-
-        sqlString = "delete from Sale_Head_Main";
-        DatabaseHelper.execute(sqlString);
-
-        sqlString = "delete from Sale_Det";
-        DatabaseHelper.execute(sqlString);
-
-        sqlString = "delete from Tranid";
-        DatabaseHelper.execute(sqlString);
-
-        sqlString = "delete from Sale_Head_Tmp_Mp";
-        DatabaseHelper.execute(sqlString);
-
-        sqlString = "delete from SalesVoucher_Salesmen_Tmp";
-        DatabaseHelper.execute(sqlString);
-
-        sqlString = "delete from cash";
-        DatabaseHelper.execute(sqlString);
-    }
 
     private boolean CheckOfflineData() {
         boolean check = false;
@@ -877,14 +1078,12 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
 
     private void GetData() {
         try {
-
             ResetData();
             AlertDialog.Builder bdProgress = new AlertDialog.Builder(this, R.style.AlertDialogTheme);
             View view = getLayoutInflater().inflate(R.layout.downloadprocess, null);
             pbDownload = view.findViewById(R.id.progressDownload);
             txtProgress = view.findViewById(R.id.txtProgress);
             txtTable = view.findViewById(R.id.txtTable);
-
 
             txtProgress.setText("0/" + tableNames.size());
             //  txtProgress.setText("0/0");
@@ -963,12 +1162,9 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
 
     private void insertingData(String table, final int progress) {
         try {
-
             switch (table) {
-
                 case "cash":
-                    JSONArray cash = null;
-                    cash = data.getJSONObject(0).getJSONArray("cash");
+                    JSONArray cash = data.getJSONObject(0).getJSONArray("cash");
                     for (int pdiscount = 0; pdiscount < cash.length(); pdiscount++) {
                         JSONObject cashobj = cash.getJSONObject(pdiscount);
                         int cash_id = cashobj.getInt("cash_id");
@@ -982,8 +1178,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     break;
 
                 case "Pdis":
-                    JSONArray pdis = null;
-                    pdis = data.getJSONObject(0).getJSONArray("Pdis");
+                    JSONArray pdis = data.getJSONObject(0).getJSONArray("Pdis");
                     for (int pdiscount = 0; pdiscount < pdis.length(); pdiscount++) {
                         JSONObject sspriceobj = pdis.getJSONObject(pdiscount);
                         long code = sspriceobj.getLong("code");
@@ -1004,8 +1199,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     break;
 
                 case "S_Sprice":
-                    JSONArray ssprice = null;
-                    ssprice = data.getJSONObject(0).getJSONArray("S_Sprice");
+                    JSONArray ssprice = data.getJSONObject(0).getJSONArray("S_Sprice");
                     for (int sspricecount = 0; sspricecount < ssprice.length(); sspricecount++) {
                         JSONObject sspriceobj = ssprice.getJSONObject(sspricecount);
                         long code = sspriceobj.getLong("code");
@@ -1022,8 +1216,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     break;
 
                 case "AppSetting":
-                    JSONArray app = null;
-                    app = data.getJSONObject(0).getJSONArray("AppSetting");
+                    JSONArray app = data.getJSONObject(0).getJSONArray("AppSetting");
                     for (int appcount = 0; appcount < app.length(); appcount++) {
                         JSONObject appobj = app.getJSONObject(appcount);
                         int Setting_No = appobj.getInt("Setting_No");
@@ -1036,8 +1229,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     }
                     break;
                 case "Posuser":
-                    JSONArray user = null;
-                    user = data.getJSONObject(0).getJSONArray("posuser");
+                    JSONArray user = data.getJSONObject(0).getJSONArray("posuser");
                     for (int usercount = 0; usercount < user.length(); usercount++) {
                         JSONObject postobj = user.getJSONObject(usercount);
                         int userid = postobj.getInt("userid");
@@ -1085,7 +1277,6 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     break;
                 case "Customer":
                     JSONArray cust = data.getJSONObject(0).getJSONArray("customer");
-
                     for (int custcount = 0; custcount < cust.length(); custcount++) {
                         JSONObject custobj = cust.getJSONObject(custcount);
                         long customerid = custobj.getLong("customerid");
@@ -1103,7 +1294,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                         int due_in_days = custobj.optInt("due_in_days", 0);
                         double credit_limit = custobj.optDouble("credit_limit", 0);
                         sqlString = "insert into Customer(customerid,customer_name,customer_code,credit,CustGroupID,CustGroupname,CustGroupCode,Townshipid,Townshipname,TownshipCode,pricelevel,Custdiscount,due_in_days,credit_limit)" +
-                                " values(" + customerid + ",'" + customername + "','" + customercode + "'," + credit + "," +
+                                " values(" + customerid + ",'" + customername.replace("'", "\\'") + "','" + customercode + "'," + credit + "," +
                                 CustGroupCodeid + ",'" + CustGroupCodeName + "','" + CustGroupCodeCode + "'," +
                                 townshipid + ",'" + townshipname + "','" + townshipcode + "'," + pricelevel + "," + custdis + "," + (due_in_days == 0 ? "NULL" : due_in_days) + "," + credit_limit + ")";
                         DatabaseHelper.execute(sqlString);
@@ -1168,7 +1359,6 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     break;
                 case "Pay_Type":
                     JSONArray pay = data.getJSONObject(0).getJSONArray("payment_type");
-
                     for (int paycount = 0; paycount < pay.length(); paycount++) {
                         JSONObject paytobj = pay.getJSONObject(paycount);
                         long pay_type = paytobj.getLong("pay_type");
@@ -1183,7 +1373,6 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     break;
                 case "Dis_Type":
                     JSONArray dis = data.getJSONObject(0).getJSONArray("dis_type");
-
                     for (int discount = 0; discount < dis.length(); discount++) {
                         JSONObject distobj = dis.getJSONObject(discount);
                         long pay_type = distobj.getLong("dis_type");
@@ -1200,7 +1389,6 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     break;
                 case "System Setting":
                     JSONArray sys = data.getJSONObject(0).getJSONArray("systemsetting");
-
                     for (int syscount = 0; syscount < sys.length(); syscount++) {
                         JSONObject systobj = sys.getJSONObject(syscount);
                         int Use_Tax = systobj.optBoolean("Use_Tax", false) == true ? 1 : 0;
@@ -1233,8 +1421,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     }
                     break;
                 case "Salesmen":
-                    JSONArray salesmen = null;
-                    salesmen = data.getJSONObject(0).getJSONArray("salesmen");
+                    JSONArray salesmen = data.getJSONObject(0).getJSONArray("salesmen");
                     for (int salesmencount = 0; salesmencount < salesmen.length(); salesmencount++) {
                         JSONObject salesmenobj = salesmen.getJSONObject(salesmencount);
                         int id = salesmenobj.getInt("Salesmen_id");
@@ -1247,8 +1434,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     break;
 
                 case "Alias_Code":
-                    JSONArray Alias_Code = null;
-                    Alias_Code = data.getJSONObject(0).getJSONArray("alias_code");
+                    JSONArray Alias_Code = data.getJSONObject(0).getJSONArray("alias_code");
                     for (int aliascount = 0; aliascount < Alias_Code.length(); aliascount++) {
                         JSONObject aliasobj = Alias_Code.getJSONObject(aliascount);
                         String aliascode = aliasobj.optString("al_code");
@@ -1259,8 +1445,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     break;
 
                 case "usr_code_img":
-                    JSONArray usrimg = null;
-                    usrimg = data.getJSONObject(0).getJSONArray("usr_code_img");
+                    JSONArray usrimg = data.getJSONObject(0).getJSONArray("usr_code_img");
                     for (int usrimgcount = 0; usrimgcount < usrimg.length(); usrimgcount++) {
                         JSONObject usrimgobj = usrimg.getJSONObject(usrimgcount);
                         String usrcode = usrimgobj.optString("usr_code");
@@ -1272,8 +1457,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     break;
 
                 case "menu_user":
-                    JSONArray menuusr = null;
-                    menuusr = data.getJSONObject(0).getJSONArray("menu_user");
+                    JSONArray menuusr = data.getJSONObject(0).getJSONArray("menu_user");
                     for (int menucount = 0; menucount < menuusr.length(); menucount++) {
                         JSONObject menuusrobj = menuusr.getJSONObject(menucount);
                         int userid = menuusrobj.getInt("userid");
@@ -1342,7 +1526,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     finish();
                 } else {
 
-                    if (isInternetAcess()) {
+                    if (isInternetAccess()) {
                         LockUser(frmlogin.LoginUserid, true);
                     } else {
                         new AlertDialog.Builder(this, R.style.AlertDialogTheme)
@@ -1554,7 +1738,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                 dialog.dismiss();
             }
         });
-//serveraddr trim() in login form modified by ABBP
+
+        //serveraddr trim() in login form modified by ABBP
         btnok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1590,7 +1775,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
 
     }
 
-    private boolean isInternetAcess() {
+    private boolean isInternetAccess() {
         try {
             String ip = sh_ip.getString("ip", "Localhost");
             String port = sh_port.getString("port", "80");
@@ -1604,7 +1789,6 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     isOnline = true;
                 }
 
-
             };
 
             final Response.ErrorListener error = new Response.ErrorListener() {
@@ -1616,6 +1800,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             };
             StringRequest req = new StringRequest(Request.Method.GET, Url, listener, error);
             requestQueue.add(req);
+
         } catch (Exception ee) {
             isOnline = true;
         }
@@ -1631,11 +1816,11 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             btnconnect.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.wifidis, 0, 0);
             btnlogin.setEnabled(false);
             useredit.setEnabled(false);
-            Toast.makeText(frmlogin.this, "Please Connect to server", Toast.LENGTH_LONG).show();
+            Toast.makeText(frmlogin.this, "Please connect to server", Toast.LENGTH_LONG).show();
             return;
         }
 
-        String ip = sh_ip.getString("ip", "Localhost");
+        String ip = sh_ip.getString("ip", "localhost");
         String port = sh_port.getString("port", "80");
         String Url = "http://" + ip + ":" + port + "/api/DataSync/GetData";
 
@@ -1652,10 +1837,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                 if (ptype.size() > 0) ptype.clear();
                 if (Printers.size() > 0) Printers.clear();
                 Binding_PrinterSetting();
-                //Toast.makeText(frmlogin.this, "Server is Connected", Toast.LENGTH_LONG).show();
+                Toast.makeText(frmlogin.this, "Server is Connected", Toast.LENGTH_LONG).show();
             }
-
-
         };
 
         final Response.ErrorListener error = new Response.ErrorListener() {
@@ -1678,16 +1861,13 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
         port = sh_port.getString("port", "empty");
         String url = "http://" + ip + ":" + port + "/api/DataSync/GetPrinter?&printer=true";
         RequestQueue request = Volley.newRequestQueue(context);
-        Response.Listener listener = new Response.Listener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        final Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
-            public void onResponse(Object response) {
-                String[] str = response.toString().split("&&");
+            public void onResponse(String response) {
+                String[] str = response.split("&&");
                 String[] prt = str[0].split(",");
                 String[] pty = str[1].split(",");
-                for (int i = 0; i < prt.length; i++) {
-                    Printers.add(prt[i]);
-                }
+                Collections.addAll(Printers, prt);
                 for (int i = 0; i < pty.length; i++) {
                     if (i == 0) {
                         ptype.add(new Printer_Type((-1), pty[i]));
@@ -1701,9 +1881,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onErrorResponse(VolleyError error) {
                 AlertDialog.Builder bd = new AlertDialog.Builder(frmlogin.this);
-                bd.setMessage("Process is Fail!Check your Network Connection");
+                bd.setMessage("Process is Fail!\nCheck your Network Connection");
                 bd.setTitle("iStock");
-
                 bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -1724,7 +1903,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pb.show();
+            layoutUpload.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -1764,11 +1943,11 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            pb.dismiss();
-            AlertDialog.Builder ab = new AlertDialog.Builder(frmlogin.this);
-            ab.setMessage(s);
-            ab.setCancelable(false);
-            ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            layoutUpload.setVisibility(View.GONE);
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(frmlogin.this, R.style.AlertDialogTheme);
+            dialogBuilder.setMessage(s);
+            dialogBuilder.setCancelable(false);
+            dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (s.equals("Importing Data is successfull!!")) {
@@ -1787,21 +1966,14 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                         sqlString = "delete from SalesVoucher_Salesmen_Tmp";
                         DatabaseHelper.execute(sqlString);
 
-                        if (checkofflinedata) {
-                            GetData();
-                        }
+//                        if (checkofflinedata) {
+//                            GetData();
+//                        }
                     }
-                    msg.dismiss();
+                    dialog.dismiss();
                 }
             });
-            msg = ab.create();
-            msg.setOnShowListener(new DialogInterface.OnShowListener() {
-                @Override
-                public void onShow(DialogInterface dialog) {
-                    msg.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                }
-            });
-            msg.show();
+            dialogBuilder.create().show();
         }
     }
 
