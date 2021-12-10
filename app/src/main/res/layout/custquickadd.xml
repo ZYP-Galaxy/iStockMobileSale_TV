@@ -7,8 +7,7 @@
     android:focusable="false"
     android:scrollbars="vertical"
     android:scrollbarAlwaysDrawVerticalTrack="true"
-    android:background="#d9d4d4"
-    android:padding="10dp">
+    android:background="#d9d4d4">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -25,7 +24,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="#2F4658">
+                android:background="@color/headerbar">
 
                 <TextView
                     android:layout_width="wrap_content"

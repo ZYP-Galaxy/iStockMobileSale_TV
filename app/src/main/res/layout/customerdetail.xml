@@ -1,50 +1,57 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="450dp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:focusable="false"
-    android:background="#d9d4d4"
-    android:padding="10dp">
+    android:background="@color/headerinfo"
+    android:layout_gravity="center">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="#2F4658">
-        <ImageButton
-            android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:background="@color/headerbar">
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/custadd"
-            android:layout_centerVertical="true"
-            android:background="@null"
-            app:srcCompat="@drawable/custadd"
-            android:visibility="gone"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/imgSave"/>
-
+            android:gravity="center"
+            android:text="Customer Setup"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"/>
         <ImageButton
             android:id="@+id/imgAddCustomer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:background="@null"
-            app:srcCompat="@drawable/editsave" />
+            android:layout_marginRight="75dp"
+            android:background="@drawable/save" />
+        <ImageButton
+            android:id="@+id/imgback"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/back" />
     </RelativeLayout>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="500dp"
-        app:cardBackgroundColor="#d9d4d4">
+        android:layout_height="wrap_content"
+        android:elevation="500dp">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="@color/headerinfo"
+                >
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:visibility="visible"
@@ -54,57 +61,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="30dp"
                         android:text="Customer Name"
-                        android:textColor="#46509E"
+                        android:textColor="#FFFFFF"
                         android:textStyle="bold"
                         android:textSize="14dp"/>
                     <EditText
                         android:layout_width="185dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:hint="Enter Customer Name"
-                        android:textColorHint="#fff"
+                        android:hint="Enter Name"
+                        android:textColorHint="#3E504B4B"
                         android:textColor="@color/white"
                         android:id="@+id/txtCustomerName"
                         android:layout_height="35dp"
-                        android:textSize="15dp"
-                        android:background="@drawable/txtinvoice"
-                        android:textStyle="bold"
-                        />
-
+                        android:textSize="12dp"
+                        android:background="@color/headertext"/>
                 </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:visibility="visible"
-                    android:layout_height="50dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:text="Customer Code"
-                        android:textColor="#46509E"
-                        android:textStyle="bold"
-                        android:textSize="15dp"/>
-                    <EditText
-                        android:layout_width="185dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:hint="Enter Customer Code"
-                        android:textColorHint="#fff"
-                        android:textColor="@color/white"
-                        android:id="@+id/txtCustomerCode"
-                        android:layout_height="35dp"
-                        android:textSize="15dp"
-                        android:background="@drawable/txtinvoice"
-                        android:textStyle="bold"
-                        />
-
-                </RelativeLayout>
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:id="@+id/rlCustGroup"
@@ -114,25 +87,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="30dp"
                         android:text="Customer Group"
-                        android:textColor="#46509E"
+                        android:textColor="#FFFFFF"
                         android:textStyle="bold"
-                        android:textSize="15dp"/>
+                        android:textSize="14dp"/>
                     <Button
                         android:layout_width="185dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:id="@+id/btnCustGroup"
                         android:layout_height="40dp"
-                        android:background="@drawable/entrybtn"
-                        android:textColor="@color/white"
+                        android:background="@color/headertext"
+                        android:textColor="#000000"
                         android:textSize="15dp"
                         android:textAllCaps="false"
-                        android:text="Choose"
+                        android:text="Merchant"
+                        android:textAlignment="textStart"
                         />
-
-
                 </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -143,25 +115,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="30dp"
                         android:text="Township"
-                        android:textColor="#46509E"
+                        android:textColor="#FFFFFF"
                         android:textStyle="bold"
-                        android:textSize="15dp"/>
+                        android:textSize="14dp"/>
                     <Button
                         android:layout_width="185dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:textAllCaps="false"
-                        android:text="Choose"
+                        android:text="Yangon"
                         android:layout_height="40dp"
-                        android:background="@drawable/entrybtn"
-                        android:textColor="@color/white"
+                        android:background="@color/headertext"
+                        android:textColor="#000000"
                         android:id="@+id/btnTownship"
                         android:textSize="15dp"
+                        android:textAlignment="textStart"
                         />
-
-
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -173,11 +144,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="30dp"
                         android:text="Credit"
-                        android:textColor="#46509E"
+                        android:textColor="#FFFFFF"
                         android:textStyle="bold"
-                        android:textSize="15dp"/>
+                        android:textSize="14dp"/>
 
                     <RelativeLayout
                     android:layout_width="185dp"
@@ -188,44 +159,27 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="horizontal">
-                            <CheckBox
-                                android:layout_centerVertical="true"
-                                android:id="@+id/chkCredit"
-                                android:layout_width="wrap_content"
-                                android:layout_height="40dp">
-
-                            </CheckBox>
+                            <Switch
+                                android:id="@+id/credit"
+                                android:layout_width="50dp"
+                                android:layout_height="10dp"/>
 
                             <EditText
-                                android:layout_width="185dp"
+                                android:id="@+id/txtdue"
+                                android:layout_width="135dp"
+                                android:layout_height="35dp"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
+                                android:background="@color/headertext"
                                 android:hint="Enter DueDay"
-                                android:textColorHint="#fff"
                                 android:textColor="@color/white"
-                                android:id="@+id/txtdue"
-                                android:layout_height="35dp"
-                                android:textSize="15dp"
-                                android:background="@drawable/txtinvoice"
-                                android:visibility="gone"
-                                android:textStyle="bold"
-                                />
+                                android:textColorHint="#4A000000"
+                                android:textSize="12dp"
+                                android:visibility="gone"/>
                         </LinearLayout>
-
-
-
                     </RelativeLayout>
-
-
-
                 </RelativeLayout>
-
-
-
             </LinearLayout>
         </ScrollView>
-
     </androidx.cardview.widget.CardView>
-
-
 </LinearLayout>

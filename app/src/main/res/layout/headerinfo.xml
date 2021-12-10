@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="550dp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -59,13 +59,13 @@
             android:layout_width="match_parent"
             android:visibility="visible"
             android:layout_height="50dp"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="12dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="20dp"
                 android:text="Invoice Number"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
@@ -96,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="20dp"
                 android:text="Remark"
                 android:textColor="@color/white"
                 android:textStyle="bold"
@@ -128,7 +128,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="20dp"
                 android:text="Customer Group"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
@@ -159,7 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="20dp"
                 android:text="Township"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
@@ -189,7 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="20dp"
                 android:text="Customer"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
@@ -208,6 +208,14 @@
                 android:textAlignment="textStart"
                 android:layout_marginRight="50dp"
                 />
+            <ImageButton
+                android:id="@+id/imgAddCustomer"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/plus" />
 
 
         </RelativeLayout>
@@ -217,15 +225,22 @@
             android:layout_height="50dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="20dp"
                 android:text="Pay Type"
                 android:textColor="#F5F5F6"
                 android:textStyle="bold"
                 android:textSize="15dp"/>
-
+            <ImageButton
+                android:id="@+id/imgLeft"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="278dp"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/leftarrow"/>
             <Button
                 android:id="@+id/btnpaytype"
                 android:layout_width="185dp"
@@ -240,7 +255,14 @@
                 android:layout_marginRight="50dp"
                 android:layout_marginTop="5dp"/>
 
-
+            <ImageButton
+                android:id="@+id/imgRight"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rightarrow" />
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -251,7 +273,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="20dp"
                 android:text="Cash In"
                 android:textColor="@color/white"
                 android:textStyle="bold"
@@ -281,7 +303,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="20dp"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="30dp"
                 android:text="Location"
@@ -315,7 +337,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="20dp"
                 android:text="Deliver"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
@@ -327,7 +349,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="190dp"
-                android:layout_marginTop="15dp"/>
+                android:layout_marginTop="12dp"/>
         </RelativeLayout>
     </LinearLayout>
 </ScrollView>
