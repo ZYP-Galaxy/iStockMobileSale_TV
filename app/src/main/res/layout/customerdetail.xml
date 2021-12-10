@@ -41,7 +41,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:elevation="500dp">
         <ScrollView
             android:layout_width="match_parent"
@@ -72,8 +72,35 @@
                         android:layout_centerVertical="true"
                         android:hint="Enter Name"
                         android:textColorHint="#3E504B4B"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:id="@+id/txtCustomerName"
+                        android:layout_height="35dp"
+                        android:textSize="12dp"
+                        android:background="@color/headertext"/>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:visibility="visible"
+                    android:layout_height="50dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="30dp"
+                        android:text="Customer Code"
+                        android:textColor="#ffffff"
+                        android:textStyle="bold"
+                        android:textSize="14dp"/>
+                    <EditText
+                        android:layout_width="185dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:hint="Enter Customer Code"
+                        android:textColorHint="#4B000000"
+                        android:textColor="@color/black"
+                        android:id="@+id/txtCustomerCode"
                         android:layout_height="35dp"
                         android:textSize="12dp"
                         android:background="@color/headertext"/>
@@ -133,6 +160,8 @@
                         android:textSize="15dp"
                         android:textAlignment="textStart"
                         />
+
+
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -161,12 +190,14 @@
                             android:orientation="horizontal">
                             <Switch
                                 android:id="@+id/credit"
-                                android:layout_width="50dp"
-                                android:layout_height="10dp"/>
+                                android:layout_width="45dp"
+                                android:layout_height="10dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="20dp"/>
 
                             <EditText
                                 android:id="@+id/txtdue"
-                                android:layout_width="135dp"
+                                android:layout_width="125dp"
                                 android:layout_height="35dp"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
@@ -174,8 +205,7 @@
                                 android:hint="Enter DueDay"
                                 android:textColor="@color/white"
                                 android:textColorHint="#4A000000"
-                                android:textSize="12dp"
-                                android:visibility="gone"/>
+                                android:textSize="12dp" />
                         </LinearLayout>
                     </RelativeLayout>
                 </RelativeLayout>
