@@ -199,7 +199,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:textAllCaps="false"
-                android:text="Kyaw Kyaw"
                 android:id="@+id/btnCustomer"
                 android:layout_height="40dp"
                 android:background="@color/headertext"
@@ -209,15 +208,13 @@
                 android:layout_marginRight="50dp"
                 />
             <ImageButton
-                android:id="@+id/imgAddCustomer"
+                android:id="@+id/imgNewCust"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/plus" />
-
-
         </RelativeLayout>
 
         <RelativeLayout

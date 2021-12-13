@@ -27,7 +27,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
     private CardView cardstock;
     private ImageView cardlogout;
     private CardView cardsaleOrderlist;
-    private CardView cardStockstatuslist;
+    //private CardView cardStockstatuslist;
     private CardView cardoutstandlist;
     private CardView cardsetting; //added by MPPA on [08-12-2021]
     AlertDialog showmsg;

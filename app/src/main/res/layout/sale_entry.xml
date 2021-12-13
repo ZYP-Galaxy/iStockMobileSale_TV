@@ -163,7 +163,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
                         android:background="@null"
-                        android:src="@drawable/headerfortablet" />
+                        app:srcCompat="@drawable/headerfortablet" />
 
                     <ImageButton
                         android:id="@+id/imgPrintSelection"
@@ -173,7 +173,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_toLeftOf="@+id/imgHeader"
                         android:background="@null"
-                        android:src="@drawable/printertablet" />
+                        app:srcCompat="@drawable/printertablet" />
 
                     <ImageButton
                         android:id="@+id/imgRefOrdID"
@@ -183,7 +183,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_toLeftOf="@+id/imgPrintSelection"
                         android:background="@null"
-                        android:src="@drawable/ic_baseline_arrow_circle_down_24" />
+                        app:srcCompat="@drawable/ic_baseline_arrow_circle_down_24" />
 
                 </RelativeLayout>
 
@@ -716,7 +716,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:background="@null"
-                                android:src="@drawable/backarrow" />
+                                app:srcCompat="@drawable/backarrow" />
 
                             <TextView
                                 android:id="@+id/txtBack"
@@ -744,7 +744,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:background="@null"
-                                android:src="@drawable/itemeditcopy" />
+                                app:srcCompat="@drawable/itemeditcopy" />
 
                             <TextView
                                 android:id="@+id/txtedit"
@@ -773,7 +773,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:background="@null"
-                                android:src="@drawable/itemeditcopy" />
+                                app:srcCompat="@drawable/itemeditcopy" />
 
                             <TextView
                                 android:id="@+id/txtDelete"
@@ -801,7 +801,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:background="@null"
-                                android:src="@drawable/delete" />
+                                app:srcCompat="@drawable/delete" />
 
                             <TextView
                                 android:id="@+id/txtDelAll"
@@ -831,7 +831,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:background="@null"
-                                android:src="@drawable/confirm" />
+                                app:srcCompat="@drawable/confirm" />
 
                             <TextView
                                 android:id="@+id/txtConfirm"
@@ -861,7 +861,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:background="@null"
-                                android:src="@drawable/alldetails_foreground" />
+                                app:srcCompat="@drawable/alldetails_foreground" />
 
                             <TextView
                                 android:id="@+id/txtAllDetails"
@@ -930,7 +930,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_toLeftOf="@+id/imgscanner"
                             android:background="@null"
-                            android:src="@drawable/filtertablet"
+                            app:srcCompat="@drawable/filtertablet"
                             android:visibility="gone" />
 
                         <ImageButton
@@ -951,7 +951,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginRight="15dp"
                             android:background="@null"
-                            android:src="@drawable/logoutfortablet" />
+                            app:srcCompat="@drawable/logoutfortablet" />
 
                         <ImageButton
                             android:id="@+id/imgSearchCode"
@@ -962,7 +962,7 @@
                             android:layout_marginRight="30dp"
                             android:layout_toLeftOf="@+id/imgLogout"
                             android:background="@null"
-                           android:src="@drawable/searchtablet" />
+                           app:srcCompat="@drawable/searchtablet" />
 
                         <ImageButton
                             android:id="@+id/imgClearFilter"
@@ -972,7 +972,7 @@
                             android:layout_marginRight="15dp"
                             android:layout_toLeftOf="@+id/imgSearchCode"
                             android:background="@null"
-                            android:src="@drawable/clearfilter_40dp" />
+                            app:srcCompat="@drawable/clearfilter_40dp" />
 
                     </RelativeLayout>
                 </RelativeLayout>

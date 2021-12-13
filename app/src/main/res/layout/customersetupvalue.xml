@@ -41,8 +41,8 @@
                 android:layout_height="wrap_content" />
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
                 app:srcCompat="@drawable/arrow"
                 android:background="@null"
                 android:id="@+id/imgNochange"

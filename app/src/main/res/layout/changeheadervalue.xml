@@ -21,7 +21,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/searchtablet"
+                    app:srcCompat="@drawable/searchtablet"
                     android:background="@null"
                     android:id="@+id/imgSearch"
                     android:layout_marginLeft="10dp"
@@ -56,7 +56,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/customerdownload"
+                    app:srcCompat="@drawable/customerdownload"
                     android:background="@null"
                     android:id="@+id/imgDowloadCustomer"
                     android:layout_marginLeft="10dp"
@@ -68,7 +68,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/add"
+                    app:srcCompat="@drawable/add"
                     android:background="@null"
                     android:id="@+id/imgAddCustomer"
                     android:layout_marginLeft="10dp"
@@ -80,7 +80,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/confirm"
+                    app:srcCompat="@drawable/confirm"
                     android:background="@null"
                     android:id="@+id/imgChangeSave"
                     android:layout_marginLeft="10dp"
@@ -92,7 +92,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/clearfilter"
+                    app:srcCompat="@drawable/clearfilter"
                     android:background="@null"
                     android:id="@+id/imgClear"
                     android:layout_marginLeft="10dp"
