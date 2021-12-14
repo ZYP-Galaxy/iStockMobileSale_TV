@@ -4286,8 +4286,8 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                 btntownship=view.findViewById(R.id.btnTownship);
                 btncustomer=view.findViewById(R.id.btnCustomer);
                 btnStlocation=view.findViewById(R.id.location);
-                btnSalesmen=view.findViewById(R.id.salesmen);
-                btncustadd=view.findViewById(R.id.custadd);
+                //btnSalesmen=view.findViewById(R.id.salesmen);
+                btncustadd=view.findViewById(R.id.imgAddCustomer);
 
                 chkDeliver=view.findViewById(R.id.chkToDeliver); //added by YLT
                 chkDeliver.setVisibility(View.GONE);//added by YLT

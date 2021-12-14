@@ -23,7 +23,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="#2F4658">
+                android:background="@color/headerbar">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -46,13 +46,12 @@
                     app:srcCompat="@drawable/editsavesmall" />
                 <ImageButton
                     android:id="@+id/imgClose"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:background="@null"
-                    app:srcCompat="@drawable/arrow" />
+                    android:background="@drawable/arrow"/>
 
             </RelativeLayout>
 

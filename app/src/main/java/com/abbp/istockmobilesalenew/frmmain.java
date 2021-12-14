@@ -27,7 +27,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
     private CardView cardstock;
     private ImageView cardlogout;
     private CardView cardsaleOrderlist;
-    private CardView cardStockstatuslist;
+    //private CardView cardStockstatuslist;
     private CardView cardoutstandlist;
     private CardView cardsetting; //added by MPPA on [08-12-2021]
     AlertDialog showmsg;
@@ -100,11 +100,12 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
         cardsale.setOnClickListener(this);
         cardsaleOrder.setOnClickListener(this);//added by YLT on [20-04-2020]
         cardsaleOrderlist.setOnClickListener(this);//added by YLT on [24-04-2020]
-        cardStockstatuslist.setOnClickListener(this);//added by YLT on [24-07-2020]
+        //cardStockstatuslist.setOnClickListener(this);//added by YLT on [24-07-2020]
         cardoutstandlist.setOnClickListener(this);//added by YLT on [09-082020]
         cardsalelist.setOnClickListener(this);
         cardstock.setOnClickListener(this);
         cardlogout.setOnClickListener(this);
+        cardsetting.setOnClickListener(this); //added by MPPA on [09-12-2021]
         getdecimal();
         getclassview();
         getpic();
@@ -114,7 +115,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
         String value = getAppSetting.getSetting_Value();
         if (value.equals("1")) {
             cardoutstandlist.setVisibility(View.GONE);
-            cardStockstatuslist.setVisibility(View.GONE);
+            //cardStockstatuslist.setVisibility(View.GONE);
         }
 
     }
@@ -280,6 +281,12 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
 
             case R.id.cardstock:
                 intent = new Intent(frmmain.this, stock_balance.class);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.cardSetting:
+                intent = new Intent(frmmain.this, frmmain.class);
                 startActivity(intent);
                 finish();
                 break;

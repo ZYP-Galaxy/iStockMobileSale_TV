@@ -1,5 +1,4 @@
 package com.abbp.istockmobilesalenew;
-
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -41,9 +40,9 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -52,11 +51,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonObject;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -71,7 +68,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
 import me.myatminsoe.mdetect.Rabbit;
 
 public class sale_entry extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemLongClickListener {
@@ -121,7 +117,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     boolean isqty=false;
     boolean isGallon=false;
     public static int itemPosition;
-    ImageButton imgDeleteAll, imgDelete, imgSummary, imgEdit, imgConfrim, imgPrint,imgHeader,imgBack,imgLogout;
+    ImageButton imgDeleteAll, imgDelete, imgSummary, imgEdit, imgConfrim, imgPrint,imgHeader,imgBack,imgLogout,imgNewCust;
     ImageButton imgAllDetails;//added by YLT on [15-06-2020]
     AlertDialog dialog,custdia;
     AlertDialog.Builder builder;
@@ -182,7 +178,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     public static int billprintcount=0;
     String detRemark="";
     String headRemark="";
-   // String itemdis="Normal";
+    // String itemdis="Normal";
     TextView headremark,detremark;
     Intent intent;
     boolean comfirm=false;
@@ -206,7 +202,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     public TextView tvChange;
     static Double voudisper=0.0;
     public static RelativeLayout rlchangePrice;
-   public static RelativeLayout taxlo;
+    public static RelativeLayout taxlo;
     public static ArrayList<Salesmen>SaleVouSalesmen=new ArrayList<>();
     public  static ArrayList<RefDocid>refDocids=new ArrayList<>();
     public static double custDis=0.0;
@@ -274,7 +270,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         }else {
             gridclassview.setVisibility(View.VISIBLE);
             gridcodeview.setVisibility(View.VISIBLE);
-           BindingClass();
+            BindingClass();
         }
         if(sd.size()>0)sd.clear();
         if(sh.size()>0)sh.clear();
@@ -297,7 +293,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         imgFilterCode.setVisibility(View.GONE);
         GetBillPrintCount();
 
-            }
+    }
 
 
     private void GetBillPrintCount() {
@@ -637,7 +633,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         imgBack.setOnClickListener(this);
         txttaxamt=findViewById(R.id.txttaxamt);
         txttax=findViewById(R.id.txttax);
-       // btndetail=findViewById(R.id.btndetail); //comment by YLT on [15-06-2020]
+        // btndetail=findViewById(R.id.btndetail); //comment by YLT on [15-06-2020]
         String tax="Tax"+(getTax()>0?"( "+getTax()+"% )":"");
         txttax.setText(tax);
         txtoutstand=findViewById(R.id.txtPreviousAmt);
@@ -652,35 +648,35 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         });
 
 
-       // btndetail.setOnClickListener(new View.OnClickListener() {
+        // btndetail.setOnClickListener(new View.OnClickListener() {
         //    @Override
         //    public void onClick(View v) {
-         //       String taxper;
-         //       String txttax;
-          //      if(sd.size()>0){
-          //          taxper="Tax"+(sh.get(0).getTax_per()>0?"( "+sh.get(0).getTax_per()+"% )":"");
-          //          txttax=String.valueOf(sh.get(0).getTax_amount());
-          //      }else {
-          //          taxper="Tax"+(getTax()>0?"( "+getTax()+"% )":"");
-           //         txttax="0";
-            //    }
+        //       String taxper;
+        //       String txttax;
+        //      if(sd.size()>0){
+        //          taxper="Tax"+(sh.get(0).getTax_per()>0?"( "+sh.get(0).getTax_per()+"% )":"");
+        //          txttax=String.valueOf(sh.get(0).getTax_amount());
+        //      }else {
+        //          taxper="Tax"+(getTax()>0?"( "+getTax()+"% )":"");
+        //         txttax="0";
+        //    }
 
-           //     String vouper="Vou Discount";
-              //  if(custDis>0){
-              //      vouper="Vou Discount( "+custDis+"% )";
-             //       sh.get(0).setDiscount_per(custDis);
-             //       getSummary();
-             //   }else {
-             //       vouper="Vou Discount"+(sh.get(0).getDiscount_per()>0?"( "+sh.get(0).getDiscount_per()+"% )":"");
-              //  }
-             //   String total=txttotal.getText().toString();
-             //   String txtvou=String.valueOf(sh.get(0).getDiscount());
-              //  String txtpaidamt=String.valueOf(sh.get(0).getPaid_amount());
-               // String txtfoc=String.valueOf(sh.get(0).getFoc_amount());
-              //  String txtitem=String.valueOf(sh.get(0).getIstemdis_amount());
-              //  detailvou(taxper,total,txtvou,vouper,txtpaidamt,txttax,txtfoc,txtitem);
-           // }
-       // });
+        //     String vouper="Vou Discount";
+        //  if(custDis>0){
+        //      vouper="Vou Discount( "+custDis+"% )";
+        //       sh.get(0).setDiscount_per(custDis);
+        //       getSummary();
+        //   }else {
+        //       vouper="Vou Discount"+(sh.get(0).getDiscount_per()>0?"( "+sh.get(0).getDiscount_per()+"% )":"");
+        //  }
+        //   String total=txttotal.getText().toString();
+        //   String txtvou=String.valueOf(sh.get(0).getDiscount());
+        //  String txtpaidamt=String.valueOf(sh.get(0).getPaid_amount());
+        // String txtfoc=String.valueOf(sh.get(0).getFoc_amount());
+        //  String txtitem=String.valueOf(sh.get(0).getIstemdis_amount());
+        //  detailvou(taxper,total,txtvou,vouper,txtpaidamt,txttax,txtfoc,txtitem);
+        // }
+        // });
 
 //region for detail YLT on [15-06-2020
         imgAllDetails.setOnClickListener(new View.OnClickListener() {
@@ -717,14 +713,14 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 // endregion
 //Added By abbp barcode scanner on 19/6/2019
 
-                    imgScanner=findViewById(R.id.imgscanner);
-                    imgScanner.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i=new Intent(sale_entry.this,frmscancode.class);
-                            startActivity(i);
-                        }
-                    });
+        imgScanner=findViewById(R.id.imgscanner);
+        imgScanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(sale_entry.this,frmscancode.class);
+                startActivity(i);
+            }
+        });
 
 
 //def customer outstand
@@ -746,11 +742,9 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 }
                 else
                 {
-
                     AlertDialog.Builder ab=new AlertDialog.Builder(sale_entry.this,R.style.AlertDialogTheme);
                     ab.setTitle("iStock");
                     ab.setMessage("Only Allow in Credit.");
-
                     ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -760,9 +754,6 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     msg=ab.create();
                     msg.show();
                 }
-
-
-
             }
         });
         txtvoudis.setOnClickListener(new View.OnClickListener() {
@@ -783,10 +774,10 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
 
 
-// Add detail btn in sale entry on 18/6/2019
+    // Add detail btn in sale entry on 18/6/2019
     private void detailvou(String taxper,String total,String txtvou,String vouper,String txtpaidamt,String txttaxam,String txtfocamt,String txtitem){
-     AlertDialog.Builder bd=new AlertDialog.Builder(sale_entry.this);
-     View view=getLayoutInflater().inflate(R.layout.frmdetailconvoucher,null);
+        AlertDialog.Builder bd=new AlertDialog.Builder(sale_entry.this);
+        View view=getLayoutInflater().inflate(R.layout.frmdetailconvoucher,null);
         bd.setCancelable(false);
         bd.setView(view);
         TextView txttotal=view.findViewById(R.id.txtTotalAmt);
@@ -898,7 +889,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
 
     }
-//**************************************************************************************************
+    //**************************************************************************************************
     private void SearchItem(String s) {
 
 
@@ -1034,7 +1025,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 {
                     Cursor cursor =null;
                     if(fitercode.equals("Description"))
-                    cursor=DatabaseHelper.DistinctSelectQuerySelection("Usr_Code",new String[]{"usr_code","description"},"description LIKE?",new String[]{"%"+s+"%"});
+                        cursor=DatabaseHelper.DistinctSelectQuerySelection("Usr_Code",new String[]{"usr_code","description"},"description LIKE?",new String[]{"%"+s+"%"});
                     else//Added by KLM 08122020 for Short Search
                         cursor=DatabaseHelper.DistinctSelectQuerySelection("Usr_Code",new String[]{"usr_code","description"},"shortdes LIKE?",new String[]{"%"+s+"%"});
                     if(sale_entry.usr_codes.size()>0) sale_entry.usr_codes.clear();
@@ -1137,7 +1128,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
             case "Brand": //added by YLT
                 filteredbrand= new ArrayList<>();
-               // filteredCode= new ArrayList<>();
+                // filteredCode= new ArrayList<>();
 
                 //Cursor cursorbrand=  DatabaseHelper.DistinctSelectQuerySelection("Usr_Code",new String[]{"BrandID","BrandName"},"BrandName LIKE?",new String[]{"%"+s+"%"});
                 Cursor cursorbrand = DatabaseHelper.rawQuery("select distinct usr_code,description from Usr_Code where  BrandID in (select BrandID from Usr_Code where BrandName like  '%"+s+"%')");
@@ -1162,7 +1153,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                             String description = cursorbrand.getString(cursorbrand.getColumnIndex("description"));
                             filteredbrand.add(new usr_code(usr_code,description));
 
-                           // filteredbrand.add(new brand(brandid,brandName));
+                            // filteredbrand.add(new brand(brandid,brandName));
                         } while (cursorbrand.moveToNext());
 
                     }
@@ -1273,7 +1264,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             long locid=0;
             long custid=0;
             GetTranid getTranid=new GetTranid();
-             tranid=getTranid.getTranid();
+            tranid=getTranid.getTranid();
             //tranid=getTranid.getTranid()+1;
             String vou="VOU"+tranid;
 
@@ -1285,11 +1276,11 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             txtdate.setText(voudate);
             txtdocid.setText(vou);
             String sql=" INSERT INTO Sale_Head_Main (TRANID,USERID,DOCID,DATE) "+
-                         "values("+tranid+","+frmlogin.LoginUserid+",'"+vou+"','"+date+"')";
+                    "values("+tranid+","+frmlogin.LoginUserid+",'"+vou+"','"+date+"')";
             DatabaseHelper.execute(sql);
             double tax_per=getTax();
             sh.add(new Sale_head_main( tranid, frmlogin.LoginUserid,  vou,  voudate,  "",false,"", frmlogin.det_locationid,  1, frmlogin.def_cashid,  1, 0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0));
-             voudate=new SimpleDateFormat("dd/MM/yyyy").format(dateFormat.parse(sh.get(0).getDate()));
+            voudate=new SimpleDateFormat("dd/MM/yyyy").format(dateFormat.parse(sh.get(0).getDate()));
             txtdate.setText(voudate);
 
 
@@ -1353,26 +1344,26 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                  AlertDialog.Builder builder=new AlertDialog.Builder(sale_entry.this);
-                  builder.setMessage("Please check and reconnect your network");
-                  builder.setTitle("iStock");
-                  builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                      @Override
-                      public void onClick(DialogInterface dialog1, int which) {
-                          Intent intent =new Intent(sale_entry.this,frmmain.class);
-                          startActivity(intent);
-                          finish();
-                          dialog.dismiss();
-                      }
-                  });
-                  dialog=builder.create();
-                  dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                      @Override
-                      public void onShow(DialogInterface dialog1) {
-                          dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                      }
-                  });
-                  dialog.show();
+                    AlertDialog.Builder builder=new AlertDialog.Builder(sale_entry.this);
+                    builder.setMessage("Please check and reconnect your network");
+                    builder.setTitle("iStock");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog1, int which) {
+                            Intent intent =new Intent(sale_entry.this,frmmain.class);
+                            startActivity(intent);
+                            finish();
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog=builder.create();
+                    dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                        @Override
+                        public void onShow(DialogInterface dialog1) {
+                            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                        }
+                    });
+                    dialog.show();
                 }
             };
             StringRequest req = new StringRequest(Request.Method.GET, url, listener, error);
@@ -1448,16 +1439,13 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     String description=cursor.getString(cursor.getColumnIndex("description"));
                     sale_entry.usr_codes.add(new usr_code(usr_code,description));
                 }while (cursor.moveToNext());
-
             }
-
         }
         cursor.close();
         usrcodeAdapter ad=new usrcodeAdapter(sale_entry.this,sale_entry.usr_codes,gridcodeview);
         gridcodeview.setAdapter(ad);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(sale_entry.this,4);
         gridcodeview.setLayoutManager(gridLayoutManager);
-
     }
 */
 
@@ -1486,8 +1474,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         ad = new categoryAdapter(sale_entry.this, categories, gridview);
         gridview.setAdapter(ad);
 
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 4);
-            gridview.setLayoutManager(gridLayoutManager);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 4);
+        gridview.setLayoutManager(gridLayoutManager);
     }
 
     @Override
@@ -1730,7 +1718,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             case R.id.imgRefOrdID:
 
 
-                  GetRefOrdID();
+                GetRefOrdID();
 
                 break;
             case R.id.imgPrintSelection:
@@ -1847,9 +1835,10 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 btntownship=view.findViewById(R.id.btnTownship);
                 btncustomer=view.findViewById(R.id.btnCustomer);
                 btnStlocation=view.findViewById(R.id.location);
-                btnSalesmen=view.findViewById(R.id.salesmen);
-                btncustadd=view.findViewById(R.id.custadd);
+                //btnSalesmen=view.findViewById(R.id.salesmen);
+                imgNewCust = view.findViewById(R.id.imgNewCust);
                 btnCash=view.findViewById(R.id.cash);
+                /*
                 chkDeliver=view.findViewById(R.id.chkToDeliver);
                 if(!Use_Delivery)
                 {
@@ -1862,6 +1851,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     chkDeliver.setVisibility(View.VISIBLE);
                     chkDeliver.setChecked(sh.get(0).getDeliverValue());//added by YLT on [18-06-20220]
                 }
+                */
+
                 if(!use_salesperson) {
                     rlsalesmen.setVisibility(View.GONE);
                 }
@@ -1948,61 +1939,68 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                         ChangeHeader("Customer Group",btncustgroup,btnpaytype);
                     }
                 });
-                btnSalesmen.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        ChangeHeader("Salesmen",btnSalesmen,btnpaytype);
-                    }
-                });
-                btntownship.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+//                btnSalesmen.setOnClickListener(new View.OnClickListener() {
+                //          @Override
+                //      public void onClick(View v)
+            {
+                ChangeHeader("Salesmen",btnSalesmen,btnpaytype);
+            }
+            //     });
+            btntownship.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                        ChangeHeader("Township",btntownship,btnpaytype);
-                    }
-                });
+                    ChangeHeader("Township",btntownship,btnpaytype);
+                }
+            });
 
-                btncustomer.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ChangeHeader("Customer",btncustomer,btnpaytype);
-                    }
-                });
-                btnCash.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ChangeHeader("Cash",btnCash,btnpaytype);
-                    }
-                });
-                btnpaytype=view.findViewById(R.id.btnpaytype);
-                btnpaytype.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ChangeHeader("Payment Type",btnpaytype,btnpaytype);
+            btncustomer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ChangeHeader("Customer",btncustomer,btnpaytype);
+                }
+            });
+            imgNewCust.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Add_Customer();
+                }
+            });
+            btnCash.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ChangeHeader("Cash",btnCash,btnpaytype);
+                }
+            });
+            btnpaytype=view.findViewById(R.id.btnpaytype);
+            btnpaytype.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ChangeHeader("Payment Type",btnpaytype,btnpaytype);
 
-                    }
-                });
+                }
+            });
 
-                btnlocation=view.findViewById(R.id.location);
+            btnlocation=view.findViewById(R.id.location);
 
-                btnlocation.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ChangeHeader("Location",btnlocation,btnpaytype);
+            btnlocation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ChangeHeader("Location",btnlocation,btnpaytype);
 
-                    }
-                });
-
-
-                btnsave.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                }
+            });
 
 
-                        invoice_no=txtinvoiceNo.getText().toString().trim().isEmpty()?"NULL":txtinvoiceNo.getText().toString().trim();
-                        sh.get(0).setInvoice_no(invoice_no);
+            btnsave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+
+                    invoice_no=txtinvoiceNo.getText().toString().trim().isEmpty()?"NULL":txtinvoiceNo.getText().toString().trim();
+                    sh.get(0).setInvoice_no(invoice_no);
+
+                        /*
                         //region by YLT on [15-06-2020]
                         if(Use_Delivery)
                         {
@@ -2012,7 +2010,6 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                             }
                             else
                             {
-
                                 sh.get(0).setDeliverValue(false);//added by YLT on [18-06-2020]
                               //  ToDeliver="";
                             }
@@ -2021,45 +2018,47 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                             //ToDeliver = "";
                             sh.get(0).setDeliverValue(false);//added by YLT on [18-06-2020]
                         }
-                        //endregion
-                        headRemark=headremark.getText().toString().trim().isEmpty()?"NULL":headremark.getText().toString().trim();
-                        sh.get(0).setHeadremark(headRemark);
-                        defloc=1;
-                        if(isCreditcustomer)
-                        {
-                            GetCustomerOutstand(sh.get(0).getCustomerid());
-                        }
-                        else
-                        {
-                            txtoutstand.setText("0");
-                        }
-                        dialog.dismiss();
+                        */
+
+                    //endregion
+                    headRemark=headremark.getText().toString().trim().isEmpty()?"NULL":headremark.getText().toString().trim();
+                    sh.get(0).setHeadremark(headRemark);
+                    defloc=1;
+                    if(isCreditcustomer)
+                    {
+                        GetCustomerOutstand(sh.get(0).getCustomerid());
                     }
-                });
-                ArrayList<String> id=new ArrayList<>();
-                ArrayList<Button> btn=new ArrayList<>();
+                    else
+                    {
+                        txtoutstand.setText("0");
+                    }
+                    dialog.dismiss();
+                }
+            });
+            ArrayList<String> id=new ArrayList<>();
+            ArrayList<Button> btn=new ArrayList<>();
 
-                btn.add(btncustgroup);
-                btn.add(btntownship);
-                btn.add(btncustomer);
-                btn.add(btnlocation);
-                btn.add(btnpaytype);
-                btn.add(btnCash);
+            btn.add(btncustgroup);
+            btn.add(btntownship);
+            btn.add(btncustomer);
+            btn.add(btnlocation);
+            btn.add(btnpaytype);
+            btn.add(btnCash);
 
-                id.add(String.valueOf(sh.get(0).getCustomerid()));
-                id.add(String.valueOf(sh.get(0).getLocationid()));
-                id.add(String.valueOf(sh.get(0).getPay_type()));
-                id.add(String.valueOf(sh.get(0).getDef_cashid()));
+            id.add(String.valueOf(sh.get(0).getCustomerid()));
+            id.add(String.valueOf(sh.get(0).getLocationid()));
+            id.add(String.valueOf(sh.get(0).getPay_type()));
+            id.add(String.valueOf(sh.get(0).getDef_cashid()));
 
-                InitializeHeader(id,btn);
+            InitializeHeader(id,btn);
 
-                dialog=builder.create();
-                dialog.show();
+            dialog=builder.create();
+            dialog.show();
 
 
-                break;
+            break;
 //not change_date in sale entry txtdate modified by ABBP
-                case R.id.txtdate:
+            case R.id.txtdate:
 
                 if(frmlogin.change_date == 0){
                     txtdate.setEnabled(false);
@@ -2084,7 +2083,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         imgRefdocid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 GetRefDocid(lstRefDocid);
+                GetRefDocid(lstRefDocid);
             }
         });
         imgSave.setOnClickListener(new View.OnClickListener() {
@@ -2140,7 +2139,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                             String date=obj.getString("date");
                             refDocids.add(new RefDocid(reftranid,docid,date));
                         }
-                        
+
                         RefDociAdapter ref=new RefDociAdapter(sale_entry.this,refDocids);
                         lst.setAdapter(ref);
                         lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -2413,7 +2412,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     for(int i=0;i<so_dets.size();i++)
                     {
 
-                       double smallest_unit_qty=0;
+                        double smallest_unit_qty=0;
                         Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where unit_type= " + so_dets.get(i).getUnit_type() + " and code=" + so_dets.get(i).getCode());
                         if (cursor != null && cursor.getCount() != 0) {
                             if (cursor.moveToFirst()) {
@@ -2431,8 +2430,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                         sale_entry.sd.add(new sale_det(
                                 sale_entry.tranid,
                                 sale_entry.sd.size() + 1,
-                                 sh.get(0).getDate(),
-                                 so_dets.get(i).getUnit_qty(),
+                                sh.get(0).getDate(),
+                                so_dets.get(i).getUnit_qty(),
                                 0,
                                 smallest_unit_qty,
                                 so_dets.get(i).getUnit_type(),
@@ -2453,46 +2452,46 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 }
                 else
                 {
-                     if(orderpostion!=-1)
-                     {
-                         double smallest_unit_qty=0;
-                         Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where unit_type= " + so_dets.get(orderpostion).getUnit_type() + " and code=" + so_dets.get(orderpostion).getCode());
-                         if (cursor != null && cursor.getCount() != 0) {
-                             if (cursor.moveToFirst()) {
-                                 do {
-                                     smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
-                                 } while (cursor.moveToNext());
+                    if(orderpostion!=-1)
+                    {
+                        double smallest_unit_qty=0;
+                        Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where unit_type= " + so_dets.get(orderpostion).getUnit_type() + " and code=" + so_dets.get(orderpostion).getCode());
+                        if (cursor != null && cursor.getCount() != 0) {
+                            if (cursor.moveToFirst()) {
+                                do {
+                                    smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
+                                } while (cursor.moveToNext());
 
-                             }
+                            }
 
-                         }
+                        }
 
-                         cursor.close();
+                        cursor.close();
 
-                         sale_entry.sd.add(new sale_det(
-                                 sale_entry.tranid,
-                                 sale_entry.sd.size() + 1,
-                                 sh.get(0).getDate(),
-                                 so_dets.get(orderpostion).getUnit_qty(),
-                                 0,
-                                 smallest_unit_qty,
-                                 so_dets.get(orderpostion).getUnit_type(),
-                                 so_dets.get(orderpostion).getPrice(),
-                                 so_dets.get(orderpostion).getDis_price(),
-                                 so_dets.get(orderpostion).getDis_type(),
-                                 so_dets.get(orderpostion).getDiscount(),
-                                 "",
-                                 so_dets.get(orderpostion).getCode(), so_dets.get(orderpostion).getUnit_short(),
-                                 so_dets.get(orderpostion).getDesc(), 0, so_dets.get(orderpostion).getPricelevel(),
-                                 so_dets.get(orderpostion).getSo_id(),so_dets.get(orderpostion).getSo_sr()));
+                        sale_entry.sd.add(new sale_det(
+                                sale_entry.tranid,
+                                sale_entry.sd.size() + 1,
+                                sh.get(0).getDate(),
+                                so_dets.get(orderpostion).getUnit_qty(),
+                                0,
+                                smallest_unit_qty,
+                                so_dets.get(orderpostion).getUnit_type(),
+                                so_dets.get(orderpostion).getPrice(),
+                                so_dets.get(orderpostion).getDis_price(),
+                                so_dets.get(orderpostion).getDis_type(),
+                                so_dets.get(orderpostion).getDiscount(),
+                                "",
+                                so_dets.get(orderpostion).getCode(), so_dets.get(orderpostion).getUnit_short(),
+                                so_dets.get(orderpostion).getDesc(), 0, so_dets.get(orderpostion).getPricelevel(),
+                                so_dets.get(orderpostion).getSo_id(),so_dets.get(orderpostion).getSo_sr()));
 
-                                 itemAdapter.notifyDataSetChanged();
-                                 sh.get(0).setSo_id(so_heads.get(0).getSo_id());
-                                 sh.get(0).setPay_type(so_heads.get(0).getPay_type());
-                                 sh.get(0).setDiscount(so_heads.get(0).getDiscount());
-                                 sh.get(0).setDiscount_per(so_heads.get(0).getDiscount_per());
+                        itemAdapter.notifyDataSetChanged();
+                        sh.get(0).setSo_id(so_heads.get(0).getSo_id());
+                        sh.get(0).setPay_type(so_heads.get(0).getPay_type());
+                        sh.get(0).setDiscount(so_heads.get(0).getDiscount());
+                        sh.get(0).setDiscount_per(so_heads.get(0).getDiscount_per());
 
-                     }
+                    }
                 }
                 getSummary();
                 dialog.dismiss();
@@ -2558,7 +2557,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             reportviewer.header.put("docid",sh.get(0).getInvoice_no());
         }
         else
-        reportviewer.header.put("docid",sh.get(0).getDocid());
+            reportviewer.header.put("docid",sh.get(0).getDocid());
         reportviewer.title=title;
         Intent intent=new Intent(sale_entry.this,reportviewer.class);
         startActivity(intent);
@@ -2785,31 +2784,31 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             }
         }
 
-            sqlString = "select locationid,Location_Name,Location_Short,branchID from Location where locationid= "+id.get(1);
-            cursor = DatabaseHelper.rawQuery(sqlString);
-            if (cursor != null && cursor.getCount() != 0) {
-                if (cursor.moveToFirst()) {
-                    do {
-                        long locationid = cursor.getLong(cursor.getColumnIndex("locationid"));
-                        String locationname = cursor.getString(cursor.getColumnIndex("Location_Name"));
-                        String shortname = cursor.getString(cursor.getColumnIndex("Location_Short"));
-                        long branchid = cursor.getLong(cursor.getColumnIndex("branchID"));
-                        btn.get(3).setText(locationname);
+        sqlString = "select locationid,Location_Name,Location_Short,branchID from Location where locationid= "+id.get(1);
+        cursor = DatabaseHelper.rawQuery(sqlString);
+        if (cursor != null && cursor.getCount() != 0) {
+            if (cursor.moveToFirst()) {
+                do {
+                    long locationid = cursor.getLong(cursor.getColumnIndex("locationid"));
+                    String locationname = cursor.getString(cursor.getColumnIndex("Location_Name"));
+                    String shortname = cursor.getString(cursor.getColumnIndex("Location_Short"));
+                    long branchid = cursor.getLong(cursor.getColumnIndex("branchID"));
+                    btn.get(3).setText(locationname);
 
-                        if(defloc!=1){
-                            locationid=Long.valueOf(defloc);
-                            locationname=locname;
-                            btn.get(3).setText(locationid+":"+locationname);
-                            sh.get(0).setLocationid(locationid);
-                        }
+                    if(defloc!=1){
+                        locationid=Long.valueOf(defloc);
+                        locationname=locname;
+                        btn.get(3).setText(locationid+":"+locationname);
+                        sh.get(0).setLocationid(locationid);
+                    }
 
-                    } while (cursor.moveToNext());
+                } while (cursor.moveToNext());
 
-
-                }
 
             }
-            cursor.close();
+
+        }
+        cursor.close();
 
 
         //payment_type
@@ -2932,7 +2931,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
                     cursor=DatabaseHelper.rawQuery("select custgroupid,custgroupname,custgroupcode from CustomerGroup");
 
-                   // cursor = DatabaseHelper.DistinctSelectQuery("Customer",new String[]{"CustGroupID","CustGroupname","CustGroupCode"});
+                    // cursor = DatabaseHelper.DistinctSelectQuery("Customer",new String[]{"CustGroupID","CustGroupname","CustGroupCode"});
                     if (cursor != null && cursor.getCount() != 0) {
                         if (cursor.moveToFirst()) {
                             do {
@@ -2940,7 +2939,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                 String custgroupname = cursor.getString(cursor.getColumnIndex("custgroupname"));
                                 String shortname = cursor.getString(cursor.getColumnIndex("custgroupcode"));
                                 if(custgroupid>0)//Added by KLM 22122020
-                                cg.add(new customergroup(custgroupid, custgroupname, shortname));
+                                    cg.add(new customergroup(custgroupid, custgroupname, shortname));
                             } while (cursor.moveToNext());
 
                         }
@@ -2977,7 +2976,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
                     break;
                 case "Township":
-                   // cursor = DatabaseHelper.DistinctSelectQuery("Customer",new String[]{"Townshipid","Townshipname","TownshipCode"});
+                    // cursor = DatabaseHelper.DistinctSelectQuery("Customer",new String[]{"Townshipid","Townshipname","TownshipCode"});
                     //cursor = DatabaseHelper.DistinctSelectQuerySelection("Customer",new String[]{"Townshipid","Townshipname","TownshipCode"},"CustGroupID=?",new String[]{String.valueOf(selected_custgroupid)});
                     cursor = DatabaseHelper.DistinctSelectQuery("Township",new String[]{"townshipid","townshipname","townshipcode"});//Added by KLM 22122020
                     if (cursor != null && cursor.getCount() != 0) {
@@ -2987,7 +2986,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                 String townshipname = cursor.getString(cursor.getColumnIndex("townshipname"));
                                 String shortname = cursor.getString(cursor.getColumnIndex("townshipcode"));
                                 if(townshipid>0)//Added by KLM 22122020
-                                townships.add(new Township(townshipid, townshipname, shortname));
+                                    townships.add(new Township(townshipid, townshipname, shortname));
                             } while (cursor.moveToNext());
 
                         }
@@ -3052,7 +3051,9 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             imgClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    btnSalesmen.setText("Choose");
+                    intent = new Intent(sale_entry.this, sale_entry.class);
+                    startActivity(intent);
+                    finish();
                     da.dismiss();
                 }
             });
@@ -3062,12 +3063,12 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             ImageButton imgDownloadCustomer=view.findViewById(R.id.imgDowloadCustomer);
             imgDownloadCustomer.setVisibility(View.GONE);
             imgAddCustomer.setVisibility(View.GONE);
-            if(name.equals("Salesmen"))
-            {
-                imgChangSave.setVisibility(View.VISIBLE);
-                imgClear.setVisibility(View.VISIBLE);
-            }
-            else if(name.equals("Customer"))
+            //if(name.equals("Salesmen"))
+            //{
+            // imgChangSave.setVisibility(View.VISIBLE);
+            // imgClear.setVisibility(View.VISIBLE);
+            //}
+            if(name.equals("Customer"))
             {
                 imgAddCustomer.setVisibility(View.VISIBLE);
                 imgDownloadCustomer.setVisibility(View.VISIBLE);
@@ -3081,9 +3082,9 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             imgDownloadCustomer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                 allcustomer=true;
-                 sqlstring="empty";
-                 InsertCustomer();
+                    allcustomer=true;
+                    sqlstring="empty";
+                    InsertCustomer();
                 }
             });
             imgAddCustomer.setOnClickListener(new View.OnClickListener() {
@@ -3097,10 +3098,9 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             imgChangSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(SaleVouSalesmen.size()>0) {
+                   /* if(SaleVouSalesmen.size()>0) {
                         String salesmen="";
                         if(SaleVouSalesmen.size()>4){
-
                             for(int i=0;i<4;i++)
                             {
                                 if(i!=3) {
@@ -3111,9 +3111,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                     salesmen += SaleVouSalesmen.get(i).getSalesmen_Name()+",...";//Added by KLM QA-201185 30112020
                                 }
                             }
-
                         }else {
-
                             for(int i=0;i<SaleVouSalesmen.size();i++){
                                 if(i!=SaleVouSalesmen.size()-1){
                                     salesmen+=SaleVouSalesmen.get(i).getSalesmen_Name()+",";//Added by KLM QA-201185 30112020
@@ -3122,12 +3120,15 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                 }
                             }
                         }
-
                         btnSalesmen.setText(salesmen);
-
                     }else{
                         btnSalesmen.setText("Choose");
                     }
+                    da.dismiss();
+                    */
+                    intent = new Intent(sale_entry.this, sale_entry.class);
+                    startActivity(intent);
+                    finish();
                     da.dismiss();
                 }
             });
@@ -3253,27 +3254,27 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
                                             ArrayList<customer> filteredcustomer = new ArrayList<>();
 
-                                           // for (customer item : customers) {
+                                            // for (customer item : customers) {
                                             //    if (item.getName().toLowerCase().contains(etdSearch.getText().toString().toLowerCase())) {
                                             //        filteredcustomer.add(item);
-                                             //   }
+                                            //   }
                                             //}
                                             //added by YLT on 28-08-2020
                                             if(fitercode=="Short")
                                             {
                                                 //for Search CustomerShort Search
-                                                 for (customer item : customers) {
+                                                for (customer item : customers) {
                                                     if (item.getCustomercode().toLowerCase().contains(etdSearch.getText().toString().toLowerCase())) {
                                                         filteredcustomer.add(item);
-                                                   }
+                                                    }
                                                 }
                                             }
                                             else
                                             {
-                                                 for (customer item : customers) {
+                                                for (customer item : customers) {
                                                     if (item.getName().toLowerCase().contains(etdSearch.getText().toString().toLowerCase())) {
                                                         filteredcustomer.add(item);
-                                                   }
+                                                    }
                                                 }
                                             }
 
@@ -3336,10 +3337,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                             da.show();
                                             break;
 
-                                        case "Salesmen":
-
+                                       /* case "Salesmen":
                                             ArrayList<Salesmen> filteredsalesmen = new ArrayList<>();
-
                                             for (Salesmen item : salesmen) {
                                                 if (item.getSalesmen_Name().toLowerCase().contains(etdSearch.getText().toString().toLowerCase())) {
                                                     filteredsalesmen.add(item);
@@ -3350,6 +3349,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                             LinearLayoutManager linearLayoutManagerSalesmen = new LinearLayoutManager(sale_entry.this,LinearLayoutManager.VERTICAL,false);
                                             rv.setLayoutManager(linearLayoutManagerSalesmen);
                                             break;
+                                        */
                                     }
                                     msg.dismiss();
                                 }
@@ -3373,15 +3373,15 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 case  "Cash":
                     if(cash.size()>0) {
 
-                       cash.clear();
+                        cash.clear();
                     }
                     Cursor cashCursor=DatabaseHelper.rawQuery("select * from cash where userid="+frmlogin.LoginUserid);//Added by KLM QA-201186 30112020
                     if (cashCursor != null && cashCursor.getCount() != 0) {
                         if (cashCursor.moveToFirst()) {
                             do {
-                                  int cash_id=cashCursor.getInt(cashCursor.getColumnIndex("cash_id"));
-                                  String cashname=cashCursor.getString(cashCursor.getColumnIndex("name"));
-                                  int userid=cashCursor.getInt(cashCursor.getColumnIndex("userid"));
+                                int cash_id=cashCursor.getInt(cashCursor.getColumnIndex("cash_id"));
+                                String cashname=cashCursor.getString(cashCursor.getColumnIndex("name"));
+                                int userid=cashCursor.getInt(cashCursor.getColumnIndex("userid"));
 
                                 cash.add(new Cash(cash_id,cashname,userid));
                             } while (cashCursor.moveToNext());
@@ -3400,6 +3400,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     cashCursor = null;
                     da.show();
                     break;
+                    /*
                 case "Salesmen":
                     if(salesmen.size()>0)
                     {
@@ -3415,32 +3416,22 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                 long branchid=salemenCursor.getLong(salemenCursor.getColumnIndex("branchid"));
                                 salesmen.add(new Salesmen(salesmenid,salesmenname,shortname));
                             } while (salemenCursor.moveToNext());
-
                         }
-
                     }
-
                     salemenCursor.close();
-
-
                     SalesmenAdpater sad = new SalesmenAdpater(sale_entry.this,salesmen);
                     rv.setAdapter(sad);
                     LinearLayoutManager sgridLayoutManager = new LinearLayoutManager(sale_entry.this,LinearLayoutManager.VERTICAL,false);
                     rv.setLayoutManager(sgridLayoutManager);
                     salemenCursor = null;
-
-
                     da.show();
-
-
-
                     break;
-
+                     */
                 case "Customer Group":
                     if (cg.size() > 0) {
                         cg.clear();
                     }
-                   cursor = DatabaseHelper.DistinctSelectQuery("Customer",new String[]{"CustGroupID","CustGroupname","CustGroupCode"});
+                    cursor = DatabaseHelper.DistinctSelectQuery("Customer",new String[]{"CustGroupID","CustGroupname","CustGroupCode"});
                     //cursor = DatabaseHelper.DistinctSelectQuerySelection("Customer",new String[]{"CustGroupID","CustGroupname","CustGroupCode"},"customerid>?",new String[]{"0"});
                     if (cursor != null && cursor.getCount() != 0) {
                         if (cursor.moveToFirst()) {
@@ -3481,7 +3472,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                 long townshipid = cursor.getLong(cursor.getColumnIndex("Townshipid"));
                                 String townshipname = cursor.getString(cursor.getColumnIndex("Townshipname"));
                                 String shortname = cursor.getString(cursor.getColumnIndex("TownshipCode"));
-                               // if(townshipid>0)//Added by KLM
+                                // if(townshipid>0)//Added by KLM
                                 townships.add(new Township(townshipid, townshipname, shortname));
                             } while (cursor.moveToNext());
 
@@ -3634,8 +3625,9 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         EditText etdCustomerCode=v.findViewById(R.id.txtCustomerCode);
         EditText etddue=v.findViewById(R.id.txtdue);
         etddue.setVisibility(View.GONE);
-         imgCustomerTownship=v.findViewById(R.id.btnTownship);
-         imgCustomerGroup=v.findViewById(R.id.btnCustGroup);
+        imgCustomerTownship=v.findViewById(R.id.btnTownship);
+        imgCustomerGroup=v.findViewById(R.id.btnCustGroup);
+        /*
         CheckBox chkCredit=v.findViewById(R.id.chkCredit);
         chkCredit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -3664,6 +3656,35 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             }
         });
 
+
+         */
+        Switch switchCredit = (Switch) findViewById(R.id.credit);
+        switchCredit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+
+                    if(use_duedate)
+                    {
+                        etddue.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        etddue.setVisibility(View.GONE);
+                        etddue.setText("");
+                    }
+
+
+                }
+                else
+                {
+                    etddue.setVisibility(View.GONE);
+                    etddue.setText("");
+
+                }
+            }
+        });
         imgCustomerTownship.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -3681,13 +3702,13 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         imgAddCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isCredit=chkCredit.isChecked()?1:0;
+                isCredit=switchCredit.isChecked()?1:0;
                 String Customer_Name="N'"+etdCustomerName.getText().toString()+"'";
                 String Customer_Code="N'"+etdCustomerCode.getText().toString()+"'";
                 String due_in_days=etddue.getText().toString();
                 due_in_days=due_in_days.equals("")?"NULL":due_in_days;
 
-              //if(Customer_Name=="N" && Customer_Code=="N''")//added by YLT on 09/11/2020
+                //if(Customer_Name=="N" && Customer_Code=="N''")//added by YLT on 09/11/2020
                 if(etdCustomerName.getText().toString().trim().isEmpty() && etdCustomerCode.getText().toString().trim().isEmpty())
                 {
 
@@ -3821,7 +3842,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             chkBluetooth.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                   use_bluetooth=isChecked;
+                    use_bluetooth=isChecked;
                 }
             });
             chkPrint.setChecked(false);
@@ -4059,7 +4080,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 {
                     if (taxper_tmp > 0)
                         //taxamt_tmp = ((taxamt_tmp - vouDis_tmp - itemDis_tmp ) * taxper_tmp) / caltax;kokoko
-                    taxamt_tmp = ((taxamt_tmp ) * taxper_tmp) / caltax;
+                        taxamt_tmp = ((taxamt_tmp ) * taxper_tmp) / caltax;
                     else
                         taxamt_tmp = 0;
                 }
@@ -4086,14 +4107,14 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             else
             {
                 netamt_tmp = (totalAmt_tmp - vouDis_tmp - itemDis_tmp - foc_tmp - paidAmt_tmp);
-               // taxamt_tmp=0;
+                // taxamt_tmp=0;
             }
 
 
 
         }
         tax_amount=taxamt_tmp;
-       // txttaxamT.setText(String.valueOf(tax_amount));
+        // txttaxamT.setText(String.valueOf(tax_amount));
         txttaxamt.setText(String.valueOf(tax_amount));
         sh.get(0).setTax_amount(tax_amount);
         net_amount=netamt_tmp;
@@ -4388,185 +4409,185 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         btnenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 try {
-                double voudisAmt = 0.0;
-                boolean voudispercent = false;
-                if (voudis) {
-                    sh.get(0).setDiscount_per(0);
-                    sh.get(0).setDiscount(0);
-                    txtvoudis.setText("0");
-                    getSummary();
-                }
-                if (paiddis) {
-                    sh.get(0).setPaid_amount(0);
-                    txtpaid.setText("0");
-                    getSummary();
-                }
-                if (keynum.length() > 0) {
-                    if (source == txtvoudis) {
-                        if (keynum.contains("%")) {
-                            keynum = keynum.substring(0, keynum.length() - 1);
-                            voudisAmt = Double.parseDouble(keynum);
-                            sh.get(0).setDiscount_per(voudisAmt);
-                            voudisper = voudisAmt;
-                            txtvouper.setText("Vou Discount" + (voudisper > 0 ? "( " + voudisper + "% )" : ""));
-                            voudispercent = true;
-                        } else {
-                            voudDiscountString = "";
-                            txtvouper.setText("Vou Discount");
-                            sh.get(0).setDiscount_per(0);
-                        }
-                    }
-
-
-                    Double check = Double.parseDouble(keynum);
-                    if (isqty) {
-                        check = check > 0 ? check : 1.0;
-                        GetSpecialPrice(itemPosition, check, editUnit_type);
-                    }
-                    //msg box and condition for voudisAmt modified by ABBP
-                    if (voudispercent) {
-                        if (voudisAmt > 100) {
-                            sh.get(0).setDiscount(0);
-                            sh.get(0).setDiscount_per(0);
-                            AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry.this, R.style.AlertDialogTheme);
-                            builder.setTitle("iStock");
-                            builder.setMessage(" Discount Percent should be up to 100% ");
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    getSummary();
-                                    msg.dismiss();
-                                }
-                            });
-                            msg = builder.create();
-                            msg.show();
-                        }
-
-                    } else {
-
-                        if (source.getText().toString().contains("Tax")) {
-                            sh.get(0).setTax_per(check);
-                            String tax = "Tax ( " + check + "% )";
-                            txttax.setText(tax);
-                            source.setText(tax);
-                            txt.setText(String.valueOf(sh.get(0).getTax_amount()));
-                        } else {
-
-                            source.setText(String.valueOf(check));
-                        }
-                    }
-
-                    if (changeheader) {
-
-                        Double amt = Double.parseDouble(ClearFormat(txtChangeQty.getText().toString())) * Double.parseDouble(ClearFormat(txtChangePrice.getText().toString()));
-                        String numberAsString = String.format("%,." + frmmain.price_places + "f", amt);
-                        txtamt.setText(numberAsString);
-                        sd.get(itemPosition).setUnit_qty(Double.parseDouble(ClearFormat(txtChangeQty.getText().toString())));
-
-                        changeheader = false;
-                    } else {
-
-                        String paid = ClearFormat(txtpaid.getText().toString());
-                        String dis = ClearFormat(txtvoudis.getText().toString());
-                        String net = ClearFormat(txtnet.getText().toString());
-                        sh.get(0).setDiscount(Double.parseDouble(dis));
-                        sh.get(0).setPaid_amount(Double.parseDouble(paid));
-
-                    }
-                    if (isqty) {
-                        String numberAsString = String.format("%." + frmmain.qty_places + "f", Double.parseDouble(ClearFormat(source.getText().toString())));
-                        source.setText(numberAsString);
-                    } else {
-                        if (!source.getText().toString().contains("Tax")) {
-                            String numberAsString = String.format("%,." + frmmain.price_places + "f", Double.parseDouble(ClearFormat(source.getText().toString())));
-                            source.setText(numberAsString);
-                        }
-                    }
-                    isqty = false;
-                    startOpen = false;
+                try {
+                    double voudisAmt = 0.0;
+                    boolean voudispercent = false;
                     if (voudis) {
-                        if (check > net_amount) {
-                            sh.get(0).setDiscount_per(0);
-                            sh.get(0).setDiscount(0);
-                            txtvoudis.setText("0");
-                            new AlertDialog.Builder(sale_entry.this, R.style.AlertDialogTheme)
-                                    .setTitle("iStock")
-                                    .setMessage("Voucher Discount is more than Net_Amount")
-                                    .setCancelable(false)
-                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                            getSummary();
-                                        }
-                                    }).create().show();
+                        sh.get(0).setDiscount_per(0);
+                        sh.get(0).setDiscount(0);
+                        txtvoudis.setText("0");
+                        getSummary();
+                    }
+                    if (paiddis) {
+                        sh.get(0).setPaid_amount(0);
+                        txtpaid.setText("0");
+                        getSummary();
+                    }
+                    if (keynum.length() > 0) {
+                        if (source == txtvoudis) {
+                            if (keynum.contains("%")) {
+                                keynum = keynum.substring(0, keynum.length() - 1);
+                                voudisAmt = Double.parseDouble(keynum);
+                                sh.get(0).setDiscount_per(voudisAmt);
+                                voudisper = voudisAmt;
+                                txtvouper.setText("Vou Discount" + (voudisper > 0 ? "( " + voudisper + "% )" : ""));
+                                voudispercent = true;
+                            } else {
+                                voudDiscountString = "";
+                                txtvouper.setText("Vou Discount");
+                                sh.get(0).setDiscount_per(0);
+                            }
+                        }
 
+
+                        Double check = Double.parseDouble(keynum);
+                        if (isqty) {
+                            check = check > 0 ? check : 1.0;
+                            GetSpecialPrice(itemPosition, check, editUnit_type);
+                        }
+                        //msg box and condition for voudisAmt modified by ABBP
+                        if (voudispercent) {
+                            if (voudisAmt > 100) {
+                                sh.get(0).setDiscount(0);
+                                sh.get(0).setDiscount_per(0);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry.this, R.style.AlertDialogTheme);
+                                builder.setTitle("iStock");
+                                builder.setMessage(" Discount Percent should be up to 100% ");
+                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        getSummary();
+                                        msg.dismiss();
+                                    }
+                                });
+                                msg = builder.create();
+                                msg.show();
+                            }
+
+                        } else {
+
+                            if (source.getText().toString().contains("Tax")) {
+                                sh.get(0).setTax_per(check);
+                                String tax = "Tax ( " + check + "% )";
+                                txttax.setText(tax);
+                                source.setText(tax);
+                                txt.setText(String.valueOf(sh.get(0).getTax_amount()));
+                            } else {
+
+                                source.setText(String.valueOf(check));
+                            }
+                        }
+
+                        if (changeheader) {
+
+                            Double amt = Double.parseDouble(ClearFormat(txtChangeQty.getText().toString())) * Double.parseDouble(ClearFormat(txtChangePrice.getText().toString()));
+                            String numberAsString = String.format("%,." + frmmain.price_places + "f", amt);
+                            txtamt.setText(numberAsString);
+                            sd.get(itemPosition).setUnit_qty(Double.parseDouble(ClearFormat(txtChangeQty.getText().toString())));
+
+                            changeheader = false;
+                        } else {
+
+                            String paid = ClearFormat(txtpaid.getText().toString());
+                            String dis = ClearFormat(txtvoudis.getText().toString());
+                            String net = ClearFormat(txtnet.getText().toString());
+                            sh.get(0).setDiscount(Double.parseDouble(dis));
+                            sh.get(0).setPaid_amount(Double.parseDouble(paid));
+
+                        }
+                        if (isqty) {
+                            String numberAsString = String.format("%." + frmmain.qty_places + "f", Double.parseDouble(ClearFormat(source.getText().toString())));
+                            source.setText(numberAsString);
+                        } else {
+                            if (!source.getText().toString().contains("Tax")) {
+                                String numberAsString = String.format("%,." + frmmain.price_places + "f", Double.parseDouble(ClearFormat(source.getText().toString())));
+                                source.setText(numberAsString);
+                            }
+                        }
+                        isqty = false;
+                        startOpen = false;
+                        if (voudis) {
+                            if (check > net_amount) {
+                                sh.get(0).setDiscount_per(0);
+                                sh.get(0).setDiscount(0);
+                                txtvoudis.setText("0");
+                                new AlertDialog.Builder(sale_entry.this, R.style.AlertDialogTheme)
+                                        .setTitle("iStock")
+                                        .setMessage("Voucher Discount is more than Net_Amount")
+                                        .setCancelable(false)
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                                getSummary();
+                                            }
+                                        }).create().show();
+
+                            } else {
+                                getSummary();
+                            }
                         } else {
                             getSummary();
                         }
-                    } else {
-                        getSummary();
-                    }
-                    voudis = false;
-                    paiddis = false;
+                        voudis = false;
+                        paiddis = false;
 
-                    if (fromSaleChange) {
-                        if (Double.parseDouble(keynum) < Double.parseDouble(ClearFormat(txtnet.getText().toString())) && Double.parseDouble(keynum) > 0) {
-                            AlertDialog.Builder bd = new AlertDialog.Builder(sale_entry.this, R.style.AlertDialogTheme);
-                            bd.setTitle("iStock");
-                            bd.setMessage("Paid Amount is less than Net Amount");
-                            bd.setCancelable(false);
-                            bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    changeamount = 0;
-                                    tvChange.setText("0");
-                                    source.setText("0");
-                                    dialog.dismiss();
-                                }
-                            });
-                            bd.create().show();
-                        } else {
-                            changeamount = Double.parseDouble(keynum) - Double.parseDouble(ClearFormat(txtnet.getText().toString()));
-                            SummaryFormat(tvChange, changeamount);
+                        if (fromSaleChange) {
+                            if (Double.parseDouble(keynum) < Double.parseDouble(ClearFormat(txtnet.getText().toString())) && Double.parseDouble(keynum) > 0) {
+                                AlertDialog.Builder bd = new AlertDialog.Builder(sale_entry.this, R.style.AlertDialogTheme);
+                                bd.setTitle("iStock");
+                                bd.setMessage("Paid Amount is less than Net Amount");
+                                bd.setCancelable(false);
+                                bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        changeamount = 0;
+                                        tvChange.setText("0");
+                                        source.setText("0");
+                                        dialog.dismiss();
+                                    }
+                                });
+                                bd.create().show();
+                            } else {
+                                changeamount = Double.parseDouble(keynum) - Double.parseDouble(ClearFormat(txtnet.getText().toString()));
+                                SummaryFormat(tvChange, changeamount);
+                            }
                         }
+                        fromSaleChange = false;
+                        if (frombillcount) {
+                            changeamount = Integer.parseInt(keynum);
+                            source.setText(String.valueOf(keynum));
+                        }
+                        frombillcount = false;
+                        keynum = "";
+                        pw.dismiss();
                     }
-                    fromSaleChange = false;
-                    if (frombillcount) {
-                        changeamount = Integer.parseInt(keynum);
-                        source.setText(String.valueOf(keynum));
+                }
+                catch (Exception e) {
+                    keynum="0";
+                    startOpen=true;
+                    if (isqty)
+                    {
+                        keynum="1";
+
                     }
-                    frombillcount = false;
-                    keynum = "";
+                    txtNum.setText(keynum);
+                    AlertDialog.Builder bd=new AlertDialog.Builder(sale_entry.this,R.style.AlertDialogTheme);
+                    bd.setTitle("iStock");
+                    bd.setMessage("Number Format is incompatiable with data type");
+                    bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            msg.dismiss();
+                        }
+                    });
+                    msg=bd.create();
+                    msg.show();
                     pw.dismiss();
+                    isqty=false;
                 }
             }
-            catch (Exception e) {
-             keynum="0";
-             startOpen=true;
-              if (isqty)
-              {
-                  keynum="1";
-
-             }
-              txtNum.setText(keynum);
-             AlertDialog.Builder bd=new AlertDialog.Builder(sale_entry.this,R.style.AlertDialogTheme);
-             bd.setTitle("iStock");
-             bd.setMessage("Number Format is incompatiable with data type");
-             bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                  @Override
-                 public void onClick(DialogInterface dialog, int which) {
-             msg.dismiss();
-            }
-             });
-              msg=bd.create();
-             msg.show();
-              pw.dismiss();
-             isqty=false;
-             }
-        }
         });
 
     }
@@ -4646,7 +4667,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             new SaveData().execute(sqlUrl);
         }
     }
-/*Added by abbp customer quick set up*/
+    /*Added by abbp customer quick set up*/
 
     private void InsertCustomer(){
         String ip = sh_ip.getString("ip", "empty");
@@ -4849,49 +4870,49 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
             if(use_bluetooth)
             {
-               try {
+                try {
 
-                   printView();
-                   AlertDialog.Builder b = new AlertDialog.Builder(sale_entry.this);
-                   b.setTitle("iStock");
-                   b.setMessage("Printint is Sucessfull");
-                   b.setCancelable(false);
-                   b.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                       @Override
-                       public void onClick(DialogInterface dialogInterface, int i) {
+                    printView();
+                    AlertDialog.Builder b = new AlertDialog.Builder(sale_entry.this);
+                    b.setTitle("iStock");
+                    b.setMessage("Printint is Sucessfull");
+                    b.setCancelable(false);
+                    b.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
 
-                           pb.dismiss();
-                           dialog.dismiss();
-                           if (sh.size() > 0) sh.clear();
-                           if (sd.size() > 0) sd.clear();
-                           if (comfirm) {
-                               intent = new Intent(sale_entry.this, sale_entry.class);
-                               finish();
-                               startActivity(intent);
-                           } else if (logout) {
-                               intent = new Intent(getApplicationContext(), frmlogin.class);
-                               startActivity(intent);
-                               finish();
-                           } else {
-                               intent = new Intent(getApplicationContext(), frmsalelist.class);
-                               startActivity(intent);
-                               finish();
-                           }
-                       }
-                   });
-                   dialog = b.create();
-                   dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                       @Override
-                       public void onShow(DialogInterface dialog1) {
-                           dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                       }
-                   });
-                   dialog.show();
-               }
-               catch(Exception ee)
-               {
+                            pb.dismiss();
+                            dialog.dismiss();
+                            if (sh.size() > 0) sh.clear();
+                            if (sd.size() > 0) sd.clear();
+                            if (comfirm) {
+                                intent = new Intent(sale_entry.this, sale_entry.class);
+                                finish();
+                                startActivity(intent);
+                            } else if (logout) {
+                                intent = new Intent(getApplicationContext(), frmlogin.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                intent = new Intent(getApplicationContext(), frmsalelist.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                    });
+                    dialog = b.create();
+                    dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                        @Override
+                        public void onShow(DialogInterface dialog1) {
+                            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                        }
+                    });
+                    dialog.show();
+                }
+                catch(Exception ee)
+                {
 
-               }
+                }
 
             }
             else {
@@ -5039,7 +5060,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
 
     }
-    
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void ChangeVouDate() {
         final Calendar c=Calendar.getInstance();
@@ -5110,12 +5131,12 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 }
                 if(Use_Delivery)
                 {
-                   // if(chkDeliver.isChecked()) {
-                   //     ToDeliver = ",deliver=1";
-                   // }
-                   // else
-                   // {
-                      //  ToDeliver="";
+                    // if(chkDeliver.isChecked()) {
+                    //     ToDeliver = ",deliver=1";
+                    // }
+                    // else
+                    // {
+                    //  ToDeliver="";
                     //}
                     if(sh.get(0).getDeliverValue())//added by YLT on [18-06-2020]
                     {
@@ -5131,7 +5152,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     ToDeliver = "0";
                 }
 
-                 head = "update Sale_Head_Main set\n" +
+                head = "update Sale_Head_Main set\n" +
                         "tranid="+sh.get(0).getTranid()+",\n" +
                         "docid='"+sh.get(0).getDocid()+"',\n" +
                         "date=" +"'" + String.format(sh.get(0).getDate(), "yyyy-MM-dd") + "'," +
@@ -5157,10 +5178,10 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                         //"exg_rate="+1+"\n"+ToDeliver+
                         "exg_rate="+1+",\n"+
                         "deliver="+ToDeliver+"\n"+ //added by YLT on [18-06-2020]
-                         ",so_id="+sh.get(0).getSo_id()+
+                        ",so_id="+sh.get(0).getSo_id()+
                         " where tranid="+sd.get(0).getTranid()+";\n";
 
-                 det = " insert into Sale_Det(tranid,date,unit_qty,qty,sale_price,dis_price,dis_type,dis_percent,remark,unit_type,code,sr,srno,PriceLevel,SQTY,SPrice,so_id,so_sr,gallon) values ";
+                det = " insert into Sale_Det(tranid,date,unit_qty,qty,sale_price,dis_price,dis_type,dis_percent,remark,unit_type,code,sr,srno,PriceLevel,SQTY,SPrice,so_id,so_sr,gallon) values ";
 
 
                 for(int i=0;i<sd.size();i++)
@@ -5221,7 +5242,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                 getSPrice(sd.get(i).getCode(),getSmallestQty(sd.get(i).getCode(),sd.get(i).getUnit_qty(),sd.get(i).getUnt_type()),sd.get(i).getUnit_qty(),sd.get(i).getSale_price()) +","+
                                 sd.get(i).getSo_id()+","+
                                 sd.get(i).getSo_sr()+","+
-                                sd.get(i).getGallon()   
+                                sd.get(i).getGallon()
                                 +" )";
                     }
 
@@ -5233,10 +5254,10 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 sqlstring = head +" "+det+";";
                 if(use_salesperson && SaleVouSalesmen.size()>0)
                 {
-                     salePerson=
-                             //" delete from SalesVoucher_Salesmen_Tmp where Sales_TranID="+sh.get(0).getTranid()+" and userid="+frmlogin.LoginUserid+";\n"+
+                    salePerson=
+                            //" delete from SalesVoucher_Salesmen_Tmp where Sales_TranID="+sh.get(0).getTranid()+" and userid="+frmlogin.LoginUserid+";\n"+
                             " insert into SalesVoucher_Salesmen_Tmp(Sales_TranID,Salesmen_ID,rmt_copy,userid)"+
-                            "values ";
+                                    "values ";
                     for(int i=0;i<SaleVouSalesmen.size();i++)
                     {
                         salePerson=salePerson+"("+
@@ -5248,8 +5269,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     sqlstring=sqlstring+" "+salePerson+";";
 
                 }
-                    if (frmlogin.Font_Language.equals("Unicode")) {
-                        sqlstring = Rabbit.uni2zg(sqlstring);
+                if (frmlogin.Font_Language.equals("Unicode")) {
+                    sqlstring = Rabbit.uni2zg(sqlstring);
                 }
                 Confirm();
                 SaleVouSalesmen.clear();
@@ -5313,12 +5334,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             {
                 do {
                     sPrice=cursor.getDouble(cursor.getColumnIndex("sale_price"));
-
                 }while (cursor.moveToNext());
-
-
             }
-
         }
         cursor.close();*/
 
@@ -5356,7 +5373,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             txtShowSP=view.findViewById(R.id.showSP);
             txtShowSP.setText(sd.get(itemPosition).getPriceLevel());
             TextView txtheader=view.findViewById(R.id.caption);
-             txtsqty=view.findViewById(R.id.txtChangeSQty);
+            txtsqty=view.findViewById(R.id.txtChangeSQty);
             txtChangePrice=view.findViewById(R.id.txtChangePrice);
             txtamt=view.findViewById(R.id.txtChangeAmt);
             String title=sd.get(itemPosition).getDesc();
@@ -5372,30 +5389,30 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             rcvSP=view.findViewById(R.id.rcvSP);
             btndiscount=view.findViewById(R.id.btndiscountype);
             sale_entry.dis_percent=sd.get(itemPosition).getDis_percent();
-             txtsmqty=view.findViewById(R.id.txtSQTY);
-             txtsprice=view.findViewById(R.id.txtSprice);
-             txtsmqty.setText(String.valueOf(getsqty(sd.get(itemPosition).getCode(),editUnit_type)*Double.parseDouble(txtChangeQty.getText().toString())));
-             txtChangeQty.addTextChangedListener(new TextWatcher() {
-                 @Override
-                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            txtsmqty=view.findViewById(R.id.txtSQTY);
+            txtsprice=view.findViewById(R.id.txtSprice);
+            txtsmqty.setText(String.valueOf(getsqty(sd.get(itemPosition).getCode(),editUnit_type)*Double.parseDouble(txtChangeQty.getText().toString())));
+            txtChangeQty.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                 }
+                }
 
-                 @Override
-                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                     txtsmqty.setText(String.valueOf(getsqty(sd.get(itemPosition).getCode(),editUnit_type)*Double.parseDouble(s.toString())));
-                 }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    txtsmqty.setText(String.valueOf(getsqty(sd.get(itemPosition).getCode(),editUnit_type)*Double.parseDouble(s.toString())));
+                }
 
-                 @Override
-                 public void afterTextChanged(Editable s) {
+                @Override
+                public void afterTextChanged(Editable s) {
 
-                 }
-             });
-             txtsprice.setText(String.valueOf(getSPrice(sd.get(itemPosition).getCode(),getSmallestQty(sd.get(itemPosition).getCode(),
-                     sd.get(itemPosition).getUnit_qty(),
-                     sd.get(itemPosition).getUnt_type()),
-                     sd.get(itemPosition).getUnit_qty(),
-                     sd.get(itemPosition).getSale_price())));
+                }
+            });
+            txtsprice.setText(String.valueOf(getSPrice(sd.get(itemPosition).getCode(),getSmallestQty(sd.get(itemPosition).getCode(),
+                    sd.get(itemPosition).getUnit_qty(),
+                    sd.get(itemPosition).getUnt_type()),
+                    sd.get(itemPosition).getUnit_qty(),
+                    sd.get(itemPosition).getSale_price())));
 
             RelativeLayout rlsqty=view.findViewById(R.id.rlSQTY);
             RelativeLayout rlsprice=view.findViewById(R.id.rlSprice);
@@ -5741,17 +5758,17 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 }
             });
 
-             txtChangePQTy.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View v) {
-                     isGallon=true;
-                     changeheader=true;
-                     keynum=txtChangePQTy.getText().toString();
-                     showKeyPad(txtChangePQTy,txtChangePQTy);
-                     double sqty=sd.get(itemPosition).getQty()*Double.parseDouble(txtChangeQty.getText().toString());
-                     txtsqty.setText(String.valueOf(sqty));
-                 }
-             });
+            txtChangePQTy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    isGallon=true;
+                    changeheader=true;
+                    keynum=txtChangePQTy.getText().toString();
+                    showKeyPad(txtChangePQTy,txtChangePQTy);
+                    double sqty=sd.get(itemPosition).getQty()*Double.parseDouble(txtChangeQty.getText().toString());
+                    txtsqty.setText(String.valueOf(sqty));
+                }
+            });
 
             txtChangeQty.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -5893,7 +5910,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
     private void ShowHideSmallestQty(RelativeLayout rlsqty, RelativeLayout rlsprice) {
 
-     boolean SmallestQtyPrice=false;
+        boolean SmallestQtyPrice=false;
         Cursor cursor=DatabaseHelper.rawQuery("select SmallestQtyPrice from SystemSetting");
         if(cursor!=null&&cursor.getCount()!=0)
         {
@@ -6035,8 +6052,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             View view=getLayoutInflater().inflate(R.layout.downloadprocess,null);
             pbDownload=view.findViewById(R.id.progressDownload);
             txtProgress=view.findViewById(R.id.txtProgress);
-           txtTable=view.findViewById(R.id.txtTable);
-           txtTable.setText("Customer");
+            txtTable=view.findViewById(R.id.txtTable);
+            txtTable.setText("Customer");
             String[]datavalue=response.split("&");
             new_customerid=Long.parseLong(datavalue[1]);
             jarr = new JSONArray(datavalue[0]);
@@ -6054,8 +6071,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                           InsertCustomerData();
-                           downloadAlert.dismiss();
+                            InsertCustomerData();
+                            downloadAlert.dismiss();
                         }
                     }).start();
                 }
