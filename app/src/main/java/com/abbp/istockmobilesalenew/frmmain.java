@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -45,12 +46,15 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
     Intent intent;
     public static int CCount = 0;
 
+
     public static boolean Allow_Oustand;
     public static boolean Allow_StockStatus;
     public static boolean Allow_Sale;
     public static boolean Allow_SaleOrder;
     public static boolean All_Users;
     AlertDialog dialog, msg, downloadAlert;
+    public static TextView shopname; //added by MPPA on 14-12-2021
+    public static String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +97,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
         cardstock = (CardView) findViewById(R.id.cardstock);
         cardsetting = (CardView) findViewById(R.id.cardSetting); //added by MPPA on [08-12-2021]
         cardlogout = (ImageView) findViewById(R.id.cardlogout);
-
+        shopname = (TextView) findViewById(R.id.shopname);
         //txtUsername=(TextView)findViewById(R.id.txtUsername);
         //txtUsername.setText("   "+frmlogin.username);
 
@@ -117,9 +121,20 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
             cardoutstandlist.setVisibility(View.GONE);
             //cardStockstatuslist.setVisibility(View.GONE);
         }
-
+        getShopname();
+        shopname.setText(title);
     }
 
+    private void getShopname(){
+        Cursor cursor = DatabaseHelper.rawQuery("select title from systemsetting");
+        if (cursor != null && cursor.getCount() != 0) {
+            if (cursor.moveToFirst()) {
+                do {
+                    title =cursor.getString(cursor.getColumnIndex("title"));
+                } while (cursor.moveToNext());
+            }
+        }
+    }
     private void getCustid() {
         Cursor cursor = DatabaseHelper.rawQuery("select Max(customerid)as custc from Customer");
         if (cursor != null && cursor.getCount() != 0) {
@@ -286,9 +301,9 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
                 break;
 
             case R.id.cardSetting:
-                intent = new Intent(frmmain.this, frmmain.class);
-                startActivity(intent);
-                finish();
+                //intent = new Intent(frmmain.this, frmmain.class);
+                //startActivity(intent);
+                //finish();
                 break;
         }
 

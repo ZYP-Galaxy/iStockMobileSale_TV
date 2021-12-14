@@ -231,6 +231,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     ArrayList<so_det> so_dets=new ArrayList<>();
     ArrayList<so_head> so_heads=new ArrayList<>();
     long new_customerid=0;
+    public static Switch stdeliver,switchCredit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1838,6 +1839,17 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 //btnSalesmen=view.findViewById(R.id.salesmen);
                 imgNewCust = view.findViewById(R.id.imgNewCust);
                 btnCash=view.findViewById(R.id.cash);
+                stdeliver = view.findViewById(R.id.deliver);
+                if(!Use_Delivery)
+                {
+                    stdeliver=view.findViewById(R.id.deliver);
+                    stdeliver.setVisibility(View.GONE);
+                }
+                else
+                {
+                    stdeliver.setVisibility(View.VISIBLE);
+                    stdeliver.setChecked(sh.get(0).getDeliverValue());
+                }
                 /*
                 chkDeliver=view.findViewById(R.id.chkToDeliver);
                 if(!Use_Delivery)
@@ -1999,7 +2011,20 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
                     invoice_no=txtinvoiceNo.getText().toString().trim().isEmpty()?"NULL":txtinvoiceNo.getText().toString().trim();
                     sh.get(0).setInvoice_no(invoice_no);
-
+                    //added by MPPA on 14-12-2021
+                    if(Use_Delivery)
+                    {
+                        if(stdeliver.isChecked()) {
+                            sh.get(0).setDeliverValue(true);
+                        }
+                        else
+                        {
+                            sh.get(0).setDeliverValue(false);
+                        }
+                    }
+                    else {
+                        sh.get(0).setDeliverValue(false);
+                    }
                         /*
                         //region by YLT on [15-06-2020]
                         if(Use_Delivery)
@@ -3658,7 +3683,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
 
          */
-        Switch switchCredit = (Switch) findViewById(R.id.credit);
+        switchCredit= v.findViewById(R.id.credit);
         switchCredit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -3702,7 +3727,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         imgAddCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isCredit=switchCredit.isChecked()?1:0;
+                isCredit= switchCredit.isChecked() ?1:0;
                 String Customer_Name="N'"+etdCustomerName.getText().toString()+"'";
                 String Customer_Code="N'"+etdCustomerCode.getText().toString()+"'";
                 String due_in_days=etddue.getText().toString();

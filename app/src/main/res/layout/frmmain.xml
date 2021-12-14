@@ -1,400 +1,361 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#2C3B46"
-    >
+    tools:context=".frmlogin">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:clipToPadding="false"
-        android:layout_marginLeft="500dp"
-        android:orientation="horizontal"
-        >
-
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#2C3B46"
+        android:orientation="vertical">
         <LinearLayout
-            android:layout_width="40dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="20dp">
-
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|end"
+            android:orientation="horizontal">
             <ImageView
                 android:id="@+id/cardlogout"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
                 android:padding="10dp"
                 android:background="@drawable/arrow"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="40dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="20dp">
-
             <ImageView
                 android:id="@+id/wificonnect"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginRight="5dp"
                 android:padding="10dp"
                 android:background="@drawable/wificonnect"/>
-
         </LinearLayout>
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="3:00PM"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="15dp"/>
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lshopname"
-        android:layout_width="300dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="200dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-        <TextView
+            android:id="@+id/headername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Phoe La Min Shop"
-            android:textColor="@color/white"
-            android:textSize="15dp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lmenu"
-        android:layout_width="match_parent"
-        android:layout_height="255dp"
-        android:layout_centerInParent="true"
-        android:gravity="center_horizontal">
-
-        <TableLayout
-            android:layout_width="350dp"
+            android:gravity="center|end"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/shopname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <TableRow
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="left">
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardsale"
-                    android:layout_width="120dp"
-                    android:layout_height="80dp"
-                    android:layout_marginRight="3dp"
-                    android:layout_weight="1"
-                    android:elevation="10dp"
-                    app:cardBackgroundColor="@color/sale"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="6dp"
-                    app:cardMaxElevation="10dp"
-                    app:contentPadding="8dp">
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left">
 
-                    <LinearLayout
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardsale"
+                            android:layout_width="120dp"
+                            android:layout_height="80dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_weight="1"
+                            android:elevation="10dp"
+                            app:cardBackgroundColor="@color/sale"
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="6dp"
+                            app:cardMaxElevation="10dp"
+                            app:contentPadding="8dp">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Sale"
-                            android:textColor="@color/white"
-                            android:textSize="15dp" />
+                            <LinearLayout
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Sale"
+                                    android:textColor="@color/white"
+                                    android:textSize="15dp" />
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginTop="3dp"
+                                    android:layout_marginBottom="0dp"
+                                    android:background="@drawable/salecart"
+                                    android:padding="5dp" />
+
+
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardsalelist"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_marginLeft="0dp"
+                            android:layout_weight="1"
+                            android:elevation="10dp"
+                            app:cardBackgroundColor="@color/saleenq"
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="6dp"
+                            app:cardMaxElevation="10dp"
+                            app:contentPadding="8dp">
+
+                            <LinearLayout
+                                android:layout_width="100dp"
+                                android:layout_height="80dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Sale History"
+                                    android:textColor="@color/white"
+                                    android:textSize="15dp"/>
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginTop="3dp"
+                                    android:layout_marginBottom="0dp"
+                                    android:background="@drawable/salelist"
+                                    android:padding="10dp" />
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardsaleorder"
+                            android:layout_width="1dp"
+                            android:layout_height="80dp"
+                            android:layout_marginRight="3dp"
                             android:layout_marginTop="3dp"
-                            android:layout_marginBottom="0dp"
-                            android:background="@drawable/salecart"
-                            android:padding="5dp" />
+                            android:layout_weight="1"
+                            android:elevation="10dp"
+                            app:cardBackgroundColor="@color/saleorder"
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="6dp"
+                            app:cardMaxElevation="10dp"
+                            app:contentPadding="8dp">
+
+                            <LinearLayout
+                                android:layout_width="86dp"
+                                android:layout_height="80dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Sale Order"
+                                    android:textColor="@color/white"
+                                    android:textSize="15dp"/>
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="0dp"
+                                    android:background="@drawable/saleordercart"
+                                    android:padding="10dp" />
 
 
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardsalelist"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="0dp"
-                    android:layout_weight="1"
-                    android:elevation="10dp"
-                    app:cardBackgroundColor="@color/saleenq"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="6dp"
-                    app:cardMaxElevation="10dp"
-                    app:contentPadding="8dp">
-
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Sale History"
-                            android:textColor="@color/white"
-                            android:textSize="15dp"/>
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardsaleorderlist"
+                            android:layout_width="237dp"
+                            android:layout_height="80dp"
                             android:layout_marginTop="3dp"
-                            android:layout_marginBottom="0dp"
-                            android:background="@drawable/salelist"
-                            android:padding="10dp" />
-                    </LinearLayout>
+                            android:layout_weight="1"
+                            android:elevation="10dp"
+                            app:cardBackgroundColor="@color/saleorderenq"
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="6dp"
+                            app:cardMaxElevation="10dp"
+                            app:contentPadding="8dp">
 
-                </androidx.cardview.widget.CardView>
-            </TableRow>
+                            <LinearLayout
+                                android:layout_width="100dp"
+                                android:layout_height="80dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="vertical">
 
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Sale Order List"
+                                    android:textColor="@color/white"
+                                    android:textSize="15dp"/>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardsaleorder"
-                    android:layout_width="1dp"
-                    android:layout_height="80dp"
-                    android:layout_marginRight="3dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_weight="1"
-                    android:elevation="10dp"
-                    app:cardBackgroundColor="@color/saleorder"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="6dp"
-                    app:cardMaxElevation="10dp"
-                    app:contentPadding="8dp">
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="0dp"
+                                    android:background="@drawable/saleorderlist"
+                                    android:padding="10dp" />
+                            </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="86dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        </androidx.cardview.widget.CardView>
+                    </TableRow>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Sale Order"
-                            android:textColor="@color/white"
-                            android:textSize="15dp"/>
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left">
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="0dp"
-                            android:background="@drawable/saleordercart"
-                            android:padding="10dp" />
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardstock"
+                            android:layout_width="0dp"
+                            android:layout_height="90dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_weight="1"
+                            android:elevation="10dp"
+                            app:cardBackgroundColor="@color/stock"
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="6dp"
+                            app:cardMaxElevation="10dp"
+                            app:contentPadding="8dp">
 
+                            <LinearLayout
+                                android:layout_width="100dp"
+                                android:layout_height="80dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="vertical">
 
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Check Balance"
+                                    android:textColor="@color/white"
+                                    android:textSize="15dp"/>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardsaleorderlist"
-                    android:layout_width="237dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_weight="1"
-                    android:elevation="10dp"
-                    app:cardBackgroundColor="@color/saleorderenq"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="6dp"
-                    app:cardMaxElevation="10dp"
-                    app:contentPadding="8dp">
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="0dp"
+                                    android:background="@drawable/check"
+                                    android:padding="10dp" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
 
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardOutstandlist"
+                            android:layout_width="0dp"
+                            android:layout_height="90dp"
+                            android:layout_weight="1"
+                            android:layout_marginRight="3dp"
+                            android:layout_marginTop="3dp"
+                            android:elevation="10dp"
+                            android:layout_centerInParent="true"
+                            app:cardBackgroundColor="@color/outstand"
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="6dp"
+                            app:cardMaxElevation="10dp"
+                            app:contentPadding="8dp">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Sale Order List"
-                            android:textColor="@color/white"
-                            android:textSize="15dp"/>
+                            <LinearLayout
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Outstand"
+                                    android:textColor="@color/white"
+                                    android:textSize="15dp"/>
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="0dp"
+                                    android:background="@drawable/coin"
+                                    android:padding="10dp" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="0dp"
-                            android:background="@drawable/saleorderlist"
-                            android:padding="10dp" />
-                    </LinearLayout>
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardSetting"
+                            android:layout_width="0dp"
+                            android:layout_height="90dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_weight="1"
+                            android:elevation="10dp"
+                            app:cardBackgroundColor="@color/setting"
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="6dp"
+                            app:cardMaxElevation="10dp"
+                            app:contentPadding="8dp">
 
-                </androidx.cardview.widget.CardView>
-            </TableRow>
+                            <LinearLayout
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="vertical">
 
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardstock"
-                    android:layout_width="0dp"
-                    android:layout_height="90dp"
-                    android:layout_marginRight="3dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_weight="1"
-                    android:elevation="10dp"
-                    app:cardBackgroundColor="@color/stock"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="6dp"
-                    app:cardMaxElevation="10dp"
-                    app:contentPadding="8dp">
-
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Check Balance"
-                            android:textColor="@color/white"
-                            android:textSize="15dp"/>
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="0dp"
-                            android:background="@drawable/check"
-                            android:padding="10dp" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardOutstandlist"
-                    android:layout_width="0dp"
-                    android:layout_height="90dp"
-                    android:layout_weight="1"
-                    android:layout_marginRight="3dp"
-                    android:layout_marginTop="3dp"
-                    android:elevation="10dp"
-                    android:layout_centerInParent="true"
-                    app:cardBackgroundColor="@color/outstand"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="6dp"
-                    app:cardMaxElevation="10dp"
-                    app:contentPadding="8dp">
-
-                    <LinearLayout
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Outstand"
-                            android:textColor="@color/white"
-                            android:textSize="15dp"/>
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="0dp"
-                            android:background="@drawable/coin"
-                            android:padding="10dp" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardSetting"
-                    android:layout_width="0dp"
-                    android:layout_height="90dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_weight="1"
-                    android:elevation="10dp"
-                    app:cardBackgroundColor="@color/setting"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="6dp"
-                    app:cardMaxElevation="10dp"
-                    app:contentPadding="8dp">
-
-                    <LinearLayout
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Settings"
-                            android:textColor="@color/white"
-                            android:textSize="15dp"/>
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="0dp"
-                            android:background="@drawable/setting"
-                            android:padding="10dp" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-            </TableRow>
-        </TableLayout>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Settings"
+                                    android:textColor="@color/white"
+                                    android:textSize="15dp"/>
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="0dp"
+                                    android:background="@drawable/setting"
+                                    android:padding="10dp" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
-</RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

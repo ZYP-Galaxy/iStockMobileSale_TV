@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="550dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -213,7 +213,7 @@
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="12dp"
                 android:background="@drawable/plus" />
         </RelativeLayout>
 
@@ -230,12 +230,13 @@
                 android:textColor="#F5F5F6"
                 android:textStyle="bold"
                 android:textSize="15dp"/>
+
             <ImageButton
                 android:id="@+id/imgLeft"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="278dp"
+                android:layout_marginLeft="460dp"
                 android:layout_alignParentLeft="true"
                 android:background="@drawable/leftarrow"/>
             <Button
@@ -251,15 +252,15 @@
                 android:textAlignment="center"
                 android:layout_marginRight="50dp"
                 android:layout_marginTop="5dp"/>
-
             <ImageButton
                 android:id="@+id/imgRight"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="12dp"
                 android:background="@drawable/rightarrow" />
+
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
