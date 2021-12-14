@@ -16,23 +16,19 @@
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="0dp"
-            android:background="#2C3B46"
-            android:gravity="right"
+            android:gravity="center|end"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/btnSetting"
-                android:layout_width="wrap_content"
-                android:layout_height="47dp"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
                 android:background="@null"
                 android:drawableTop="@drawable/ic_print_black_24dp"
-                android:text="Printer"
+                android:text=""
                 android:textColor="#ffffff"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -46,20 +42,18 @@
                 android:text="BT Printer"
                 android:textColor="#ffffff"
                 android:textSize="15dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/btnconnect"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:layout_toLeftOf="@+id/btnposdown"
                 android:background="@null"
                 android:drawableTop="@drawable/wifidis"
-                android:text="Connect"
                 android:textColor="#ffffff"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -73,7 +67,8 @@
                 android:text="Upload"
                 android:textColor="#ffffff"
                 android:textSize="15dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/btnposdown"
@@ -87,8 +82,8 @@
                 android:text="Download"
                 android:textColor="#ffffff"
                 android:textSize="15dp"
-                android:textStyle="bold" />
-
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/btnRegister"
@@ -101,6 +96,30 @@
                 android:text="Register"
                 android:textColor="#ffffff"
                 android:textSize="15dp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextClock
+                android:id="@+id/textClock"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:format12Hour="hh:mm:ss a"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btn_exit"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@null"
+                android:drawableTop="@drawable/ic_exit"
+                android:drawableTint="@color/white"
+                android:textColor="#ffffff"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -194,8 +213,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
                     android:layout_marginVertical="20dp"
+                    android:layout_marginStart="50dp"
                     android:orientation="vertical">
 
                     <Button

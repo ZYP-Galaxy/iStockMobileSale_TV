@@ -33,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -202,6 +203,24 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
         btnposdown.setOnClickListener(this);
         btnupload.setOnClickListener(this);
         txtSetting.setOnClickListener(this);
+
+        TextClock textClock = findViewById(R.id.textClock);
+        textClock.setFormat12Hour("hh:mm:ss a");
+
+        TextView btnExit = findViewById(R.id.btn_exit);
+        btnExit.setOnClickListener(v -> {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this, R.style.AlertDialogTheme);
+            dialog.setTitle("iStock");
+            dialog.setMessage("Are you sure want to exit?");
+            dialog.setPositiveButton("OK", (dialog1, which) -> {
+                frmlogin.this.finish();
+            });
+            dialog.setNegativeButton("Cancel", (dialog1, which) -> {
+
+            });
+            dialog.create().show();
+        });
+
     }
 
     private boolean isRegister() {
@@ -341,9 +360,10 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                 }
                 break;
             case R.id.btnconnect:
-                ip = sh_ip.getString("ip", "empty");
-                port = sh_port.getString("port", "empty");
-                showIpBox(ip, port);
+//                ip = sh_ip.getString("ip", "empty");
+//                port = sh_port.getString("port", "empty");
+//                showIpBox(ip, port);
+                showRegisterSetup();
                 break;
             case R.id.btnUpload:
                 checkofflinedata = false;
@@ -520,22 +540,28 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             tabLayout.getChildAt(i).setBackgroundColor(Color.parseColor("#333333"));
         }
 
+        ImageView imgSetup = dialogView.findViewById(R.id.img_setup);
+
         switch (button.getId()) {
             case R.id.btn_setup_config:
                 containerLayout.getChildAt(0).setVisibility(View.VISIBLE);
                 tabLayout.getChildAt(0).setBackgroundColor(Color.parseColor("#E87D2D"));
+                imgSetup.setImageDrawable(getResources().getDrawable(R.drawable.wificonnect));
                 break;
             case R.id.btn_setup_key:
                 containerLayout.getChildAt(1).setVisibility(View.VISIBLE);
                 tabLayout.getChildAt(1).setBackgroundColor(Color.parseColor("#E87D2D"));
+                imgSetup.setImageDrawable(getResources().getDrawable(R.drawable.passwordicon));
                 break;
             case R.id.btn_setup_download:
                 //containerLayout.getChildAt(2).setVisibility(View.VISIBLE);
                 tabLayout.getChildAt(2).setBackgroundColor(Color.parseColor("#E87D2D"));
+                imgSetup.setImageDrawable(getResources().getDrawable(R.drawable.datadownload));
                 break;
             case R.id.btn_setup_upload:
                 //containerLayout.getChildAt(3).setVisibility(View.VISIBLE);
                 tabLayout.getChildAt(3).setBackgroundColor(Color.parseColor("#E87D2D"));
+                imgSetup.setImageDrawable(getResources().getDrawable(R.drawable.dataupload));
                 break;
         }
 
@@ -600,6 +626,13 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             port = sh_port.getString("port", "empty");
             String url = "http://" + ip + ":" + port + "/api/DataSync/GetData?download=true&language=" + frmlogin.Font_Language;
 
+            builder = new AlertDialog.Builder(frmlogin.this, R.style.AlertDialogTheme);
+            builder.setTitle("iStock");
+            builder.setMessage("Download Complete.");
+            builder.setPositiveButton("OK", (dialog1, which) -> {
+
+            });
+            dialog = builder.create();
             RequestQueue request = Volley.newRequestQueue(context);
             final Response.Listener<String> listener = new Response.Listener<String>() {
                 @Override
@@ -624,8 +657,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                                 }
                             }
 
-//                            dialog.dismiss();
-                            GlobalClass.showAlertDialog(frmlogin.this, "iStock", "Download Complete.");
+                            dialog.show();
                         } catch (Exception ee) {
                             Toast.makeText(context, ee.getMessage(), Toast.LENGTH_LONG).show();
                         }
@@ -697,7 +729,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onErrorResponse(VolleyError error) {
                 GlobalClass.showAlertDialog(frmlogin.this, "iStock",
-                        "Process is Fail!\nCheck your Network Connection");
+                        "Process is Fail!\nCheck your Network Connection.");
             }
         };
         StringRequest req = new StringRequest(Request.Method.GET, url, listener, error);
@@ -776,9 +808,10 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                 ImportingData();
             } else {
                 layoutUpload.setVisibility(View.VISIBLE);
-                Thread.sleep(1000);
-                layoutUpload.setVisibility(View.GONE);
-                GlobalClass.showAlertDialog(this, "iStock", "No Data To Upload");
+                new Handler().postDelayed(() -> {
+                    layoutUpload.setVisibility(View.GONE);
+                    GlobalClass.showAlertDialog(this, "iStock", "No Data To Upload");
+                }, 500);
             }
 
         } catch (Exception ee) {
@@ -1178,7 +1211,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     break;
 
                 case "Pdis":
-                    JSONArray pdis = data.getJSONObject(0).getJSONArray("Pdis");
+                    JSONArray pdis = data.getJSONObject(0).optJSONArray("Pdis");
+                    pdis = (pdis == null) ? new JSONArray() : pdis;
                     for (int pdiscount = 0; pdiscount < pdis.length(); pdiscount++) {
                         JSONObject sspriceobj = pdis.getJSONObject(pdiscount);
                         long code = sspriceobj.getLong("code");
@@ -1199,7 +1233,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     break;
 
                 case "S_Sprice":
-                    JSONArray ssprice = data.getJSONObject(0).getJSONArray("S_Sprice");
+                    JSONArray ssprice = data.getJSONObject(0).optJSONArray("S_Sprice");
+                    ssprice = (ssprice == null) ? new JSONArray() : ssprice;
                     for (int sspricecount = 0; sspricecount < ssprice.length(); sspricecount++) {
                         JSONObject sspriceobj = ssprice.getJSONObject(sspricecount);
                         long code = sspriceobj.getLong("code");
@@ -1294,7 +1329,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                         int due_in_days = custobj.optInt("due_in_days", 0);
                         double credit_limit = custobj.optDouble("credit_limit", 0);
                         sqlString = "insert into Customer(customerid,customer_name,customer_code,credit,CustGroupID,CustGroupname,CustGroupCode,Townshipid,Townshipname,TownshipCode,pricelevel,Custdiscount,due_in_days,credit_limit)" +
-                                " values(" + customerid + ",'" + customername.replace("'", "\\'") + "','" + customercode + "'," + credit + "," +
+                                " values(" + customerid + ",'" + customername.replace("'", "''") + "','" + customercode + "'," + credit + "," +
                                 CustGroupCodeid + ",'" + CustGroupCodeName + "','" + CustGroupCodeCode + "'," +
                                 townshipid + ",'" + townshipname + "','" + townshipcode + "'," + pricelevel + "," + custdis + "," + (due_in_days == 0 ? "NULL" : due_in_days) + "," + credit_limit + ")";
                         DatabaseHelper.execute(sqlString);
@@ -1439,7 +1474,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                         JSONObject aliasobj = Alias_Code.getJSONObject(aliascount);
                         String aliascode = aliasobj.optString("al_code");
                         String usrcode = aliasobj.optString("usr_code");
-                        sqlString = "insert into Alias_Code(al_code,usr_code) values('" + aliascode + "','" + usrcode + "')";
+                        sqlString = "INSERT OR REPLACE into Alias_Code(al_code,usr_code) values('" + aliascode + "','" + usrcode + "')";
                         DatabaseHelper.execute(sqlString);
                     }
                     break;
@@ -1513,9 +1548,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     pass = cursor.getString(cursor.getColumnIndex("knockcode"));
 
                 } while (cursor.moveToNext());
-
             }
-
         }
         cursor.close();
         if (username.equals(name) && password.equals(pass)) {
@@ -1560,7 +1593,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             }
 
         } else {
-            Toast.makeText(this, "Username and Password does not match", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Username and Password do not match!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -1880,8 +1913,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
         final Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                AlertDialog.Builder bd = new AlertDialog.Builder(frmlogin.this);
-                bd.setMessage("Process is Fail!\nCheck your Network Connection");
+                AlertDialog.Builder bd = new AlertDialog.Builder(frmlogin.this, R.style.AlertDialogTheme);
+                bd.setMessage("Process is Fail!\nCheck your Network Connection.");
                 bd.setTitle("iStock");
                 bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
