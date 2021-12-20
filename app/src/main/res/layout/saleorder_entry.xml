@@ -968,7 +968,7 @@
                         android:visibility="gone"></androidx.recyclerview.widget.RecyclerView>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_usrcode"
+                        android:id="@+id/recycler_usr_code"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_below="@+id/recycler_category"

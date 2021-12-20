@@ -33,7 +33,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -78,8 +77,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
-import javax.microedition.khronos.opengles.GL10;
 
 import me.myatminsoe.mdetect.Rabbit;
 
@@ -675,7 +672,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         viewConfirm.setOnClickListener(this);
         gridview = findViewById(R.id.recycler_class);
         gridclassview = findViewById(R.id.recycler_category);
-        gridcodeview = findViewById(R.id.recycler_usrcode);
+        gridcodeview = findViewById(R.id.recycler_usr_code);
         imgDelete = findViewById(R.id.delete);
         imgEdit = findViewById(R.id.edit);
         imgDeleteAll = findViewById(R.id.delall);
