@@ -146,6 +146,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         setContentView(R.layout.frmlogin);
         MDetect.INSTANCE.init(this);
         isOnline = true;
@@ -625,14 +626,6 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             ip = sh_ip.getString("ip", "empty");
             port = sh_port.getString("port", "empty");
             String url = "http://" + ip + ":" + port + "/api/DataSync/GetData?download=true&language=" + frmlogin.Font_Language;
-
-            builder = new AlertDialog.Builder(frmlogin.this, R.style.AlertDialogTheme);
-            builder.setTitle("iStock");
-            builder.setMessage("Download Complete.");
-            builder.setPositiveButton("OK", (dialog1, which) -> {
-
-            });
-            dialog = builder.create();
             RequestQueue request = Volley.newRequestQueue(context);
             final Response.Listener<String> listener = new Response.Listener<String>() {
                 @Override
@@ -644,25 +637,29 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                         e.printStackTrace();
                     }
 
-                    new Thread(() -> {
-                        try {
+                    try {
+                        Thread t = new Thread(() -> {
+
                             for (progress = 0; progress < tableNames.size(); progress++) {
                                 insertingData(tableNames.get(progress), progress);
                                 pbDownload.setProgress(progress + 1);
 
-                                try {
-                                    Thread.sleep(200);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+//                                try {
+//                                    Thread.sleep(200);
+//                                } catch (InterruptedException e) {
+//                                    e.printStackTrace();
+//                                }
                             }
 
-                            dialog.show();
-                        } catch (Exception ee) {
-                            Toast.makeText(context, ee.getMessage(), Toast.LENGTH_LONG).show();
-                        }
+                            runOnUiThread(() -> GlobalClass.showAlertDialog(context, "iStock", "Download Complete."));
 
-                    }).start();
+                        });
+                        t.start();
+
+                    } catch (Exception ee) {
+                        Toast.makeText(context, ee.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+
                 }
             };
 
@@ -1195,6 +1192,11 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
 
     private void insertingData(String table, final int progress) {
         try {
+            runOnUiThread(() -> {
+                txtProgress.setText((progress + 1) + "/" + tableNames.size());
+                txtTable.setText(tableNames.get(progress));
+            });
+
             switch (table) {
                 case "cash":
                     JSONArray cash = data.getJSONObject(0).getJSONArray("cash");
@@ -1504,25 +1506,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     }
                     break;
             }
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    txtProgress.setText((progress + 1) + "/" + tableNames.size());
 
-                    /*if(progress<5){
-                        txtProgress.setText(((progress+1)*10)+" %");
-                    }else if(progress<7) {
-                        txtProgress.setText(((progress+0.5)*10)+" %");
-                    }else if(progress<9){
-                        txtProgress.setText(((progress+0.5)*10)+" %");
-                    }else  if(progress>10){
-                        txtProgress.setText("100 %");}else {
-                        txtProgress.setText("100 %");
-                    }
-*/
-                    txtTable.setText(tableNames.get(progress));
-                }
-            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1983,7 +1967,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if (s.equals("Importing Data is successfull!!")) {
+                    if (s.equals("Importing Data is successful.")) {
                         sqlString = "delete from Sale_Head_Main";
                         DatabaseHelper.execute(sqlString);
 

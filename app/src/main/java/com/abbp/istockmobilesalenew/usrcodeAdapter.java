@@ -3,8 +3,6 @@ package com.abbp.istockmobilesalenew;
 import android.content.Context;
 import android.database.Cursor;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -78,7 +76,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
         if (frmmain.use_pic == 1) {
             v = lf.inflate(R.layout.itemwithpic, parent, false);
         } else {
-            v = lf.inflate(R.layout.itembinding, parent, false);
+            v = lf.inflate(R.layout.item_usrcode, parent, false);
         }
         return new usrcodeAdapter.MyViewHolder(v);
     }
@@ -196,8 +194,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                             rv.setAdapter(ad);
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(context.getApplicationContext(), 4);
                             rv.setLayoutManager(gridLayoutManager);
-                        }
-                        else {
+                        } else {
 
                             sale_entry.imgFilterCode.setVisibility(View.GONE);
                             sale_entry.fitercode = "Category";
@@ -625,7 +622,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                 " where uc.unit_type=1 and uc.usr_code='" + usr_code + "'";
         Cursor cursor = DatabaseHelper.rawQuery(sqlString);
 
-        if (formname == "SaleOrder")//added by YLT
+        if (formname.equals("SaleOrder"))//added by YLT
         {
             if (cursor != null && cursor.getCount() != 0) {
                 if (cursor.moveToFirst()) {
@@ -656,10 +653,11 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                 "",
                                 code, unit_short, desc, CalNoTax, SP));
                     } while (cursor.moveToNext());
+
                 }
 
+                cursor.close();
             }
-            cursor.close();
             saleorder_entry.itemAdapter.notifyDataSetChanged();
             saleorder_entry.entrygrid.setSelection(saleorder_entry.sd.size());
             saleorder_entry.getSummary();
@@ -695,8 +693,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                     } while (cursor.moveToNext());
                 }
 
+                cursor.close();
             }
-            cursor.close();
             sale_entry.itemAdapter.notifyDataSetChanged();
             sale_entry.entrygrid.setSelection(sale_entry.sd.size());
             sale_entry.getSummary();

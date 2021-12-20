@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:id="@+id/datacolumn"
         android:layout_width="match_parent"
@@ -13,94 +14,105 @@
         tools:ignore="MissingConstraints">
 
         <TextView
+            android:id="@+id/sr"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:layout_weight="0.5"
             android:gravity="center_vertical"
             android:text="Sr"
-            android:textSize="12dp"
-            android:id="@+id/sr"
             android:textColor="@color/black"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/desc"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="4"
             android:gravity="center_vertical"
             android:text="Description"
             android:textColor="@color/black"
-            android:textSize="12dp"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
+
         <TextView
+            android:id="@+id/gallon"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="5dp"
             android:layout_weight="1"
+            android:focusable="false"
             android:gravity="center_vertical"
             android:text="Liter"
-            android:textSize="12dp"
             android:textColor="@color/black"
-            android:id="@+id/gallon"
-            android:focusable="false"
+            android:textSize="12sp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/img_qty_minus"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:tint="@color/colorPrimary"
+            app:srcCompat="@drawable/ic_remove_circle" />
+
         <TextView
+            android:id="@+id/qty"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="5dp"
             android:layout_weight="1"
+            android:focusable="false"
             android:gravity="center_vertical"
             android:text="Qty"
-            android:textSize="12dp"
             android:textColor="@color/black"
-            android:id="@+id/qty"
-            android:focusable="false"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/img_qty_plus"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:tint="@color/colorPrimary"
+            app:srcCompat="@drawable/custadd" />
+
         <TextView
+            android:id="@+id/unit"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="5dp"
             android:layout_weight="1"
+            android:focusable="false"
             android:gravity="center_vertical"
             android:text="Unit"
-            android:textSize="12dp"
-            android:focusable="false"
             android:textColor="@color/black"
-            android:id="@+id/unit"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
-
         <TextView
+            android:id="@+id/amt"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="2"
-            android:gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1.5"
             android:focusable="false"
+            android:gravity="center|end"
             android:text="Amount"
             android:textColor="@color/black"
-            android:textAlignment="textEnd"
-            android:textSize="12dp"
-            android:id="@+id/amt"
+            android:textSize="12sp"
             android:textStyle="bold" />
+
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:drawableRight="@drawable/eachrowdelete_foreground"
-            android:focusable="false"
-            android:textColor="#393636"
-            android:textAlignment="textEnd"
-            android:textSize="10dp"
             android:id="@+id/txtDelete"
+            android:layout_width="35dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:drawableEnd="@drawable/eachrowdelete_foreground"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:textColor="#393636"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
 

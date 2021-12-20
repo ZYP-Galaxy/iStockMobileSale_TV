@@ -532,9 +532,9 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
         viewDel.setOnClickListener(this);
         viewEdit.setOnClickListener(this);
         viewConfirm.setOnClickListener(this);
-        gridview = findViewById(R.id.gv);
-        gridclassview=findViewById(R.id.cvv);
-        gridcodeview=findViewById(R.id.gvv);
+        gridview = findViewById(R.id.recycler_class);
+        gridclassview=findViewById(R.id.recycler_category);
+        gridcodeview=findViewById(R.id.recycler_usrcode);
         imgDelete = findViewById(R.id.delete);
         imgEdit = findViewById(R.id.edit);
         imgDeleteAll = findViewById(R.id.delall);

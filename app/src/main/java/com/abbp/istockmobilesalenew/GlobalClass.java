@@ -1,9 +1,16 @@
 package com.abbp.istockmobilesalenew;
 
+import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+
+import java.net.URL;
+import java.net.URLConnection;
 
 public class GlobalClass {
 
@@ -19,6 +26,56 @@ public class GlobalClass {
         });
         dialog.create().show();
     }
+
+    public static void hideKeyboard(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static boolean isConnectedToServer(String url) {
+        try {
+            URL myUrl = new URL(url);
+            URLConnection connection = myUrl.openConnection();
+            connection.setConnectTimeout(3000);
+            connection.connect();
+            return true;
+        } catch (Exception e) {
+            // Handle your exceptions
+            return false;
+        }
+    }
+
+    public static String GetAppSetting(String SettingName) {
+        String SettingValue = "";
+        String sqlString = "select Setting_No,Setting_Name,Setting_Value from AppSetting where Setting_Name='" + SettingName + "'";
+        Cursor cursor = DatabaseHelper.rawQuery(sqlString);
+        if (cursor != null && cursor.getCount() != 0) {
+            if (cursor.moveToFirst()) {
+                do {
+                    SettingValue = cursor.getString(cursor.getColumnIndex("Setting_Value"));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        return SettingValue;
+    }
+
+    public static String GetSystemSetting(String ColumnName) {
+        String value = "";
+        Cursor cursor = DatabaseHelper.rawQuery("select * from SystemSetting");
+        if (cursor != null && cursor.getCount() != 0) {
+            if (cursor.moveToFirst()) {
+                do {
+                    if (cursor.getColumnIndex(ColumnName) > -1)
+                        value = cursor.getString(cursor.getColumnIndex(ColumnName));
+
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        return value;
+    }
+
 
 
 }

@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#2C3B46"
+        android:background="@color/colorAccent"
         android:orientation="vertical">
 
         <LinearLayout
@@ -162,6 +162,7 @@
                         android:layout_height="50dp"
                         android:background="@drawable/bg_input"
                         android:ems="10"
+                        android:focusable="false"
                         android:hint="User"
                         android:imeOptions="actionDone|flagNoExtractUi"
                         android:inputType=""
@@ -236,7 +237,7 @@
                         android:layout_height="50dp"
                         android:gravity="center"
                         android:text="@string/register"
-                        android:textColor="#E87D2D"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 

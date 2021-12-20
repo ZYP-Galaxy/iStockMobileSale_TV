@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,56 +16,52 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
-import static com.abbp.istockmobilesalenew.sale_entry.itemDis_tmp;
 import static com.abbp.istockmobilesalenew.sale_entry.itemPosition;
 import static com.abbp.istockmobilesalenew.sale_entry.sd;
 
 public class itemAdapter extends BaseAdapter {
     Context context;
     boolean isqty = false;
-    boolean isSalePrice=false;
-    boolean isgallon=false;
-    boolean isAmount=false;
+    boolean isSalePrice = false;
+    boolean isgallon = false;
+    boolean isAmount = false;
     String keynum = "";
-    AlertDialog msg,dialog,da;
-    ArrayList<unitforcode> uc=new ArrayList<>();
+    AlertDialog msg, dialog, da;
+    ArrayList<unitforcode> uc = new ArrayList<>();
     public static TextView txtamt;
     TextView tv4;
     TextView tv5;
     boolean startOpen;
-    public  static  itemAdapter itemAd;
-    public  static double disamt;
+    public static itemAdapter itemAd;
+    public static double disamt;
     public static String formname;//added by YLT
 
     public itemAdapter(Context context) {
-         this.context = context;
-         formname="Sale";
+        this.context = context;
+        formname = "Sale";
 
     }
-    public itemAdapter(Context context,String frm) {//added by YLT
+
+    public itemAdapter(Context context, String frm) {//added by YLT
         this.context = context;
-        formname=frm;//added by YLT
+        formname = frm;//added by YLT
 
     }
 
     @Override
 
 
-    public int getCount()
-    {
-        if(formname =="SaleOrder")
-        {
+    public int getCount() {
+        if (formname == "SaleOrder") {
             return saleorder_entry.sd.size();//added by YLT
-        }
-        else {
+        } else {
             return sale_entry.sd.size();
         }
     }
@@ -87,14 +85,18 @@ public class itemAdapter extends BaseAdapter {
         TextView tv2 = (TextView) convertView.findViewById(R.id.qty);
         TextView tv3 = (TextView) convertView.findViewById(R.id.unit);
         TextView tvgallon = convertView.findViewById(R.id.gallon);
-        if(formname=="Sale") {
+
+        ImageView btnMinus = convertView.findViewById(R.id.img_qty_minus);
+        ImageView btnPlus = convertView.findViewById(R.id.img_qty_plus);
+
+        if (formname == "Sale") {
 
             if (frmlogin.use_oil == 1) {
                 tvgallon.setVisibility(View.VISIBLE);
-                isgallon=false;
+                isgallon = false;
             } else {
                 tvgallon.setVisibility(View.GONE);
-                isgallon=false;
+                isgallon = false;
             }
 
             String qtyAsString = String.format("%." + frmmain.qty_places + "f", sale_entry.sd.get(position).getGallon());
@@ -104,40 +106,57 @@ public class itemAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     isqty = false;
-                    isSalePrice=false;
-                    isgallon=true;
-                    keynum=tv2.getText().toString();
+                    isSalePrice = false;
+                    isgallon = true;
+                    keynum = tv2.getText().toString();
                     showKeyPad(tvgallon, tvgallon, position);
-                    itemPosition=-1;
+                    itemPosition = -1;
                 }
             });
-        }
-        else
-        {
+
+            btnMinus.setOnClickListener(v -> {
+                Double unit_qty = Double.parseDouble(tv2.getText().toString());
+                if (unit_qty > 1) {
+                    unit_qty = unit_qty - 1;
+//                    tv2.setText(String.format("%." + frmmain.qty_places + "f", unit_qty));
+
+                    CalculateQty(tv2, position, unit_qty);
+
+                }
+
+            });
+
+            btnPlus.setOnClickListener(v -> {
+                Double unit_qty = Double.parseDouble(tv2.getText().toString());
+                unit_qty = unit_qty + 1;
+//                tv2.setText(String.format("%." + frmmain.qty_places + "f", unit_qty));
+                CalculateQty(tv2, position, unit_qty);
+
+            });
+
+        } else {
             tvgallon.setVisibility(View.GONE);
-            isgallon=false;
+            isgallon = false;
         }
 
-        boolean use_unit=false;
-        Cursor cursorplvl=DatabaseHelper.rawQuery("select use_unit from SystemSetting");
-        if(cursorplvl!=null&&cursorplvl.getCount()!=0)
-        {
-            if(cursorplvl.moveToFirst())
-            {
+        boolean use_unit = false;
+        Cursor cursorplvl = DatabaseHelper.rawQuery("select use_unit from SystemSetting");
+        if (cursorplvl != null && cursorplvl.getCount() != 0) {
+            if (cursorplvl.moveToFirst()) {
                 do {
-                    use_unit=cursorplvl.getInt(cursorplvl.getColumnIndex("use_unit"))==1?true:false;
-                }while (cursorplvl.moveToNext());
+                    use_unit = cursorplvl.getInt(cursorplvl.getColumnIndex("use_unit")) == 1 ? true : false;
+                } while (cursorplvl.moveToNext());
 
 
             }
 
         }
         cursorplvl.close();
-        tv3.setVisibility(use_unit==true? View.VISIBLE: View.GONE);
+        tv3.setVisibility(use_unit == true ? View.VISIBLE : View.GONE);
         tv4 = (TextView) convertView.findViewById(R.id.amt);
-        tv5=convertView.findViewById(R.id.txtDelete);
+        tv5 = convertView.findViewById(R.id.txtDelete);
 
-        if(formname =="SaleOrder")//added by YLT
+        if (formname == "SaleOrder")//added by YLT
         {
             tv.setText(String.valueOf(saleorder_entry.sd.get(position).getSr()));
             tv1.setText(saleorder_entry.sd.get(position).getDesc());
@@ -148,8 +167,7 @@ public class itemAdapter extends BaseAdapter {
             double amt = saleorder_entry.sd.get(position).getSale_price() * saleorder_entry.sd.get(position).getUnit_qty();
             String numberAsString = String.format("%,." + frmmain.price_places + "f", amt);
             tv4.setText(String.valueOf(numberAsString));
-        }
-        else {
+        } else {
             tv.setText(String.valueOf(sale_entry.sd.get(position).getSr()));
             tv1.setText(sale_entry.sd.get(position).getDesc());
             Double unit_qty = sale_entry.sd.get(position).getUnit_qty();
@@ -166,27 +184,27 @@ public class itemAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 isqty = true;
-                isSalePrice=false;
-                isgallon=false;
-                keynum=tv2.getText().toString();
+                isSalePrice = false;
+                isgallon = false;
+                keynum = tv2.getText().toString();
                 showKeyPad(tv2, tv2, position);
-                itemPosition=-1;
+                itemPosition = -1;
             }
         });
+
         tv5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder bd=new AlertDialog.Builder(context,R.style.AlertDialogTheme);
+                AlertDialog.Builder bd = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
                 bd.setTitle("iStock");
                 bd.setMessage("Are you sure want to delete this row?");
                 bd.setCancelable(false);
                 bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
+                    public void onClick(DialogInterface dialog, int which) {
 
-                        if(formname =="SaleOrder")//added by YLT
+                        if (formname == "SaleOrder")//added by YLT
                         {
                             saleorder_entry.sd.remove(position);
                             itemPosition = -1;
@@ -208,8 +226,7 @@ public class itemAdapter extends BaseAdapter {
                                 saleorder_entry.getSummary();
                             }
                             dialog.dismiss();
-                        }
-                        else {
+                        } else {
                             sale_entry.sd.remove(position);
                             itemPosition = -1;
                             for (int i = 0; i < sale_entry.sd.size(); i++) {
@@ -263,8 +280,8 @@ public class itemAdapter extends BaseAdapter {
                     String title = saleorder_entry.sd.get(position).getDesc();
                     txtheader.setText(title);
                     TextView txtChangePrice = view.findViewById(R.id.txtChangePrice);
-                    RelativeLayout rlAmount=view.findViewById(R.id.rlAmount);
-                     rlAmount.setVisibility(View.INVISIBLE);
+                    RelativeLayout rlAmount = view.findViewById(R.id.rlAmount);
+                    rlAmount.setVisibility(View.INVISIBLE);
                     txtamt = view.findViewById(R.id.txtChangeAmt);
                     ImageButton save = view.findViewById(R.id.imgSave);
                     //txtChangePrice.setText(String.valueOf(sale_entry.sd.get(position).getSale_price()));
@@ -344,8 +361,8 @@ public class itemAdapter extends BaseAdapter {
                 else {
                     isqty = false;
                     isSalePrice = true;
-                    isgallon=false;
-                    isAmount=false;
+                    isgallon = false;
+                    isAmount = false;
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     View view = inflater.inflate(R.layout.changesaleprice, null);
@@ -354,14 +371,11 @@ public class itemAdapter extends BaseAdapter {
                     String title = sale_entry.sd.get(position).getDesc();
                     txtheader.setText(title);
                     TextView txtChangePrice = view.findViewById(R.id.txtChangePrice);
-                    TextView txtAmount=view.findViewById(R.id.txtAmount);
-                    RelativeLayout rlAmount=view.findViewById(R.id.rlAmount);
-                    if(frmlogin.use_oil!=1)
-                    {
+                    TextView txtAmount = view.findViewById(R.id.txtAmount);
+                    RelativeLayout rlAmount = view.findViewById(R.id.rlAmount);
+                    if (frmlogin.use_oil != 1) {
                         rlAmount.setVisibility(View.INVISIBLE);
-                    }
-                    else
-                    {
+                    } else {
                         rlAmount.setVisibility(View.VISIBLE);
                     }
                     txtamt = view.findViewById(R.id.txtChangeAmt);
@@ -395,7 +409,7 @@ public class itemAdapter extends BaseAdapter {
                     txtAmount.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            isAmount=true;
+                            isAmount = true;
                             keynum = String.format("%." + frmmain.price_places + "f", Double.parseDouble(ClearFormat(txtAmount.getText().toString())));
                             showKeyPad(txtChangePrice, txtAmount, position);
 
@@ -453,86 +467,82 @@ public class itemAdapter extends BaseAdapter {
             }
 
         });
-       tv3.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               try {
+        tv3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
 
-                   String sqlString;
-                   int unitcount=0;
-                   String filter;
-                   Cursor cursor = null;
-                   if(uc.size()>0)uc.clear();
-                   AlertDialog.Builder bd = new AlertDialog.Builder(context);
-                   LayoutInflater inflater= (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                   View view=inflater.inflate(R.layout.changeheadervalue, null);
-                   bd.setCancelable(false);
-                   bd.setView(view);
-                   RecyclerView rv = view.findViewById(R.id.rcvChange);
-                   ImageButton imgClose=view.findViewById(R.id.imgNochange);
-                   da = bd.create();
-                   imgClose.setOnClickListener(new View.OnClickListener() {
-                       @Override
-                       public void onClick(View v) {
-                           da.dismiss();
-                       }
-                   });
-                   EditText etdSearch=view.findViewById(R.id.etdSearch);
-                   ImageButton imgSearch=view.findViewById(R.id.imgSearch);
-                   etdSearch.setVisibility(View.GONE);
-                   imgSearch.setVisibility(View.GONE);
-                    if(formname=="SaleOrder")//added by YLT
+                    String sqlString;
+                    int unitcount = 0;
+                    String filter;
+                    Cursor cursor = null;
+                    if (uc.size() > 0) uc.clear();
+                    AlertDialog.Builder bd = new AlertDialog.Builder(context);
+                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View view = inflater.inflate(R.layout.changeheadervalue, null);
+                    bd.setCancelable(false);
+                    bd.setView(view);
+                    RecyclerView rv = view.findViewById(R.id.rcvChange);
+                    ImageButton imgClose = view.findViewById(R.id.imgNochange);
+                    da = bd.create();
+                    imgClose.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            da.dismiss();
+                        }
+                    });
+                    EditText etdSearch = view.findViewById(R.id.etdSearch);
+                    ImageButton imgSearch = view.findViewById(R.id.imgSearch);
+                    etdSearch.setVisibility(View.GONE);
+                    imgSearch.setVisibility(View.GONE);
+                    if (formname == "SaleOrder")//added by YLT
                     {
                         sqlString = "select * from Usr_Code where unit>0 and code=" + saleorder_entry.sd.get(position).getCode() + " order by unit_type";
                         cursor = DatabaseHelper.rawQuery(sqlString);
-                    }
-                    else {
+                    } else {
                         sqlString = "select * from Usr_Code where unit>0 and code=" + sale_entry.sd.get(position).getCode() + " order by unit_type";
                         cursor = DatabaseHelper.rawQuery(sqlString);
                     }
-                   unitcount=cursor.getCount();
-                   if (cursor != null && cursor.getCount() != 0) {
-                       if (cursor.moveToFirst()) {
-                           do {
-                               int code = cursor.getInt(cursor.getColumnIndex("code"));
-                               String usr_code = cursor.getString(cursor.getColumnIndex("usr_code"));
-                               int unit_type = cursor.getShort(cursor.getColumnIndex("unit_type"));
-                               int unit = cursor.getInt(cursor.getColumnIndex("unit"));
-                               String unitname = cursor.getString(cursor.getColumnIndex("unitname"));
-                               String shortdes = cursor.getString(cursor.getColumnIndex("unitshort"));
-                               double saleprice = cursor.getDouble(cursor.getColumnIndex("sale_price"));
-                               double saleprice1 = cursor.getDouble(cursor.getColumnIndex("sale_price1"));
-                               double saleprice2 = cursor.getDouble(cursor.getColumnIndex("sale_price2"));
-                               double saleprice3 = cursor.getDouble(cursor.getColumnIndex("sale_price3"));
-                               double sqty = cursor.getDouble((cursor.getColumnIndex("smallest_unit_qty")));
-                               uc.add(new unitforcode(code, usr_code, unit_type, unit, unitname, shortdes, saleprice, sqty,saleprice1,saleprice2,saleprice3));
+                    unitcount = cursor.getCount();
+                    if (cursor != null && cursor.getCount() != 0) {
+                        if (cursor.moveToFirst()) {
+                            do {
+                                int code = cursor.getInt(cursor.getColumnIndex("code"));
+                                String usr_code = cursor.getString(cursor.getColumnIndex("usr_code"));
+                                int unit_type = cursor.getShort(cursor.getColumnIndex("unit_type"));
+                                int unit = cursor.getInt(cursor.getColumnIndex("unit"));
+                                String unitname = cursor.getString(cursor.getColumnIndex("unitname"));
+                                String shortdes = cursor.getString(cursor.getColumnIndex("unitshort"));
+                                double saleprice = cursor.getDouble(cursor.getColumnIndex("sale_price"));
+                                double saleprice1 = cursor.getDouble(cursor.getColumnIndex("sale_price1"));
+                                double saleprice2 = cursor.getDouble(cursor.getColumnIndex("sale_price2"));
+                                double saleprice3 = cursor.getDouble(cursor.getColumnIndex("sale_price3"));
+                                double sqty = cursor.getDouble((cursor.getColumnIndex("smallest_unit_qty")));
+                                uc.add(new unitforcode(code, usr_code, unit_type, unit, unitname, shortdes, saleprice, sqty, saleprice1, saleprice2, saleprice3));
 
-                           } while (cursor.moveToNext());
+                            } while (cursor.moveToNext());
 
-                       }
-                   }
+                        }
+                    }
 
-                   cursor.close();
+                    cursor.close();
 
-                   UnitAdapter ad = new UnitAdapter(context,uc,position,itemAd,da,formname);
-                   rv.setAdapter(ad);
-                   GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 4);
-                   rv.setLayoutManager(gridLayoutManager);
-                   if (unitcount>0)
-                   {
-                       da.show();
-                   }
-                   cursor = null;
-                   itemPosition=-1;
+                    UnitAdapter ad = new UnitAdapter(context, uc, position, itemAd, da, formname);
+                    rv.setAdapter(ad);
+                    GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 4);
+                    rv.setLayoutManager(gridLayoutManager);
+                    if (unitcount > 0) {
+                        da.show();
+                    }
+                    cursor = null;
+                    itemPosition = -1;
 
 
-               }
-               catch (Exception e)
-               {
-                   da.dismiss();
-               }
-           }
-       });
+                } catch (Exception e) {
+                    da.dismiss();
+                }
+            }
+        });
 
         return convertView;
     }
@@ -585,11 +595,10 @@ public class itemAdapter extends BaseAdapter {
                     keynum = "";
                     startOpen = false;
                 }
-                if(txtNum.getText().equals("0")){
+                if (txtNum.getText().equals("0")) {
                     txtNum.setText(btn1.getText());
                     keynum = txtNum.getText().toString();
-                }
-                else {
+                } else {
                     txtNum.setText(keynum + btn1.getText());
                     keynum = txtNum.getText().toString();
                 }
@@ -726,8 +735,8 @@ public class itemAdapter extends BaseAdapter {
                     txtNum.setText(keynum);
 
                 }
-                if(keynum.length()==0){
-                    keynum="0";
+                if (keynum.length() == 0) {
+                    keynum = "0";
                     txtNum.setText(keynum);
                 }
                 startOpen = false;
@@ -739,11 +748,9 @@ public class itemAdapter extends BaseAdapter {
             public void onClick(View v) {
                 try {
                     Double check = Double.parseDouble(keynum);
-                    if (isqty)
-                    {
+                    if (isqty) {
 
-                        if(formname=="SaleOrder")
-                        {
+                        if (formname == "SaleOrder") {
                             check = check > 0 ? check : 1;
                             saleorder_entry.sd.get(itemposition).setUnit_qty(check);
                             source.setText(String.valueOf(check));
@@ -751,26 +758,23 @@ public class itemAdapter extends BaseAdapter {
                             saleorder_entry.entrygrid.setAdapter(itemAd);
                             saleorder_entry.entrygrid.setSelection(itemposition);
                             saleorder_entry.getSummary();
-                        }
-                        else {
+                        } else {
                             check = check > 0 ? check : 1;
                             sale_entry.sd.get(itemposition).setUnit_qty(check);
                             source.setText(String.valueOf(check));
                             GetSpecialPrice(itemposition);
 
-                            Cursor cursor=DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code="+sale_entry.sd.get(itemposition).getCode()+
-                                    " and unit_type="+sale_entry.sd.get(itemposition).getUnt_type()
-                                    );
-                            if(cursor!=null&&cursor.getCount()!=0)
-                            {
-                                if(cursor.moveToFirst())
-                                {
+                            Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry.sd.get(itemposition).getCode() +
+                                    " and unit_type=" + sale_entry.sd.get(itemposition).getUnt_type()
+                            );
+                            if (cursor != null && cursor.getCount() != 0) {
+                                if (cursor.moveToFirst()) {
                                     do {
-                                       double sqty=cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
-                                       double gallon=sale_entry.sd.get(itemposition).getUnit_qty()*sqty;
-                                       sale_entry.sd.get(itemposition).setGallon(gallon);
+                                        double sqty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
+                                        double gallon = sale_entry.sd.get(itemposition).getUnit_qty() * sqty;
+                                        sale_entry.sd.get(itemposition).setGallon(gallon);
 
-                                    }while (cursor.moveToNext());
+                                    } while (cursor.moveToNext());
 
                                 }
 
@@ -781,25 +785,21 @@ public class itemAdapter extends BaseAdapter {
                             sale_entry.entrygrid.setSelection(itemposition);
                             sale_entry.getSummary();
                         }
-                    }
-                    else if(isgallon)
-                    {
+                    } else if (isgallon) {
                         check = check > 0 ? check : 1;
                         sale_entry.sd.get(itemposition).setGallon(check);
                         source.setText(String.valueOf(check));
-                        Cursor cursor=DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code="+sale_entry.sd.get(itemposition).getCode()+
-                                " and unit_type="+sale_entry.sd.get(itemposition).getUnt_type()
+                        Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry.sd.get(itemposition).getCode() +
+                                " and unit_type=" + sale_entry.sd.get(itemposition).getUnt_type()
                         );
-                        if(cursor!=null&&cursor.getCount()!=0)
-                        {
-                            if(cursor.moveToFirst())
-                            {
+                        if (cursor != null && cursor.getCount() != 0) {
+                            if (cursor.moveToFirst()) {
                                 do {
-                                    double sqty=cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
-                                    double unit_qty=sale_entry.sd.get(itemposition).getGallon()/sqty;
+                                    double sqty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
+                                    double unit_qty = sale_entry.sd.get(itemposition).getGallon() / sqty;
                                     sale_entry.sd.get(itemposition).setUnit_qty(unit_qty);
 
-                                }while (cursor.moveToNext());
+                                } while (cursor.moveToNext());
 
                             }
 
@@ -810,10 +810,8 @@ public class itemAdapter extends BaseAdapter {
                         sale_entry.entrygrid.setAdapter(itemAd);
                         sale_entry.entrygrid.setSelection(itemposition);
                         sale_entry.getSummary();
-                    }
-                    else if(isSalePrice)
-                    {
-                        if(formname=="SaleOrder") //added by YLT
+                    } else if (isSalePrice) {
+                        if (formname == "SaleOrder") //added by YLT
                         {
                             check = check > 0 ? check : 0;
                             saleorder_entry.sd.get(itemposition).setSale_price(check);
@@ -823,39 +821,32 @@ public class itemAdapter extends BaseAdapter {
                             source.setText(String.format("%,." + frmmain.price_places + "f", check));
                             //sale_entry.getSummary();
 
-                        }
-
-                        else {
+                        } else {
                             check = check > 0 ? check : 0;
-                            if(!isAmount)
-                            {
+                            if (!isAmount) {
                                 sale_entry.sd.get(itemposition).setSale_price(check);
                                 Double amt = check * sale_entry.sd.get(itemposition).getUnit_qty();
                                 String numberAsString = String.format("%,." + frmmain.price_places + "f", amt);
                                 txtamt.setText(numberAsString);
 
-                            }
-                            else
-                            {
-                                double unit_qty=check/sale_entry.sd.get(itemposition).getSale_price();
+                            } else {
+                                double unit_qty = check / sale_entry.sd.get(itemposition).getSale_price();
                                 sale_entry.sd.get(itemposition).setUnit_qty(unit_qty);
-                                double sale_price=check/unit_qty;
+                                double sale_price = check / unit_qty;
                                 sale_entry.sd.get(itemposition).setSale_price(sale_price);
                                 txt.setText(String.format("%,." + frmmain.price_places + "f", sale_price));
 
-                                Cursor cursor=DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code="+sale_entry.sd.get(itemposition).getCode()+
-                                        " and unit_type="+sale_entry.sd.get(itemposition).getUnt_type()
+                                Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry.sd.get(itemposition).getCode() +
+                                        " and unit_type=" + sale_entry.sd.get(itemposition).getUnt_type()
                                 );
-                                if(cursor!=null&&cursor.getCount()!=0)
-                                {
-                                    if(cursor.moveToFirst())
-                                    {
+                                if (cursor != null && cursor.getCount() != 0) {
+                                    if (cursor.moveToFirst()) {
                                         do {
-                                            double sqty=cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
-                                            double gallon=unit_qty*sqty;
+                                            double sqty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
+                                            double gallon = unit_qty * sqty;
                                             sale_entry.sd.get(itemposition).setGallon(gallon);
 
-                                        }while (cursor.moveToNext());
+                                        } while (cursor.moveToNext());
 
                                     }
 
@@ -867,7 +858,7 @@ public class itemAdapter extends BaseAdapter {
 
                             //sale_entry.getSummary();
                         }
-                        isAmount=false;
+                        isAmount = false;
                     }
 
                     isqty = false;
@@ -876,13 +867,12 @@ public class itemAdapter extends BaseAdapter {
 
                 } catch (Exception e) {
                     keynum = "0";
-                    startOpen=true;
-                    if (isqty)
-                    {
-                        keynum="1";
+                    startOpen = true;
+                    if (isqty) {
+                        keynum = "1";
                     }
                     txtNum.setText(keynum);
-                    AlertDialog.Builder bd = new AlertDialog.Builder(context,R.style.AlertDialogTheme);
+                    AlertDialog.Builder bd = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
                     bd.setTitle("iStock");
                     bd.setMessage("Number Format is incompatiable with data type");
                     bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -894,7 +884,7 @@ public class itemAdapter extends BaseAdapter {
                     msg = bd.create();
                     msg.show();
                     pw.dismiss();
-                    isqty=false;
+                    isqty = false;
                 }
 
 
@@ -903,28 +893,27 @@ public class itemAdapter extends BaseAdapter {
 
 
     }
+
     public void GetSpecialPrice(int position) {
-        long level=0;
-        boolean useUserpricelevel=false;
-        boolean useCustpricelevel=false;
-        boolean useSpecialPrice=false;
-        Cursor cursor=DatabaseHelper.rawQuery("select use_user_pricelevel,use_cust_pricelevel,use_specialprice from SystemSetting");
-        if(cursor!=null&&cursor.getCount()!=0)
-        {
-            if(cursor.moveToFirst())
-            {
+        long level = 0;
+        boolean useUserpricelevel = false;
+        boolean useCustpricelevel = false;
+        boolean useSpecialPrice = false;
+        Cursor cursor = DatabaseHelper.rawQuery("select use_user_pricelevel,use_cust_pricelevel,use_specialprice from SystemSetting");
+        if (cursor != null && cursor.getCount() != 0) {
+            if (cursor.moveToFirst()) {
                 do {
-                    useUserpricelevel=cursor.getInt(cursor.getColumnIndex("use_user_pricelevel"))==1?true:false;
-                    useCustpricelevel=cursor.getInt(cursor.getColumnIndex("use_cust_pricelevel"))==1?true:false;
-                    useSpecialPrice=cursor.getInt(cursor.getColumnIndex("use_specialprice"))==1?true:false;
-                }while (cursor.moveToNext());
+                    useUserpricelevel = cursor.getInt(cursor.getColumnIndex("use_user_pricelevel")) == 1 ? true : false;
+                    useCustpricelevel = cursor.getInt(cursor.getColumnIndex("use_cust_pricelevel")) == 1 ? true : false;
+                    useSpecialPrice = cursor.getInt(cursor.getColumnIndex("use_specialprice")) == 1 ? true : false;
+                } while (cursor.moveToNext());
 
             }
 
         }
         cursor.close();
 
-        if(formname=="SaleOrder")//added by YLT
+        if (formname == "SaleOrder")//added by YLT
         {
             double discount = saleorder_entry.sd.get(position).getSale_price() - saleorder_entry.sd.get(position).getDis_price();
             if (useSpecialPrice) {
@@ -955,8 +944,7 @@ public class itemAdapter extends BaseAdapter {
                 cursor.close();
 
             }
-        }
-        else {
+        } else {
             double discount = sale_entry.sd.get(position).getSale_price() - sale_entry.sd.get(position).getDis_price();
             if (useSpecialPrice) {
                 String sql = "select sale_price,price_level from S_SalePrice where code=" + sale_entry.sd.get(position).getCode() +
@@ -990,26 +978,26 @@ public class itemAdapter extends BaseAdapter {
 
 
     }
-    private double getSalePrice(String pricelevel,int itemposistion) {
 
-        double sale_price=0;
-        String level="";
-        switch (pricelevel)
-        {
+    private double getSalePrice(String pricelevel, int itemposistion) {
+
+        double sale_price = 0;
+        String level = "";
+        switch (pricelevel) {
             case "SP":
-                level="uc.sale_price";
+                level = "uc.sale_price";
                 break;
             case "SP1":
-                level="uc.sale_price1";
+                level = "uc.sale_price1";
                 break;
             case "SP2":
-                level="uc.sale_price2";
+                level = "uc.sale_price2";
                 break;
             case "SP3":
-                level="uc.sale_price3";
+                level = "uc.sale_price3";
                 break;
         }
-        if(formname=="SaleOrder") //added by YLT
+        if (formname == "SaleOrder") //added by YLT
         {
             String sqlString = "select uc.unit_type,code,description," + level + ",smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
                     " where code=" + saleorder_entry.sd.get(itemposistion).getCode() + " and unit_type=" + saleorder_entry.sd.get(itemposistion).getUnt_type();
@@ -1043,8 +1031,7 @@ public class itemAdapter extends BaseAdapter {
             }
             cursor.close();
             return sale_price;
-        }
-        else {
+        } else {
             String sqlString = "select uc.unit_type,code,description," + level + ",smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
                     " where code=" + sale_entry.sd.get(itemposistion).getCode() + " and unit_type=" + sale_entry.sd.get(itemposistion).getUnt_type();
             Cursor cursor = DatabaseHelper.rawQuery(sqlString);
@@ -1080,10 +1067,10 @@ public class itemAdapter extends BaseAdapter {
         }
 
     }
-    public   void CalculateItemDiscount(int itemPosition,double dis)
-    {
 
-        if(formname=="SaleOrder")//added by YLT
+    public void CalculateItemDiscount(int itemPosition, double dis) {
+
+        if (formname == "SaleOrder")//added by YLT
         {
             if (saleorder_entry.sd.get(itemPosition).getDis_type() == 3
                     || saleorder_entry.sd.get(itemPosition).getDis_type() == 4
@@ -1113,8 +1100,7 @@ public class itemAdapter extends BaseAdapter {
                     saleorder_entry.sd.get(itemPosition).setDis_price(dis_price);
                 }
             }
-        }
-        else {
+        } else {
             if (sale_entry.sd.get(itemPosition).getDis_type() == 3
                     || sale_entry.sd.get(itemPosition).getDis_type() == 4
                     || sale_entry.sd.get(itemPosition).getDis_type() == 6
@@ -1146,14 +1132,40 @@ public class itemAdapter extends BaseAdapter {
         }
 
     }
-    public  void getItemAdpater(itemAdapter itemAdapter) {
-        itemAd=itemAdapter;
-    }
-    private  String ClearFormat(String s)
-    {
-        return s.replace(",","");
+
+    public void getItemAdpater(itemAdapter itemAdapter) {
+        itemAd = itemAdapter;
     }
 
+    private String ClearFormat(String s) {
+        return s.replace(",", "");
+    }
+
+    private void CalculateQty(TextView textView, int position, Double value) {
+        sale_entry.sd.get(position).setUnit_qty(value);
+        textView.setText(String.format("%." + frmmain.qty_places + "f", value));
+        GetSpecialPrice(position);
+
+        Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry.sd.get(position).getCode() +
+                " and unit_type=" + sale_entry.sd.get(position).getUnt_type()
+        );
+        if (cursor != null && cursor.getCount() != 0) {
+            if (cursor.moveToFirst()) {
+                do {
+                    double sqty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
+                    double gallon = sale_entry.sd.get(position).getUnit_qty() * sqty;
+                    sale_entry.sd.get(position).setGallon(gallon);
+
+                } while (cursor.moveToNext());
+
+            }
+
+        }
+        cursor.close();
+
+        sale_entry.entrygrid.setAdapter(itemAd);
+        sale_entry.getSummary();
+    }
 
 }
 

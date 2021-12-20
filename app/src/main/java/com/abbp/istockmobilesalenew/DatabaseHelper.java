@@ -1,7 +1,6 @@
 package com.abbp.istockmobilesalenew;
 
 
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -21,6 +20,7 @@ import static android.content.ContentValues.TAG;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static SQLiteDatabase sqliteDb;
     private static DatabaseHelper instance;
+
     private static final int DATABASE_VERSION = 1;
 
     private Context context;
@@ -41,9 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 try {
                     copyDataBase(context, databaseName);
                 } catch (IOException e) {
-
-                    System.out.println( databaseName
-                            + " does not exists ");
+                    System.out.println(databaseName + " does not exists ");
                 }
             }
 
@@ -55,8 +53,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public static final DatabaseHelper getInstance(Context context,
-                                                   String databaseName) {
+    public static DatabaseHelper getInstance(Context context,
+                                             String databaseName) {
         initialize(context, databaseName);
         return instance;
     }
@@ -124,7 +122,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return "/data/data/" + aContext.getPackageName() + "/databases/"
                 + databaseName;
     }
-   //select
+
+    //select
     public static Cursor rawQuery(String query) {
         try {
             if (sqliteDb.isOpen()) {
@@ -140,8 +139,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return cursor;
     }
-    public  static  Cursor DistinctCategorySelectQuery(String TableName,String[] columns,String order)
-    {
+
+    public static Cursor DistinctCategorySelectQuery(String TableName, String[] columns, String order) {
         try {
             if (sqliteDb.isOpen()) {
                 sqliteDb.close();
@@ -149,7 +148,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             sqliteDb = instance.getWritableDatabase();
 
             cursor = null;
-            cursor = sqliteDb.query(true,TableName,columns,null,null,null,null,order,null);
+            cursor = sqliteDb.query(true, TableName, columns, null, null, null, null, order, null);
         } catch (Exception e) {
             Log.d(TAG, e.getMessage());
             e.printStackTrace();
@@ -157,24 +156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public  static Cursor DistinctSelectQuery(String TableName, String[] columns)
-    {
-        try {
-        if (sqliteDb.isOpen()) {
-            sqliteDb.close();
-        }
-        sqliteDb = instance.getWritableDatabase();
-
-        cursor = null;
-        cursor = sqliteDb.query(true,TableName,columns,null,null,null,null,null,null);
-    } catch (Exception e) {
-        Log.d(TAG, e.getMessage());
-        e.printStackTrace();
-    }
-        return cursor;
-    }
-    public  static Cursor DistinctSelectQuerySelection (String TableName, String[] columns, String selection, String[] selectionArgs)
-    {
+    public static Cursor DistinctSelectQuery(String TableName, String[] columns) {
         try {
             if (sqliteDb.isOpen()) {
                 sqliteDb.close();
@@ -182,7 +164,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             sqliteDb = instance.getWritableDatabase();
 
             cursor = null;
-            cursor=sqliteDb.query(true,TableName,columns,selection,selectionArgs,null,null,null,null);
+            cursor = sqliteDb.query(true, TableName, columns, null, null, null, null, null, null);
         } catch (Exception e) {
             Log.d(TAG, e.getMessage());
             e.printStackTrace();
@@ -190,8 +172,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public  static Cursor DistinctSelectQuerySelectionWithCondition (String TableName, String[] columns, String selection, String[] selectionArgs,String order)
-    {
+    public static Cursor DistinctSelectQuerySelection(String TableName, String[] columns, String selection, String[] selectionArgs) {
         try {
             if (sqliteDb.isOpen()) {
                 sqliteDb.close();
@@ -199,7 +180,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             sqliteDb = instance.getWritableDatabase();
 
             cursor = null;
-            cursor=sqliteDb.query(true,TableName,columns,selection,selectionArgs,null,null,order,null);
+            cursor = sqliteDb.query(true, TableName, columns, selection, selectionArgs, null, null, null, null);
+        } catch (Exception e) {
+            Log.d(TAG, e.getMessage());
+            e.printStackTrace();
+        }
+        return cursor;
+    }
+
+    public static Cursor DistinctSelectQuerySelectionWithCondition(String TableName, String[] columns, String selection, String[] selectionArgs, String order) {
+        try {
+            if (sqliteDb.isOpen()) {
+                sqliteDb.close();
+            }
+            sqliteDb = instance.getWritableDatabase();
+
+            cursor = null;
+            cursor = sqliteDb.query(true, TableName, columns, selection, selectionArgs, null, null, order, null);
         } catch (Exception e) {
             Log.d(TAG, e.getMessage());
             e.printStackTrace();
@@ -208,12 +205,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //insert,update,delete into assets database
+//    public static void execute(String query) {
+//        try {
+//            if (sqliteDb.isOpen()) {
+//                sqliteDb.close();
+//            }
+//            sqliteDb = instance.getWritableDatabase();
+//            sqliteDb.execSQL(query);
+//        } catch (Exception e) {
+//            System.out.println("DB ERROR  " + e.getMessage());
+//            e.printStackTrace();
+//        }
+//    }
+
     public static void execute(String query) {
         try {
-            if (sqliteDb.isOpen()) {
-                sqliteDb.close();
+            if (sqliteDb == null || !sqliteDb.isOpen()) {
+                sqliteDb = instance.getWritableDatabase();
             }
-            sqliteDb = instance.getWritableDatabase();
             sqliteDb.execSQL(query);
         } catch (Exception e) {
             System.out.println("DB ERROR  " + e.getMessage());

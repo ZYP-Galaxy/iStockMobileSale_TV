@@ -2,20 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/code"
-        android:title="Code"/>
+        android:title="Code" />
     <item
         android:id="@+id/description"
-        android:title="Description"/>
+        android:title="Description" />
     <item
         android:id="@+id/category"
-        android:title="Category"/>
+        android:title="Category"
+        android:visible="false" />
     <item
         android:id="@+id/cclass"
-        android:title="Class"/>
+        android:title="Class"
+        android:visible="false" />
     <item
         android:id="@+id/brand"
-        android:title="Brand"/>
+        android:title="Brand"
+        android:visible="false" />
     <item
         android:id="@+id/shortdes"
-        android:title="Short"/>
+        android:title="Short"
+        android:visible="false" />
 </menu>
