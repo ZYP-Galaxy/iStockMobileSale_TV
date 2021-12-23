@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#d2c4c4">
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -297,7 +297,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
                         android:layout_weight="1.5"
-                        android:gravity="center"
+                        android:gravity="center|end"
                         android:text="Amount"
                         android:textColor="@color/black"
                         android:textSize="12sp"
@@ -310,7 +310,7 @@
                         android:layout_marginStart="5dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:textSize="12dp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
 
@@ -925,7 +925,6 @@
                         <ScrollView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
-
                             <LinearLayout
                                 android:id="@+id/root_view"
                                 android:layout_width="320dp"
@@ -980,7 +979,7 @@
                         android:ems="10"
                         android:hint="Search"
                         android:imeOptions="actionDone"
-                        android:inputType="text"
+                        android:inputType="textMultiLine"
                         android:padding="5dp"
                         android:textSize="14sp" />
 
@@ -1017,9 +1016,15 @@
                     android:orientation="vertical">
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_without_class"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone" />
+
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_class"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="55dp"
                         android:visibility="visible" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -1032,10 +1037,11 @@
                         android:id="@+id/layout_sort"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:visibility="visible">
 
                         <ImageView
-                            android:id="@+id/img_code_sort"
+                            android:id="@+id/img_sort_code"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
@@ -1046,7 +1052,7 @@
                             android:id="@+id/txt_itemof"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
+                            android:layout_centerInParent="true"
                             android:text="Items of "
                             android:textColor="@color/colorAccent"
                             android:textSize="16sp"

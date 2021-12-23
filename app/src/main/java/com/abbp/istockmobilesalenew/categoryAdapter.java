@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyViewHolder> {
@@ -21,7 +23,6 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyView
     ArrayList<category> data;
     RecyclerView rv;
     public static String formname;//added by YLT
-    private int currentPosition = -1;
 
     public categoryAdapter(Context context, ArrayList<category> data, RecyclerView rv) {
         this.context = context;
@@ -37,16 +38,16 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyView
         formname = frm;//added by YLT
     }
 
-
+    @NotNull
     @Override
-    public categoryAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater lf = LayoutInflater.from(parent.getContext());
-        View view;
-        if (frmmain.withoutclass.equals("false")) {
-            view = lf.inflate(R.layout.item_class, parent, false);
-        } else {
-            view = lf.inflate(R.layout.itembinding, parent, false);
-        }
+        View view = lf.inflate(R.layout.itembinding, parent, false);
+//        if (frmmain.withoutclass.equals("false")) {
+//            view = lf.inflate(R.layout.item_class, parent, false);
+//        } else {
+//            view = lf.inflate(R.layout.itembinding, parent, false);
+//        }
         return new MyViewHolder(view);
     }
 
@@ -57,8 +58,7 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyView
         holder.btn.setText(data.get(position).getName());
         if (frmmain.withoutclass.equals("false")) {
             if (data.get(position).getName().equals("Back") && position == 0) {
-//                holder.btn.setBackgroundResource(R.drawable.categorygradiant);
-                holder.itemLayout.setVisibility(View.GONE);
+                holder.btn.setBackgroundResource(R.drawable.categorygradiant);
 
             } else {
 
@@ -174,7 +174,7 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyView
                         {
                             saleorder_entry.imgFilterCode.setVisibility(View.GONE);
                             saleorder_entry.fitercode = "Description";
-                            Cursor cursor = DatabaseHelper.rawQuery("select distinct usr_code,description from Usr_Code where category=" + data.get(position).getCategory() + " order by usr_code");
+                            Cursor cursor = DatabaseHelper.rawQuery("select distinct usr_code,description,sale_price from Usr_Code where category=" + data.get(position).getCategory() + " order by usr_code");
                             if (saleorder_entry.usr_codes.size() > 0)
                                 saleorder_entry.usr_codes.clear();
                             if (frmmain.withoutclass.equals("true")) {
@@ -185,7 +185,9 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyView
                                     do {
                                         String usr_code = cursor.getString(cursor.getColumnIndex("usr_code"));
                                         String description = cursor.getString(cursor.getColumnIndex("description"));
-                                        saleorder_entry.usr_codes.add(new usr_code(usr_code, description));
+                                        String value = cursor.getString(cursor.getColumnIndex("sale_price"));
+                                        double saleprice = Double.parseDouble(value.isEmpty() ? "0" : value);
+                                        saleorder_entry.usr_codes.add(new usr_code(usr_code, description, saleprice));
                                     } while (cursor.moveToNext());
 
                                 }
@@ -198,9 +200,9 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyView
                             rv.setLayoutManager(gridLayoutManager);
                         } else {
 
-                            sale_entry.imgFilterCode.setVisibility(View.GONE);
-                            sale_entry.fitercode = "Description";
-                            Cursor cursor = DatabaseHelper.rawQuery("select distinct usr_code,description from Usr_Code where category=" + data.get(position).getCategory() + " order by usr_code");
+//                            sale_entry.imgFilterCode.setVisibility(View.GONE);
+//                            sale_entry.fitercode = "Description";
+                            Cursor cursor = DatabaseHelper.rawQuery("select distinct usr_code,description,sale_price from Usr_Code where category=" + data.get(position).getCategory() + " order by " + sale_entry.sortcode);
                             if (sale_entry.usr_codes.size() > 0) sale_entry.usr_codes.clear();
                             if (frmmain.withoutclass.equals("true")) {
                                 sale_entry.usr_codes.add(new usr_code("Back", "Back"));
@@ -210,35 +212,33 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyView
                                     do {
                                         String usr_code = cursor.getString(cursor.getColumnIndex("usr_code"));
                                         String description = cursor.getString(cursor.getColumnIndex("description"));
-                                        sale_entry.usr_codes.add(new usr_code(usr_code, description));
+                                        String value = cursor.getString(cursor.getColumnIndex("sale_price"));
+                                        double saleprice = Double.parseDouble(value.isEmpty() ? "0" : value);
+                                        sale_entry.usr_codes.add(new usr_code(usr_code, description, saleprice));
                                     } while (cursor.moveToNext());
 
                                 }
-
+                                cursor.close();
                             }
-                            cursor.close();
                             usrcodeAdapter ad = new usrcodeAdapter(context, sale_entry.usr_codes, rv, data);
                             rv.setAdapter(ad);
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(context.getApplicationContext(), 4);
                             rv.setLayoutManager(gridLayoutManager);
 
-
-                            if (currentPosition >= 0) {
-                                notifyItemChanged(currentPosition);
-                            }
-                            holder.btn.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-                            holder.viewIndicator.setBackgroundResource(R.color.colorPrimary);
-                            currentPosition = position;
+                            sale_entry.txtItemOf.setText("Items of - " + data.get(position).getName());
 
                         }
-
                     }
 
                 } catch (Exception ee) {
-                    System.out.println(ee + " this is exception");
+                    GlobalClass.showToast(context, ee.getMessage());
                 }
             }
         });
+
+        if(position == 0){
+            holder.btn.performClick();
+        }
 
     }
 
@@ -248,19 +248,14 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyView
         return data.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         Button btn;
-        View viewIndicator;
-        LinearLayout itemLayout;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             btn = itemView.findViewById(R.id.info_text);
-            if (frmmain.withoutclass.equals("false")) {
-                viewIndicator = itemView.findViewById(R.id.class_indicator);
-                itemLayout = itemView.findViewById(R.id.layout_item_class);
-            }
+
         }
     }
 }

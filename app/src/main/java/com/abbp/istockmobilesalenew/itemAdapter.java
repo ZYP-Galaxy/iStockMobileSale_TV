@@ -1146,6 +1146,7 @@ public class itemAdapter extends BaseAdapter {
         textView.setText(String.format("%." + frmmain.qty_places + "f", value));
         GetSpecialPrice(position);
 
+
         Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry.sd.get(position).getCode() +
                 " and unit_type=" + sale_entry.sd.get(position).getUnt_type()
         );
@@ -1159,9 +1160,8 @@ public class itemAdapter extends BaseAdapter {
                 } while (cursor.moveToNext());
 
             }
-
+            cursor.close();
         }
-        cursor.close();
 
         sale_entry.entrygrid.setAdapter(itemAd);
         sale_entry.getSummary();

@@ -2,4 +2,6 @@
     <string name="app_name">iStock</string>
     <string name="register"><u>Register</u></string>
     <string name="content_description">Content Description</string>
+
+    <string name="dialog_cancel">Cancel</string>
 </resources>

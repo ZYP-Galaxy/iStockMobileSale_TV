@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_item_class"
-    android:layout_width="150dp"
-    android:layout_height="100dp"
-    android:focusable="false"
+    android:layout_width="130dp"
+    android:layout_height="50dp"
     android:orientation="vertical">
 
     <Button
@@ -20,7 +19,7 @@
     <View
         android:id="@+id/class_indicator"
         android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="@color/colorPrimary" />
+        android:layout_height="5dp"
+        android:background="@color/headerbar" />
 
 </LinearLayout>

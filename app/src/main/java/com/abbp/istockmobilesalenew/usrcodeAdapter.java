@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -78,7 +80,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
         } else {
             v = lf.inflate(R.layout.item_usrcode, parent, false);
         }
-        return new usrcodeAdapter.MyViewHolder(v);
+        return new MyViewHolder(v);
     }
 
     @Override
@@ -150,16 +152,20 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
             });
         }else {
        */
-        holder.btn.setText(" " + data.get(position).getDescription());
-        holder.btn.setBackgroundResource(R.drawable.usercodegradiant);
+
+        holder.txtName.setText(" " + data.get(position).getDescription());
+
+        String saleprice = String.format("%,." + frmmain.price_places + "f", data.get(position).getSaleprice());
+        holder.txtPrice.setText(saleprice);
+        holder.layoutItem.setBackgroundResource(R.drawable.usercodegradiant);
         if (frmmain.withoutclass.equals("true")) {
             if (position == 0) {
-                holder.btn.setBackgroundResource(R.drawable.categorygradiant);
+                holder.layoutItem.setBackgroundResource(R.drawable.categorygradiant);
             } else {
-                holder.btn.setBackgroundResource(R.drawable.usercodegradiant);
+                holder.layoutItem.setBackgroundResource(R.drawable.usercodegradiant);
             }
         }
-        holder.btn.setOnClickListener(new View.OnClickListener() {
+        holder.layoutItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -187,8 +193,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
 
                                 }
 
+                                cursor.close();
                             }
-                            cursor.close();
 
                             categoryAdapter ad = new categoryAdapter(context, categories, rv, "SaleOrder");
                             rv.setAdapter(ad);
@@ -441,8 +447,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                             } while (cursor.moveToNext());
                                         }
 
+                                        cursor.close();
                                     }
-                                    cursor.close();
                                     sale_entry.itemAdapter.notifyDataSetChanged();
                                     sale_entry.entrygrid.setSelection(sale_entry.sd.size());
                                     sale_entry.getSummary();
@@ -490,8 +496,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                             } while (cursor.moveToNext());
                                         }
 
+                                        cursor.close();
                                     }
-                                    cursor.close();
                                     sale_entry.itemAdapter.notifyDataSetChanged();
                                     sale_entry.entrygrid.setSelection(sale_entry.sd.size());
                                     sale_entry.getSummary();
@@ -536,8 +542,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                         } while (cursor.moveToNext());
                                     }
 
+                                    cursor.close();
                                 }
-                                cursor.close();
                                 sale_entry.itemAdapter.notifyDataSetChanged();
                                 sale_entry.entrygrid.setSelection(sale_entry.sd.size());
                                 sale_entry.getSummary();
@@ -545,7 +551,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
 
 
                         }
-                        if (formname == "Sale") {
+                        if (formname.equals("Sale")) {
 
                             GetPdis();
                         }
@@ -701,7 +707,6 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
         }
     }
 
-
     private static long GetPriceLevel() {
         long level = 0;
         boolean useUserpricelevel = false;
@@ -717,9 +722,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                 } while (cursor.moveToNext());
 
             }
-
+            cursor.close();
         }
-        cursor.close();
 
         if (useCustpricelevel) {
             if (formname == "SaleOrder") {
@@ -769,21 +773,24 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
         return data.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        Button btn;
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        LinearLayout layoutItem;
+        TextView txtName;
+        TextView txtPrice;
         CardView cv;
         ImageView iv;
         TextView tv;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-
             if (frmmain.use_pic == 1) {
                 cv = itemView.findViewById(R.id.cardsale);
                 iv = itemView.findViewById(R.id.itempic);
                 tv = itemView.findViewById(R.id.info_text);
             } else {
-                btn = itemView.findViewById(R.id.info_text);
+                layoutItem = itemView.findViewById(R.id.layout_item_usrcode);
+                txtName = itemView.findViewById(R.id.info_text);
+                txtPrice = itemView.findViewById(R.id.txt_price);
             }
 
         }
