@@ -127,7 +127,7 @@ public class brandAdapter extends RecyclerView.Adapter<brandAdapter.MyViewHolder
                         cursor.close();
                         if(formname=="SaleOrder")//added by YLT
                         {
-                            classAdapter ad = new classAdapter(context, saleorder_entry.class_items, rv,"SaleOrder");//added by YLT
+                            ClassAdapter ad = new ClassAdapter(context, saleorder_entry.class_items, rv,"SaleOrder");//added by YLT
                             rv.setAdapter(ad);
                         }
                         else {
@@ -191,7 +191,7 @@ public class brandAdapter extends RecyclerView.Adapter<brandAdapter.MyViewHolder
 
                             }
                             cursor.close();
-                            usrcodeAdapter ad = new usrcodeAdapter(context, saleorder_entry.usr_codes, rv,"SaleOrder");
+                            UsrcodeAdapter ad = new UsrcodeAdapter(context, saleorder_entry.usr_codes, rv,"SaleOrder");
                             rv.setAdapter(ad);
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(context.getApplicationContext(), 4);
                             rv.setLayoutManager(gridLayoutManager);
@@ -217,7 +217,7 @@ public class brandAdapter extends RecyclerView.Adapter<brandAdapter.MyViewHolder
 
                             }
                             cursor.close();
-                            usrcodeAdapter ad = new usrcodeAdapter(context, sale_entry.usr_codes, rv);
+                            UsrcodeAdapter ad = new UsrcodeAdapter(context, sale_entry.usr_codes, rv);
                             rv.setAdapter(ad);
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(context.getApplicationContext(), 4);
                             rv.setLayoutManager(gridLayoutManager);

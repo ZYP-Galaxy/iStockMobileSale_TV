@@ -110,7 +110,7 @@ public class frmscancode extends AppCompatActivity implements ZXingScannerView.R
 
         finish();
         if (!scannercode.equals("NULL")) {
-            usrcodeAdapter.scanner(scannercode);
+            UsrcodeAdapter.scanner(scannercode);
         } else {
             Toast.makeText(getBaseContext(), "Alias Code isn't in the Table!", Toast.LENGTH_SHORT).show();
         }

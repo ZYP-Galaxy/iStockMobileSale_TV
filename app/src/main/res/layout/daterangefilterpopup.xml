@@ -1,53 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:focusable="false"
-    android:padding="10dp">
+    android:orientation="vertical">
+
     <androidx.cardview.widget.CardView
-        android:elevation="500dp"
-        app:cardCornerRadius="10dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp"
+        app:cardUseCompatPadding="true">
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:background="#2F4658"
                 android:id="@+id/header"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#2F4658">
+
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    app:srcCompat="@drawable/confirm"
                     android:id="@+id/imgDone"
-                    android:background="@null"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_height="wrap_content" />
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    android:tint="@color/white"
+                    app:srcCompat="@drawable/confirm" />
+
             </RelativeLayout>
+
             <com.applandeo.materialcalendarview.CalendarView
                 android:id="@+id/calendarView"
                 android:layout_width="wrap_content"
-                app:type="range_picker"
-                app:pagesColor="#CAE2FC"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/header"
                 app:abbreviationsBarColor="#8FBCF3"
                 app:abbreviationsLabelsColor="@color/white"
                 app:headerColor="#46509E"
+                app:pagesColor="#CAE2FC"
                 app:selectionColor="#46509E"
                 app:selectionLabelColor="@color/white"
-                app:todayLabelColor="#46509E"
-                android:layout_below="@+id/header"
-                android:layout_height="wrap_content" />
+                app:todayLabelColor="@color/colorPrimary"
+                app:type="range_picker" />
 
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
-
 
 
 </LinearLayout>

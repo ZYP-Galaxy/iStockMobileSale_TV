@@ -31,7 +31,8 @@ public class GlobalClass {
     static ProgressDialog progressDialog;
 
     public static void showProgressDialog(Context context, String message) {
-        progressDialog = new ProgressDialog(context);
+        progressDialog = new ProgressDialog(context, R.style.AlertDialogTheme);
+        progressDialog.setTitle(R.string.app_name);
         progressDialog.setMessage(message);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);

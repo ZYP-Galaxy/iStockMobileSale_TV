@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
+
+    <FrameLayout
+        android:id="@+id/voucher_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/voucher_layout"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:orientation="vertical" />
+
+        </ScrollView>
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,12 +80,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/white"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="200dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -79,7 +101,8 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="visible">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -102,7 +125,7 @@
                             android:id="@+id/txtdate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text=" 22/01/2019"
+                            android:text="22/01/2019"
                             android:textColor="#ffffff"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -143,7 +166,6 @@
                         android:id="@+id/docidlayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="16sp"
                         android:layout_toEndOf="@+id/invoicelayout"
@@ -153,7 +175,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Docid: "
+                            android:text=""
                             android:textColor="#ffffff"
                             android:textSize="16sp" />
 
@@ -194,7 +216,7 @@
                     <ImageButton
                         android:id="@+id/imgHeader"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="10dp"
@@ -204,9 +226,9 @@
                     <ImageButton
                         android:id="@+id/imgPrintSelection"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="10dp"
+                        android:layout_marginEnd="20dp"
                         android:layout_toStartOf="@+id/imgHeader"
                         android:background="@null"
                         app:srcCompat="@drawable/printertablet" />
@@ -273,7 +295,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
                         android:layout_weight="1"
-                        android:gravity="center_vertical"
+                        android:gravity="center"
                         android:text="Qty"
                         android:textColor="@color/black"
                         android:textSize="12sp"
@@ -283,9 +305,9 @@
                         android:id="@+id/unit"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="20dp"
                         android:layout_weight="1"
-                        android:gravity="center_vertical"
+                        android:gravity="center"
                         android:text="Unit"
                         android:textColor="@color/black"
                         android:textSize="12sp"
@@ -454,22 +476,20 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
-                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginStart="10dp"
                                     android:text="Tax"
                                     android:textColor="#2F4658"
                                     android:textSize="16sp"
-                                    android:textStyle="bold"
-
-                                    />
+                                    android:textStyle="bold" />
 
                                 <TextView
                                     android:id="@+id/txttaxamt"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
+                                    android:layout_alignParentEnd="true"
                                     android:layout_centerVertical="true"
-                                    android:layout_marginRight="10dp"
-                                    android:layout_toRightOf="@+id/txttax"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_toEndOf="@+id/txttax"
                                     android:gravity="end"
                                     android:text="0"
                                     android:textColor="#2F4658"
@@ -905,7 +925,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="4"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -915,24 +935,6 @@
                     android:background="@color/colorAccent"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:id="@+id/frame"
-                        android:layout_width="320dp"
-                        android:layout_height="match_parent"
-                        android:visibility="gone">
-
-                        <ScrollView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-                            <LinearLayout
-                                android:id="@+id/root_view"
-                                android:layout_width="320dp"
-                                android:layout_height="wrap_content"
-                                android:background="@color/colorWhite"
-                                android:orientation="vertical" />
-                        </ScrollView>
-                    </FrameLayout>
 
                     <ImageButton
                         android:id="@+id/imgscanner"
@@ -963,9 +965,7 @@
                         android:hint="Barcode Scan"
                         android:inputType="textMultiLine"
                         android:padding="5dp"
-                        android:textSize="14sp">
-
-                    </EditText>
+                        android:textSize="14sp" />
 
                     <EditText
                         android:id="@+id/edtSearch"
@@ -974,7 +974,6 @@
                         android:layout_weight="1"
                         android:background="@drawable/bg_input"
                         android:backgroundTint="@color/white"
-                        android:drawableEnd="@drawable/searchcode"
                         android:drawableTint="@color/colorGrayB"
                         android:ems="10"
                         android:hint="Search"
@@ -1053,7 +1052,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:text="Items of "
+                            android:text="Category Name"
                             android:textColor="@color/colorAccent"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -1073,4 +1072,4 @@
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

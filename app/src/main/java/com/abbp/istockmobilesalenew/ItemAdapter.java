@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ import java.util.ArrayList;
 import static com.abbp.istockmobilesalenew.sale_entry.itemPosition;
 import static com.abbp.istockmobilesalenew.sale_entry.sd;
 
-public class itemAdapter extends BaseAdapter {
+public class ItemAdapter extends BaseAdapter {
     Context context;
     boolean isqty = false;
     boolean isSalePrice = false;
@@ -39,17 +38,17 @@ public class itemAdapter extends BaseAdapter {
     TextView tv4;
     TextView tv5;
     boolean startOpen;
-    public static itemAdapter itemAd;
+    public static ItemAdapter itemAd;
     public static double disamt;
     public static String formname;//added by YLT
 
-    public itemAdapter(Context context) {
+    public ItemAdapter(Context context) {
         this.context = context;
         formname = "Sale";
 
     }
 
-    public itemAdapter(Context context, String frm) {//added by YLT
+    public ItemAdapter(Context context, String frm) {//added by YLT
         this.context = context;
         formname = frm;//added by YLT
 
@@ -80,11 +79,11 @@ public class itemAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = lf.inflate(R.layout.dataitem, null, false);
-        TextView tv = (TextView) convertView.findViewById(R.id.sr);
-        TextView tv1 = (TextView) convertView.findViewById(R.id.desc);
-        TextView tv2 = (TextView) convertView.findViewById(R.id.qty);
-        TextView tv3 = (TextView) convertView.findViewById(R.id.unit);
-        TextView tvgallon = convertView.findViewById(R.id.gallon);
+        TextView tvSr = convertView.findViewById(R.id.sr);
+        TextView tvDesc = convertView.findViewById(R.id.desc);
+        TextView tvQty = convertView.findViewById(R.id.qty);
+        TextView tvUnit = convertView.findViewById(R.id.unit);
+        TextView tvGallon = convertView.findViewById(R.id.gallon);
 
         ImageView btnMinus = convertView.findViewById(R.id.img_qty_minus);
         ImageView btnPlus = convertView.findViewById(R.id.img_qty_plus);
@@ -92,50 +91,50 @@ public class itemAdapter extends BaseAdapter {
         if (formname == "Sale") {
 
             if (frmlogin.use_oil == 1) {
-                tvgallon.setVisibility(View.VISIBLE);
+                tvGallon.setVisibility(View.VISIBLE);
                 isgallon = false;
             } else {
-                tvgallon.setVisibility(View.GONE);
+                tvGallon.setVisibility(View.GONE);
                 isgallon = false;
             }
 
             String qtyAsString = String.format("%." + frmmain.qty_places + "f", sale_entry.sd.get(position).getGallon());
-            tvgallon.setText(qtyAsString);
+            tvGallon.setText(qtyAsString);
 
-            tvgallon.setOnClickListener(new View.OnClickListener() {
+            tvGallon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     isqty = false;
                     isSalePrice = false;
                     isgallon = true;
-                    keynum = tv2.getText().toString();
-                    showKeyPad(tvgallon, tvgallon, position);
+                    keynum = tvQty.getText().toString();
+                    showKeyPad(tvGallon, tvGallon, position);
                     itemPosition = -1;
                 }
             });
 
             btnMinus.setOnClickListener(v -> {
-                Double unit_qty = Double.parseDouble(tv2.getText().toString());
+                Double unit_qty = Double.parseDouble(tvQty.getText().toString());
                 if (unit_qty > 1) {
                     unit_qty = unit_qty - 1;
 //                    tv2.setText(String.format("%." + frmmain.qty_places + "f", unit_qty));
 
-                    CalculateQty(tv2, position, unit_qty);
+                    CalculateQty(tvQty, position, unit_qty);
 
                 }
 
             });
 
             btnPlus.setOnClickListener(v -> {
-                Double unit_qty = Double.parseDouble(tv2.getText().toString());
+                Double unit_qty = Double.parseDouble(tvQty.getText().toString());
                 unit_qty = unit_qty + 1;
 //                tv2.setText(String.format("%." + frmmain.qty_places + "f", unit_qty));
-                CalculateQty(tv2, position, unit_qty);
+                CalculateQty(tvQty, position, unit_qty);
 
             });
 
         } else {
-            tvgallon.setVisibility(View.GONE);
+            tvGallon.setVisibility(View.GONE);
             isgallon = false;
         }
 
@@ -146,48 +145,46 @@ public class itemAdapter extends BaseAdapter {
                 do {
                     use_unit = cursorplvl.getInt(cursorplvl.getColumnIndex("use_unit")) == 1 ? true : false;
                 } while (cursorplvl.moveToNext());
-
-
             }
-
+            cursorplvl.close();
         }
-        cursorplvl.close();
-        tv3.setVisibility(use_unit == true ? View.VISIBLE : View.GONE);
+
+        tvUnit.setVisibility(use_unit == true ? View.VISIBLE : View.GONE);
         tv4 = (TextView) convertView.findViewById(R.id.amt);
         tv5 = convertView.findViewById(R.id.txtDelete);
 
         if (formname == "SaleOrder")//added by YLT
         {
-            tv.setText(String.valueOf(saleorder_entry.sd.get(position).getSr()));
-            tv1.setText(saleorder_entry.sd.get(position).getDesc());
+            tvSr.setText(String.valueOf(saleorder_entry.sd.get(position).getSr()));
+            tvDesc.setText(saleorder_entry.sd.get(position).getDesc());
             Double unit_qty = saleorder_entry.sd.get(position).getUnit_qty();
             String qtyAsString = String.format("%." + frmmain.qty_places + "f", unit_qty);
-            tv2.setText(qtyAsString);
-            tv3.setText(saleorder_entry.sd.get(position).getUnit_short());
+            tvQty.setText(qtyAsString);
+            tvUnit.setText(saleorder_entry.sd.get(position).getUnit_short());
             double amt = saleorder_entry.sd.get(position).getSale_price() * saleorder_entry.sd.get(position).getUnit_qty();
             String numberAsString = String.format("%,." + frmmain.price_places + "f", amt);
             tv4.setText(String.valueOf(numberAsString));
         } else {
-            tv.setText(String.valueOf(sale_entry.sd.get(position).getSr()));
-            tv1.setText(sale_entry.sd.get(position).getDesc());
+            tvSr.setText(String.valueOf(sale_entry.sd.get(position).getSr()));
+            tvDesc.setText(sale_entry.sd.get(position).getDesc());
             Double unit_qty = sale_entry.sd.get(position).getUnit_qty();
             String qtyAsString = String.format("%." + frmmain.qty_places + "f", unit_qty);
-            tv2.setText(qtyAsString);
-            tv3.setText(sale_entry.sd.get(position).getUnit_short());
+            tvQty.setText(qtyAsString);
+            tvUnit.setText(sale_entry.sd.get(position).getUnit_short());
             double amt = sale_entry.sd.get(position).getSale_price() * sale_entry.sd.get(position).getUnit_qty();
             String numberAsString = String.format("%,." + frmmain.price_places + "f", amt);
             tv4.setText(String.valueOf(numberAsString));
         }
 
 
-        tv2.setOnClickListener(new View.OnClickListener() {
+        tvQty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isqty = true;
                 isSalePrice = false;
                 isgallon = false;
-                keynum = tv2.getText().toString();
-                showKeyPad(tv2, tv2, position);
+                keynum = tvQty.getText().toString();
+                showKeyPad(tvQty, tvQty, position);
                 itemPosition = -1;
             }
         });
@@ -198,7 +195,7 @@ public class itemAdapter extends BaseAdapter {
 
                 AlertDialog.Builder bd = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
                 bd.setTitle("iStock");
-                bd.setMessage("Are you sure want to delete this row?");
+                bd.setMessage("Are you sure want to delete this item?");
                 bd.setCancelable(false);
                 bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
@@ -232,7 +229,8 @@ public class itemAdapter extends BaseAdapter {
                             for (int i = 0; i < sale_entry.sd.size(); i++) {
                                 sale_entry.sd.get(i).setSr(i + 1);
                             }
-                            sale_entry.getData();
+                            //sale_entry.getData();
+                            sale_entry.itemAdapter.notifyDataSetChanged();
                             sale_entry.getSummary();
                             if (sale_entry.sd.size() == 0) {
                                 String tax = "Tax" + (sale_entry.getTax() > 0 ? "( " + sale_entry.getTax() + "% )" : "");
@@ -251,7 +249,7 @@ public class itemAdapter extends BaseAdapter {
                     }
                 });
 
-                bd.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                bd.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -259,9 +257,10 @@ public class itemAdapter extends BaseAdapter {
                 });
                 bd.create().show();
 
-
             }
         });
+
+        /*
         tv4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -467,7 +466,10 @@ public class itemAdapter extends BaseAdapter {
             }
 
         });
-        tv3.setOnClickListener(new View.OnClickListener() {
+
+         */
+
+        tvUnit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -781,8 +783,9 @@ public class itemAdapter extends BaseAdapter {
                             }
                             cursor.close();
 
-                            sale_entry.entrygrid.setAdapter(itemAd);
-                            sale_entry.entrygrid.setSelection(itemposition);
+//                            sale_entry.entrygrid.setAdapter(itemAd);
+//                            sale_entry.entrygrid.setSelection(itemposition);
+                            sale_entry.itemAdapter.notifyDataSetChanged();
                             sale_entry.getSummary();
                         }
                     } else if (isgallon) {
@@ -849,9 +852,8 @@ public class itemAdapter extends BaseAdapter {
                                         } while (cursor.moveToNext());
 
                                     }
-
+                                    cursor.close();
                                 }
-                                cursor.close();
                             }
 
                             source.setText(String.format("%,." + frmmain.price_places + "f", check));
@@ -874,13 +876,8 @@ public class itemAdapter extends BaseAdapter {
                     txtNum.setText(keynum);
                     AlertDialog.Builder bd = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
                     bd.setTitle("iStock");
-                    bd.setMessage("Number Format is incompatiable with data type");
-                    bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            msg.dismiss();
-                        }
-                    });
+                    bd.setMessage("Incorrect Number Format!");
+                    bd.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
                     msg = bd.create();
                     msg.show();
                     pw.dismiss();
@@ -1133,7 +1130,7 @@ public class itemAdapter extends BaseAdapter {
 
     }
 
-    public void getItemAdpater(itemAdapter itemAdapter) {
+    public void getItemAdpater(ItemAdapter itemAdapter) {
         itemAd = itemAdapter;
     }
 
@@ -1163,7 +1160,8 @@ public class itemAdapter extends BaseAdapter {
             cursor.close();
         }
 
-        sale_entry.entrygrid.setAdapter(itemAd);
+        //sale_entry.entrygrid.setAdapter(itemAd);
+        itemAd.notifyDataSetChanged();
         sale_entry.getSummary();
     }
 

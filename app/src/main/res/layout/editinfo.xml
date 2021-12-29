@@ -1,11 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:focusable="false"
     android:background="#d9d4d4"
+    android:focusable="false"
+    android:orientation="vertical"
     android:padding="10dp">
 
     <androidx.cardview.widget.CardView
@@ -50,15 +50,16 @@
             <ScrollView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:orientation="vertical"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
                     <RelativeLayout
+                        android:id="@+id/rlqty"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/rlqty"
                         android:layout_marginBottom="5dp">
 
                         <TextView
@@ -83,10 +84,10 @@
                         <TextView
                             android:id="@+id/txtChangeQty"
                             android:layout_width="150dp"
-                            android:background="@drawable/txtbg"
                             android:layout_height="35dp"
                             android:layout_centerVertical="true"
                             android:layout_toLeftOf="@+id/imgAddqty"
+                            android:background="@drawable/txtbg"
                             android:gravity="center"
                             android:text="0"
                             android:textColor="#46509E"
@@ -103,12 +104,13 @@
                             app:srcCompat="@drawable/subqtycopy" />
 
                     </RelativeLayout>
+
                     <RelativeLayout
+                        android:id="@+id/rlPetrol"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/rlPetrol"
-                        android:visibility="gone"
-                        android:layout_marginBottom="5dp">
+                        android:layout_marginBottom="5dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -127,15 +129,15 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:background="@null"
-                           android:src="@drawable/addqtycopy" />
+                            android:src="@drawable/addqtycopy" />
 
                         <TextView
                             android:id="@+id/txtPChangeQty"
                             android:layout_width="150dp"
-                            android:background="@drawable/txtbg"
                             android:layout_height="35dp"
                             android:layout_centerVertical="true"
                             android:layout_toLeftOf="@+id/imgPAddqty"
+                            android:background="@drawable/txtbg"
                             android:gravity="center"
                             android:text="0"
                             android:textColor="#46509E"
@@ -152,6 +154,7 @@
                             app:srcCompat="@drawable/subqtycopy" />
 
                     </RelativeLayout>
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
@@ -169,7 +172,7 @@
 
                         <Button
                             android:id="@+id/btndiscountype"
-                            android:layout_width="185dp"
+                            android:layout_width="230dp"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_alignParentBottom="true"
@@ -185,9 +188,9 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/rlsale"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:id="@+id/rlsale"
                         android:layout_marginBottom="5dp">
 
                         <TextView
@@ -212,11 +215,12 @@
 
                         <TextView
                             android:id="@+id/txtChangePrice"
-                            android:layout_width="100dp"
-                            android:background="@drawable/txtbg"
+                            android:layout_width="150dp"
                             android:layout_height="50dp"
+                            android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:layout_toLeftOf="@+id/imgChangePrice"
+                            android:layout_marginEnd="42dp"
+                            android:background="@drawable/txtbg"
                             android:gravity="center"
                             android:text="0"
                             android:textColor="#46509E"
@@ -224,10 +228,11 @@
                             android:textStyle="bold" />
 
                     </RelativeLayout>
+
                     <RelativeLayout
+                        android:id="@+id/rlSQTY"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:id="@+id/rlSQTY"
                         android:layout_marginBottom="10dp">
 
                         <TextView
@@ -253,10 +258,11 @@
                             android:textSize="15dp"
                             android:textStyle="bold" />
                     </RelativeLayout>
+
                     <RelativeLayout
+                        android:id="@+id/rlSprice"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:id="@+id/rlSprice"
                         android:layout_marginBottom="10dp">
 
                         <TextView
@@ -284,53 +290,54 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/rlUnit"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:id="@+id/rlUnit"
                         android:layout_marginBottom="5dp">
 
                         <TextView
+                            android:id="@+id/txtunit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="10dp"
-                            android:id="@+id/txtunit"
                             android:text="Unit"
                             android:textColor="#46509E"
                             android:textSize="15dp"
                             android:textStyle="bold" />
+
                         <LinearLayout
 
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:layout_toRightOf="@+id/txtunit"
                             android:layout_marginLeft="20dp"
-                            android:orientation="horizontal"
-                            >
+                            android:layout_toRightOf="@+id/txtunit"
+                            android:orientation="horizontal">
+
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
+
                                 <TextView
-                                    android:layout_width="wrap_content"
-                                    android:text="pkg"
                                     android:id="@+id/showpkg"
-                                    android:textStyle="bold"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
-                                    android:textColor="#46509E"
-                                    android:textSize="15dp"
-                                    android:visibility="gone"
                                     android:layout_marginLeft="10dp"
                                     android:layout_toLeftOf="@+id/rcvUnit"
-                                    android:layout_height="wrap_content"
-                                    />
+                                    android:text="pkg"
+                                    android:textColor="#46509E"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
+
                                 <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/rcvUnit"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:id="@+id/rcvUnit"
-                                    >
+                                    android:layout_alignParentRight="true">
 
                                 </androidx.recyclerview.widget.RecyclerView>
 
@@ -342,12 +349,10 @@
                     </RelativeLayout>
 
 
-
-
                     <RelativeLayout
+                        android:id="@+id/rllevel"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:id="@+id/rllevel"
                         android:layout_marginBottom="5dp">
 
                         <TextView
@@ -361,16 +366,13 @@
                             android:textStyle="bold" />
 
 
-
                         <LinearLayout
 
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:orientation="horizontal"
-                            >
-
+                            android:orientation="horizontal">
 
 
                             <RelativeLayout
@@ -385,10 +387,10 @@
                                     android:layout_marginLeft="10dp"
                                     android:layout_toLeftOf="@+id/rcvSP"
                                     android:text="SP"
-                                    android:visibility="gone"
                                     android:textColor="#46509E"
                                     android:textSize="15dp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
 
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/rcvSP"
@@ -400,15 +402,15 @@
 
                             </RelativeLayout>
 
-
-
                         </LinearLayout>
 
                     </RelativeLayout>
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -418,28 +420,27 @@
                             android:textColor="#46509E"
                             android:textSize="15dp"
                             android:textStyle="bold" />
+
                         <EditText
                             android:id="@+id/txtDetRemark"
-                            android:layout_width="match_parent"
+                            android:layout_width="460dp"
                             android:layout_height="35dp"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="130dp"
-                            android:layout_marginRight="5dp"
-                            android:hint="Enter remark"
-                            android:textColorHint="#f2dcdc"
-                            android:textColor="@color/white"
                             android:background="@drawable/txtinvoice"
+                            android:hint="Enter remark"
                             android:imeOptions="actionDone|flagNoExtractUi"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
+                            android:textColor="@color/white"
+                            android:textColorHint="#f2dcdc"
+                            android:textSize="16sp" />
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:visibility="gone"
-                        android:layout_marginBottom="20dp">
+                        android:layout_marginBottom="20dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -467,9 +468,9 @@
 
 
                     <RelativeLayout
+                        android:id="@+id/rlamt"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:id="@+id/rlamt"
                         android:layout_marginBottom="10dp">
 
                         <TextView

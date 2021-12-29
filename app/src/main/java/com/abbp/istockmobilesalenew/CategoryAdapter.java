@@ -7,31 +7,31 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
     Context context;
     ArrayList<category> data;
     RecyclerView rv;
-    public static String formname;//added by YLT
+    public static String formname;  //added by YLT
 
-    public categoryAdapter(Context context, ArrayList<category> data, RecyclerView rv) {
+    public static String itemposition = "1";
+
+    public CategoryAdapter(Context context, ArrayList<category> data, RecyclerView rv) {
         this.context = context;
         this.data = data;
         this.rv = rv;
         formname = "Sale";
     }
 
-    public categoryAdapter(Context context, ArrayList<category> data, RecyclerView rv, String frm) {
+    public CategoryAdapter(Context context, ArrayList<category> data, RecyclerView rv, String frm) {
         this.context = context;
         this.data = data;
         this.rv = rv;
@@ -53,7 +53,7 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyView
 
 
     @Override
-    public void onBindViewHolder(categoryAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(CategoryAdapter.MyViewHolder holder, int position) {
 
         holder.btn.setText(data.get(position).getName());
         if (frmmain.withoutclass.equals("false")) {
@@ -129,11 +129,11 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyView
                         cursor.close();
                         if (formname == "SaleOrder")//added by YLT
                         {
-                            classAdapter ad = new classAdapter(context, saleorder_entry.class_items, rv, "SaleOrder");//added by YLT
+                            ClassAdapter ad = new ClassAdapter(context, saleorder_entry.class_items, rv, "SaleOrder");//added by YLT
                             rv.setAdapter(ad);
                         } else {
 
-                            classAdapter ad = new classAdapter(context, sale_entry.class_items, rv);
+                            ClassAdapter ad = new ClassAdapter(context, sale_entry.class_items, rv);
                             rv.setAdapter(ad);
                         }
                         LinearLayoutManager classlinear = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
@@ -194,7 +194,7 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyView
 
                             }
                             cursor.close();
-                            usrcodeAdapter ad = new usrcodeAdapter(context, saleorder_entry.usr_codes, rv, data, "SaleOrder");
+                            UsrcodeAdapter ad = new UsrcodeAdapter(context, saleorder_entry.usr_codes, rv, data, "SaleOrder");
                             rv.setAdapter(ad);
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(context.getApplicationContext(), 4);
                             rv.setLayoutManager(gridLayoutManager);
@@ -220,12 +220,12 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyView
                                 }
                                 cursor.close();
                             }
-                            usrcodeAdapter ad = new usrcodeAdapter(context, sale_entry.usr_codes, rv, data);
+                            UsrcodeAdapter ad = new UsrcodeAdapter(context, sale_entry.usr_codes, rv, data);
                             rv.setAdapter(ad);
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(context.getApplicationContext(), 4);
                             rv.setLayoutManager(gridLayoutManager);
 
-                            sale_entry.txtItemOf.setText("Items of - " + data.get(position).getName());
+                            sale_entry.txtItemOf.setText(data.get(position).getName());
 
                         }
                     }
@@ -233,15 +233,16 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyView
                 } catch (Exception ee) {
                     GlobalClass.showToast(context, ee.getMessage());
                 }
+
+                itemposition = String.valueOf(data.get(position).getCategory());
             }
         });
 
-        if(position == 0){
+        if (position == 0) {
             holder.btn.performClick();
         }
 
     }
-
 
     @Override
     public int getItemCount() {

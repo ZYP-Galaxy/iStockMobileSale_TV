@@ -10,16 +10,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp">
+        android:layout_margin="20dp">
 
         <ImageButton
             android:id="@+id/imgOK"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@null"
+            android:layout_marginStart="10dp"
+            android:background="@color/colorPrimary"
             android:textAllCaps="false"
             android:textStyle="bold"
             app:srcCompat="@drawable/searchtablet" />
@@ -39,20 +39,20 @@
             app:srcCompat="@drawable/filtertablet" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/imgFilterCode"
-            android:textColorHint="@color/white"
+            android:layout_toStartOf="@+id/imgFilterCode"
+            android:textColorHint="@color/whitesmoke"
             app:boxStrokeColor="@color/white">
 
             <EditText
                 android:id="@+id/etdSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Searching"
-                android:textColor="@color/white"
-                android:textColorHint="@color/whitesmoke" />
+                android:hint="Search"
+                android:textColor="@color/white" />
+
         </com.google.android.material.textfield.TextInputLayout>
     </RelativeLayout>
 </LinearLayout>

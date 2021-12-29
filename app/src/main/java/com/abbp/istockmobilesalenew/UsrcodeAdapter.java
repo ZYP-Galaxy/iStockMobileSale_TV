@@ -10,10 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -23,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHolder> {
+public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHolder> {
 
     Context context;
     File directory;
@@ -37,7 +35,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
 
     static long specialPrice = 0;
 
-    public usrcodeAdapter(Context context, ArrayList<usr_code> data, RecyclerView rv, ArrayList<category> categories) {
+    public UsrcodeAdapter(Context context, ArrayList<usr_code> data, RecyclerView rv, ArrayList<category> categories) {
         this.context = context;
         this.data = data;
         this.rv = rv;
@@ -46,7 +44,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
     }
 
     //added by YLT
-    public usrcodeAdapter(Context context, ArrayList<usr_code> data, RecyclerView rv, ArrayList<category> categories, String frm) {
+    public UsrcodeAdapter(Context context, ArrayList<usr_code> data, RecyclerView rv, ArrayList<category> categories, String frm) {
         this.context = context;
         this.data = data;
         this.rv = rv;
@@ -55,7 +53,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
     }
 
 
-    public usrcodeAdapter(Context context, ArrayList<usr_code> data, RecyclerView rv) {
+    public UsrcodeAdapter(Context context, ArrayList<usr_code> data, RecyclerView rv) {
         this.context = context;
         this.data = data;
         this.rv = rv;
@@ -63,7 +61,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
     }
 
     //added by YLT
-    public usrcodeAdapter(Context context, ArrayList<usr_code> data, RecyclerView rv, String frm) {
+    public UsrcodeAdapter(Context context, ArrayList<usr_code> data, RecyclerView rv, String frm) {
         this.context = context;
         this.data = data;
         this.rv = rv;
@@ -72,7 +70,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
 
 
     @Override
-    public usrcodeAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UsrcodeAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater lf = LayoutInflater.from(parent.getContext());
         View v = null;
         if (frmmain.use_pic == 1) {
@@ -153,7 +151,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
         }else {
        */
 
-        holder.txtName.setText(" " + data.get(position).getDescription());
+        holder.txtName.setText(String.format(" %s", data.get(position).getDescription()));
 
         String saleprice = String.format("%,." + frmmain.price_places + "f", data.get(position).getSaleprice());
         holder.txtPrice.setText(saleprice);
@@ -196,7 +194,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                 cursor.close();
                             }
 
-                            categoryAdapter ad = new categoryAdapter(context, categories, rv, "SaleOrder");
+                            CategoryAdapter ad = new CategoryAdapter(context, categories, rv, "SaleOrder");
                             rv.setAdapter(ad);
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(context.getApplicationContext(), 4);
                             rv.setLayoutManager(gridLayoutManager);
@@ -222,11 +220,10 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                     } while (cursor.moveToNext());
 
                                 }
-
+                                cursor.close();
                             }
-                            cursor.close();
 
-                            categoryAdapter ad = new categoryAdapter(context, categories, rv);
+                            CategoryAdapter ad = new CategoryAdapter(context, categories, rv);
                             rv.setAdapter(ad);
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(context.getApplicationContext(), 4);
                             rv.setLayoutManager(gridLayoutManager);
@@ -508,7 +505,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                 specialPrice = GetPriceLevel();
                                 String sale_price = specialPrice == 0 ? "uc.sale_price" : "uc.sale_price" + specialPrice;
                                 String SP = specialPrice == 0 ? "SP" : "SP" + specialPrice;
-                                String sqlString = "select uc.unit_type,code,description," + sale_price + ",open_price,smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
+                                String sqlString = "select uc.unit_type,code,description," + sale_price + " as sale_price,open_price,smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
                                         " where uc.unit_type=1 and uc.usr_code='" + data.get(position).getUsr_code() + "'";
                                 Cursor cursor = DatabaseHelper.rawQuery(sqlString);
                                 if (cursor != null && cursor.getCount() != 0) {
@@ -516,7 +513,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                         do {
 
                                             long code = cursor.getLong(cursor.getColumnIndex("code"));
-                                            double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
+                                            double price = cursor.getDouble(cursor.getColumnIndex("sale_price"));
                                             int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                             double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
                                             int unit_type = cursor.getInt(cursor.getColumnIndex("unit_type"));
@@ -548,21 +545,17 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                 sale_entry.entrygrid.setSelection(sale_entry.sd.size());
                                 sale_entry.getSummary();
                             }
-
-
                         }
                         if (formname.equals("Sale")) {
-
                             GetPdis();
                         }
                     }
-                } catch (Exception ee) {
-                    System.out.println(ee + "this is exception");
+                } catch (Exception ex) {
+                    System.out.println("UsrcodeAdapter : " + ex.getMessage());
 
                 }
             }
         });
-//    }
     }
 
     private void GetPdis() {
@@ -612,7 +605,6 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
 
 
     }
-
 
     //Added by abbp barcode scanner on 19/6/2019
     public static void scanner(String usr_code) {

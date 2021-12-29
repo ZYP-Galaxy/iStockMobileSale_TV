@@ -3,8 +3,6 @@ package com.abbp.istockmobilesalenew;
 import android.content.Context;
 import android.database.Cursor;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,7 +14,7 @@ import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
-public class classAdapter extends RecyclerView.Adapter<classAdapter.MyViewHolder> {
+public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.MyViewHolder> {
     Context context;
     ArrayList<class_item> data;
     RecyclerView rv;
@@ -25,7 +23,7 @@ public class classAdapter extends RecyclerView.Adapter<classAdapter.MyViewHolder
     boolean firstBind = true;
     int selectedPosition = 0;
 
-    public classAdapter(Context context, ArrayList<class_item> data, RecyclerView rv) {
+    public ClassAdapter(Context context, ArrayList<class_item> data, RecyclerView rv) {
         this.context = context;
         this.data = data;
         this.rv = rv;
@@ -34,7 +32,7 @@ public class classAdapter extends RecyclerView.Adapter<classAdapter.MyViewHolder
     }
 
     //added by YLT
-    public classAdapter(Context context, ArrayList<class_item> data, RecyclerView rv, String frm) {
+    public ClassAdapter(Context context, ArrayList<class_item> data, RecyclerView rv, String frm) {
         this.context = context;
         this.data = data;
         this.rv = rv;
@@ -42,14 +40,14 @@ public class classAdapter extends RecyclerView.Adapter<classAdapter.MyViewHolder
     }
 
     @Override
-    public classAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ClassAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater lf = LayoutInflater.from(parent.getContext());
         View v = lf.inflate(R.layout.item_class, parent, false);
         return new MyViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(classAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(ClassAdapter.MyViewHolder holder, int position) {
 
         if (selectedPosition == position) {
             holder.viewIndicator.setBackgroundResource(R.color.colorPrimary);
@@ -84,7 +82,7 @@ public class classAdapter extends RecyclerView.Adapter<classAdapter.MyViewHolder
                             }
                         }
                         cursor.close();
-                        categoryAdapter ad = new categoryAdapter(context, saleorder_entry.categories, rv, "SaleOrder");//added by YLT
+                        CategoryAdapter ad = new CategoryAdapter(context, saleorder_entry.categories, rv, "SaleOrder");//added by YLT
                         rv.setAdapter(ad);
                         LinearLayoutManager classlinear = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
                         rv.setLayoutManager(classlinear);
@@ -111,7 +109,7 @@ public class classAdapter extends RecyclerView.Adapter<classAdapter.MyViewHolder
                             cursor.close();
                         }
 
-                        categoryAdapter ad = new categoryAdapter(context, sale_entry.categories, rv);//added by YLT
+                        CategoryAdapter ad = new CategoryAdapter(context, sale_entry.categories, rv);//added by YLT
                         rv.setAdapter(ad);
                         LinearLayoutManager classlinear = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
                         rv.setLayoutManager(classlinear);
