@@ -20,7 +20,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
     Button btn,btnDiscount;
     int itemposition;
     boolean showqty=false;
-    itemAdapter itemAdapter;
+    ItemAdapter itemAdapter;
     int row_index=-1;
     androidx.appcompat.app.AlertDialog da;
     private String formname;
@@ -52,7 +52,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
         formname=frm;
     }
 
-    public UnitAdapter(Context context, ArrayList<unitforcode> data, int itemposition, itemAdapter itemAdapter, androidx.appcompat.app.AlertDialog da) {
+    public UnitAdapter(Context context, ArrayList<unitforcode> data, int itemposition, ItemAdapter itemAdapter, androidx.appcompat.app.AlertDialog da) {
         this.data = data;
         this.context = context;
         this.itemposition=itemposition;
@@ -61,7 +61,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
         this.da=da;
 
     }
-    public UnitAdapter(Context context, ArrayList<unitforcode> data, int itemposition, itemAdapter itemAdapter, androidx.appcompat.app.AlertDialog da, String frm) {
+    public UnitAdapter(Context context, ArrayList<unitforcode> data, int itemposition, ItemAdapter itemAdapter, androidx.appcompat.app.AlertDialog da, String frm) {
         this.data = data;
         this.context = context;
         this.itemposition=itemposition;

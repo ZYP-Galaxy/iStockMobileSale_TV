@@ -7,325 +7,315 @@
     android:background="#ECF0F5"
     tools:context=".frmsalelist">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-           >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                app:cardBackgroundColor="#2F4658"
-                android:elevation="20dp"
-                android:padding="10dp"
-                android:id="@+id/head"
-               >
+        <androidx.cardview.widget.CardView
+            android:id="@+id/head"
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            app:cardBackgroundColor="@color/colorAccent">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
-                    >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical">
+
                 <TextView
+                    android:id="@+id/txtsalehistory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sale History"
-                    android:id="@+id/txtsalehistory"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
-                    android:textStyle="bold"
+                    android:text="Sale History"
                     android:textColor="@color/white"
-                    android:textSize="20dp"/>
-
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:id="@+id/header"
-                android:layout_marginTop="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_below="@+id/head"
-                android:layout_height="50dp">
-                        <Button
-                            android:layout_width="200dp"
-                            android:text="Today"
-                            android:layout_centerVertical="true"
-                            android:textStyle="bold"
-                            android:id="@+id/txtdate"
-                            android:textColor="@color/white"
-                            android:textAllCaps="false"
-                            android:background="@drawable/btnround2"
-                            android:layout_height="40dp" />
-<!--android:background="@drawable/btnround2"-->
-                    <Button
-                        android:layout_marginLeft="20dp"
-                        android:layout_width="160dp"
-                        android:layout_height="40dp"
-                        android:text="Choose"
-                        android:layout_toRightOf="@+id/txtdate"
-                        android:background="@drawable/btnround2"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:id="@+id/selectfilter"
-                        android:textAllCaps="false"/>
-                    <ImageButton
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:id="@+id/filtermenu"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/selectfilter"
-                        android:layout_gravity="center_vertical"
-                        app:srcCompat="@drawable/selectfilter"
-                        android:background="@drawable/cyclebutton2"
-                        android:layout_marginLeft="20dp"
-                        />
-                    <ImageButton
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="20dp"
-                        android:id="@+id/imgFilterClear"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/filtermenu"
-                        android:layout_gravity="center_vertical"
-                        app:srcCompat="@drawable/clearsalelist"
-                        android:background="@drawable/cyclebutton2"
-                        />
-                    <ImageButton
-                        android:id="@+id/imgAdd"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/cyclebutton2"
-                        app:srcCompat="@drawable/add" />
-
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:id="@+id/footer"
-                android:layout_alignParentBottom="true"
-                android:background="#ECF0F5"
-                android:layout_height="45dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentLeft="true"
-                    android:textSize="15dp"
-                    android:textStyle="bold"
-                    android:textColor="#6960EF"
-                    android:id="@+id/txtEnqCount"
-                    android:layout_marginLeft="10dp"
-                    android:text="Count:"
-                    />
-
-                <TextView
-                    android:id="@+id/txtUsername"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="0dp"
-                    android:gravity="center"
-
-                    android:hint="   Username"
-                    android:padding="10dp"
-                    android:textColor="#6960EF"
-                    android:textColorHint="@color/white"
-                    android:textSize="15dp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:textSize="15dp"
-                    android:textStyle="bold"
-                    android:textColor="#6960EF"
-                    android:id="@+id/txtCount"
-                    android:layout_toRightOf="@+id/txtEnqCount"
-                    android:text="0"
-                    />
-              <!--  <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:hint="Username"
-                    android:textSize="19dp"
-                    android:id="@+id/txtUsername"
-                    android:textStyle="bold"
-                    android:textColorHint="@color/white"
-                    android:layout_centerHorizontal="true"
-                    android:textColor="@color/white"
-                    android:visibility="gone"
-                    android:drawableLeft="@drawable/showuser"
-                    />-->
-
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginRight="10dp">
-
-                    <TextView
-                        android:id="@+id/txtEnqTotal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="0dp"
-                        android:text="Total : "
-                        android:textColor="#6960EF"
-                        android:textSize="15dp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txtTotal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:layout_toRightOf="@+id/txtEnqTotal"
-                        android:text="0.0"
-                        android:textColor="#6960EF"
-                        android:textSize="15dp"
-                        android:textStyle="bold" />
-
-                    <ImageButton
-                        android:id="@+id/imgEdit"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="100dp"
-                        android:layout_marginRight="100dp"
-                        android:background="@drawable/cyclebutton"
-                        app:srcCompat="@drawable/edit"
-                        android:visibility="gone" />
-
-                    <ImageButton
-                        android:id="@+id/imgDelete"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_toRightOf="@id/imgEdit"
-                        android:background="@drawable/cyclebutton"
-                        app:srcCompat="@drawable/delete"
-                        android:visibility="gone" />
-
-
-                </RelativeLayout>
-
             </RelativeLayout>
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_above="@+id/footer"
-                android:layout_below="@+id/header"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:id="@+id/middle"
-                android:elevation="10dp"
-                android:layout_marginTop="0dp"
-                android:layout_height="wrap_content">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+        </androidx.cardview.widget.CardView>
 
-                    <LinearLayout
-                        android:id="@+id/column"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="#dddddd">
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/head"
+            android:layout_marginStart="10dp">
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:text="    Date"
-                            android:textColor="@color/black"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:text=" User"
-                            android:textColor="@color/black"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
+            <Button
+                android:id="@+id/txtdate"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/btnround2"
+                android:text="Today"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+            <!--android:background="@drawable/btnround2"-->
+            <Button
+                android:id="@+id/selectfilter"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/txtdate"
+                android:background="@drawable/btnround2"
+                android:text="Choose"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:text=" Docid"
-                            android:textColor="@color/black"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="2"
-                            android:gravity="center_vertical"
-                            android:text=" Customer"
-                            android:textColor="@color/black"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
+            <ImageButton
+                android:id="@+id/filtermenu"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/selectfilter"
+                android:background="@drawable/cyclebutton2"
+                app:srcCompat="@drawable/selectfilter" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:text=" Pay Type"
-                            android:textColor="@color/black"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
+            <ImageButton
+                android:id="@+id/imgFilterClear"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/filtermenu"
+                android:background="@drawable/cyclebutton2"
+                app:srcCompat="@drawable/clearsalelist" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:text=" Currency"
-                            android:textColor="@color/black"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txtbalance"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:layout_gravity="end"
-                            android:gravity="center_vertical"
-                            android:text="Balance"
-                            android:textAlignment="textEnd"
-                            android:layout_marginRight="10dp"
-                            android:textColor="@color/black"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rcvsaleList"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_below="@+id/column"
-                        android:background="@drawable/rcvback">
-
-                    </androidx.recyclerview.widget.RecyclerView>
-
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
+            <ImageButton
+                android:id="@+id/imgAdd"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/cyclebutton2"
+                app:srcCompat="@drawable/add" />
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorAccent">
 
+            <TextView
+                android:id="@+id/txtEnqCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:text="Count : "
+                android:textColor="#76FF03"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="Username"
+                android:textColor="#76FF03"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/txtEnqCount"
+                android:text="0"
+                android:textColor="#76FF03"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <!--  <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:hint="Username"
+                  android:textSize="19dp"
+                  android:id="@+id/txtUsername"
+                  android:textStyle="bold"
+                  android:textColorHint="@color/white"
+                  android:layout_centerHorizontal="true"
+                  android:textColor="@color/white"
+                  android:visibility="gone"
+                  android:drawableLeft="@drawable/showuser"
+                  />-->
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:id="@+id/txtEnqTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="Total : "
+                    android:textColor="#76FF03"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/txtEnqTotal"
+                    android:text="0.0"
+                    android:textColor="#76FF03"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/imgEdit"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginRight="100dp"
+                    android:background="@drawable/cyclebutton"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/edit" />
+
+                <ImageButton
+                    android:id="@+id/imgDelete"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_toRightOf="@id/imgEdit"
+                    android:background="@drawable/cyclebutton"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/delete" />
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/middle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/footer"
+            android:layout_below="@+id/header"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="0dp"
+            android:elevation="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/column"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="#dddddd">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="    Date"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text=" User"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text=" Docid"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:text=" Customer"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text=" Pay Type"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text=" Currency"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtbalance"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:gravity="center|end"
+                        android:text="Balance"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvsaleList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/column"
+                    android:background="@color/white">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -92,11 +92,11 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
     AlertDialog addDialog = null;
     AlertDialog comfirmMsg=null;
     RecyclerView rrvv,rrvvc;
-    categoryAdapter ad;
+    CategoryAdapter ad;
     int isCredit=0;
-    classAdapter cad;
+    ClassAdapter cad;
     public static long tranid;
-    public static itemAdapter itemAdapter;
+    public static ItemAdapter itemAdapter;
     public static String  fitercode;
     SharedPreferences sh_ip;
     SharedPreferences sh_port;
@@ -394,7 +394,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                         }
 
                     case View.VISIBLE:
-                        usrcodeAdapter usrcodead = new usrcodeAdapter(saleorder_entry.this,usr_codes,gridview,categories,"SaleOrder");//added by YLT
+                        UsrcodeAdapter usrcodead = new UsrcodeAdapter(saleorder_entry.this,usr_codes,gridview,categories,"SaleOrder");//added by YLT
                         gridview.setAdapter(usrcodead);
                         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(getApplicationContext(), 4);
                         gridview.setLayoutManager(gridLayoutManager1);
@@ -532,7 +532,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
         viewDel.setOnClickListener(this);
         viewEdit.setOnClickListener(this);
         viewConfirm.setOnClickListener(this);
-        gridview = findViewById(R.id.recycler_class);
+        gridview = findViewById(R.id.recycler_without_class);
         gridclassview=findViewById(R.id.recycler_category);
         gridcodeview=findViewById(R.id.recycler_usr_code);
         imgDelete = findViewById(R.id.delete);
@@ -869,14 +869,14 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                 if(frmmain.withoutclass.equals("true")){
 
                     rrvv=gridview;
-                    categoryAdapter ad=new categoryAdapter(saleorder_entry.this,filteredList,rrvv,"SaleOrder");//YLT
+                    CategoryAdapter ad=new CategoryAdapter(saleorder_entry.this,filteredList,rrvv,"SaleOrder");//YLT
                     rrvv.setAdapter(ad);
                     GridLayoutManager gridLayoutManager1 = new GridLayoutManager(getApplicationContext(), 4);
                     rrvv.setLayoutManager(gridLayoutManager1);
                 }
                 else if(frmmain.withoutclass.equals("false")){
                     rrvvc=gridclassview;
-                    categoryAdapter ad=new categoryAdapter(saleorder_entry.this,filteredList,rrvvc,"SaleOrder");//YLT
+                    CategoryAdapter ad=new CategoryAdapter(saleorder_entry.this,filteredList,rrvvc,"SaleOrder");//YLT
                     rrvv=gridcodeview;
                     rrvvc.setAdapter(ad);
                     LinearLayoutManager lc = new LinearLayoutManager(saleorder_entry.this,LinearLayoutManager.HORIZONTAL,false);
@@ -946,7 +946,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                         }
                     }
                 }
-                usrcodeAdapter usrcodead = new usrcodeAdapter(saleorder_entry.this, filteredCode, rrvv, categories,"SaleOrder");//added by YLT
+                UsrcodeAdapter usrcodead = new UsrcodeAdapter(saleorder_entry.this, filteredCode, rrvv, categories,"SaleOrder");//added by YLT
                 rrvv.setAdapter(usrcodead);
                 GridLayoutManager gridLayoutManager1 = new GridLayoutManager(getApplicationContext(), 4);
                 rrvv.setLayoutManager(gridLayoutManager1);
@@ -992,7 +992,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                         }
                     }
                 }
-                usrcodeAdapter descad = new usrcodeAdapter(saleorder_entry.this,filtereddesc,rrvv,categories,"SaleOrder");//added by YLT
+                UsrcodeAdapter descad = new UsrcodeAdapter(saleorder_entry.this,filtereddesc,rrvv,categories,"SaleOrder");//added by YLT
                 rrvv.setAdapter(descad);
                 GridLayoutManager gridLayoutManager2 = new GridLayoutManager(getApplicationContext(), 4);
                 rrvv.setLayoutManager(gridLayoutManager2);
@@ -1017,7 +1017,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                 }
                 cursorclass.close();
 
-                cad = new classAdapter(saleorder_entry.this, filteredclass, gridclassview,"SaleOrder");//added by YLT
+                cad = new ClassAdapter(saleorder_entry.this, filteredclass, gridclassview,"SaleOrder");//added by YLT
                 gridclassview.setAdapter(cad);
                 LinearLayoutManager classlayoutmanger = new LinearLayoutManager(saleorder_entry.this,LinearLayoutManager.HORIZONTAL,false);
                 gridclassview.setLayoutManager(classlayoutmanger);
@@ -1053,7 +1053,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                 }
                 cursorbrand.close();
 
-                usrcodeAdapter usrcodeadforBrand = new usrcodeAdapter(saleorder_entry.this, filteredbrand, rrvv,"SaleOrder");
+                UsrcodeAdapter usrcodeadforBrand = new UsrcodeAdapter(saleorder_entry.this, filteredbrand, rrvv,"SaleOrder");
                 rrvv.setAdapter(usrcodeadforBrand);
                 GridLayoutManager gridLayoutManagerBrand = new GridLayoutManager(getApplicationContext(), 4);
                 rrvv.setLayoutManager(gridLayoutManagerBrand);
@@ -1146,7 +1146,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
 
     }
     public static void getData() {
-        itemAdapter = new itemAdapter(datacontext,"SaleOrder");//added by YLT
+        itemAdapter = new ItemAdapter(datacontext,"SaleOrder");//added by YLT
         itemAdapter.getItemAdpater(itemAdapter);
         entrygrid.setAdapter(itemAdapter);
     }
@@ -1270,7 +1270,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
         }
         cursor.close();
 
-        cad = new classAdapter(saleorder_entry.this, class_items, gridclassview,"SaleOrder");//added by YLT
+        cad = new ClassAdapter(saleorder_entry.this, class_items, gridclassview,"SaleOrder");//added by YLT
         gridclassview.setAdapter(cad);
         LinearLayoutManager classlayoutmanger = new LinearLayoutManager(saleorder_entry.this,LinearLayoutManager.HORIZONTAL,false);
         gridclassview.setLayoutManager(classlayoutmanger);
@@ -1298,7 +1298,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
         }
         cursor.close();
 
-        ad = new categoryAdapter(saleorder_entry.this, categories, gridview,"SaleOrder");//YLT
+        ad = new CategoryAdapter(saleorder_entry.this, categories, gridview,"SaleOrder");//YLT
         gridview.setAdapter(ad);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 4);
@@ -4171,7 +4171,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             sd.clear();
-                            itemAdapter = new itemAdapter(saleorder_entry.this,"SaleOrder");//added by YLT
+                            itemAdapter = new ItemAdapter(saleorder_entry.this,"SaleOrder");//added by YLT
                             entrygrid.setAdapter(itemAdapter);
                             String tax="Tax"+(getTax()>0?"( "+getTax()+"% )":"");
                             txttax.setText(tax);

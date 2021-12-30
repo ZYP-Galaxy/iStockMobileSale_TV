@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -18,7 +19,9 @@ import androidx.cardview.widget.CardView;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.telephony.gsm.GsmCellLocation;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.View;
@@ -37,19 +40,36 @@ import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.abbp.istockmobilesalenew.bluetoothprinter.BaseEnum;
+import com.abbp.istockmobilesalenew.bluetoothprinter.BluetoothDeviceChooseDialog;
+import com.abbp.istockmobilesalenew.bluetoothprinter.BluetoothPrinter;
+import com.abbp.istockmobilesalenew.sunmiprinter.SunmiPrintHelper;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.rt.printerlibrary.bean.BluetoothEdrConfigBean;
+import com.rt.printerlibrary.connect.PrinterInterface;
+import com.rt.printerlibrary.enumerate.CommonEnum;
+import com.rt.printerlibrary.enumerate.ConnectStateEnum;
+import com.rt.printerlibrary.factory.connect.BluetoothFactory;
+import com.rt.printerlibrary.factory.connect.PIFactory;
+import com.rt.printerlibrary.factory.printer.PrinterFactory;
+import com.rt.printerlibrary.factory.printer.UniversalPrinterFactory;
+import com.rt.printerlibrary.observer.PrinterObserver;
+import com.rt.printerlibrary.observer.PrinterObserverManager;
+import com.rt.printerlibrary.printer.RTPrinter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -66,10 +86,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 import me.myatminsoe.mdetect.MDetect;
 
-public class frmlogin extends AppCompatActivity implements View.OnClickListener {
+public class frmlogin extends AppCompatActivity implements View.OnClickListener, PrinterObserver {
 
     private Button btnlogin, btnexit, btnok, btncancel;
     private TextView btnconnect, btnposdown, btnRegister, txtTable, txtProgress,
@@ -139,7 +160,19 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
     private boolean isData;
     private boolean isOnline;
 
+    //region TVSale
     LinearLayout layoutUpload;
+    //bluetoothprinter
+    private final int REQUEST_ENABLE_BT = 101;
+    TextView tv_device_selected;
+    private Object configObj;
+    private int iPrintTimes = 0;
+    private RTPrinter rtPrinter = null;
+    private PrinterFactory printerFactory;
+    private ArrayList<PrinterInterface> printerInterfaceArrayList = new ArrayList<>();
+    private PrinterInterface curPrinterInterface = null;
+
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +182,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         setContentView(R.layout.frmlogin);
         MDetect.INSTANCE.init(this);
+        context = this;
+
         isOnline = true;
         dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dataBaseHelper = DatabaseHelper.getInstance(this, DB_NAME);
@@ -161,11 +196,16 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
         setUI();
         Detect_Font();
 
-        CheckConnection();
+        CheckConnection(null);
 
-        context = this;
         isRegister();
         GetDeviceName();
+
+        BaseApplication.instance.setCurrentCmdType(BaseEnum.CMD_ESC);
+        BaseApplication.instance.setCurrentConnectType(BaseEnum.CON_BLUETOOTH);
+        printerFactory = new UniversalPrinterFactory();
+        rtPrinter = printerFactory.create();
+        PrinterObserverManager.getInstance().add(this);
 
     }
 
@@ -215,8 +255,12 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             dialog.setMessage("Are you sure want to exit?");
             dialog.setPositiveButton("OK", (dialog1, which) -> {
                 frmlogin.this.finish();
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             });
-            dialog.setNegativeButton("Cancel", (dialog1, which) -> {
+            dialog.setNeutralButton("Cancel", (dialog1, which) -> {
 
             });
             dialog.create().show();
@@ -247,18 +291,20 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSetting:
+
                 try {
 
                     String printer_name = sh_printer.getString("printer", "");
                     String id = sh_ptype.getString("ptype", "-1");
                     printer_type_id = Integer.parseInt(id);
                     AlertDialog.Builder bd = new AlertDialog.Builder(this);
-                    View view = getLayoutInflater().inflate(R.layout.devicesetting, null);
-                    bd.setView(view);
-                    Button btnPrinter = view.findViewById(R.id.btnPrinter);
-                    CardView bluetoothprintersetting = view.findViewById(R.id.btn_printer_settings);
-                    TextView connectedTo = view.findViewById(R.id.tv_printer_info);
-                    CardView btnprintertest = view.findViewById(R.id.btn_printer_test);
+                    View dialogView = getLayoutInflater().inflate(R.layout.devicesetting, null);
+                    bd.setView(dialogView);
+                    Button btnPrinter = dialogView.findViewById(R.id.btnPrinter);
+
+                    CardView bluetoothprintersetting = dialogView.findViewById(R.id.btn_printer_settings);
+                    TextView connectedTo = dialogView.findViewById(R.id.tv_printer_info);
+                    CardView btnprintertest = dialogView.findViewById(R.id.btn_printer_test);
                     if (!printer_name.trim().equals("")) {
                         btnPrinter.setText(printer_name);
                     } else {
@@ -297,7 +343,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
 
                         }
                     });
-                    Button btnPrinterType = view.findViewById(R.id.btnType);
+                    Button btnPrinterType = dialogView.findViewById(R.id.btnType);
                     if (printer_type_id != -1) {
                         btnPrinterType.setText(ptype.get((printer_type_id)).getName());
                     } else {
@@ -329,7 +375,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                             msg.show();
                         }
                     });
-                    ImageButton ImgSave = view.findViewById(R.id.imgSave);
+                    ImageButton ImgSave = dialogView.findViewById(R.id.imgSave);
                     ImgSave.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -353,11 +399,87 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                             dialog.dismiss();
                         }
                     });
+
+                    //region SunmiPrinter
+                    TextView txtTitleBTprinter = dialogView.findViewById(R.id.txt_title_btprinter);
+                    LinearLayout layoutBTprinter = dialogView.findViewById(R.id.layout_btprinter);
+                    LinearLayout layoutSunmiprinter = dialogView.findViewById(R.id.layout_sunmi_printer);
+                    if (SunmiPrintHelper.getInstance().checkSunmiPrinter()) {
+                        layoutSunmiprinter.setVisibility(View.VISIBLE);
+                        txtTitleBTprinter.setVisibility(View.GONE);
+                        layoutBTprinter.setVisibility(View.GONE);
+                    } else {
+                        layoutSunmiprinter.setVisibility(View.GONE);
+                        txtTitleBTprinter.setVisibility(View.VISIBLE);
+                        layoutBTprinter.setVisibility(View.VISIBLE);
+                    }
+
+                    TextView sunmi_printerstatus = dialogView.findViewById(R.id.txt_sunmi_printerstatus);
+                    sunmi_printerstatus.setText(String.format("Sunmi POS Printer (%s)", SunmiPrintHelper.getInstance().showPrinterStatus(frmlogin.this)));
+
+                    CardView btnSunmiPrintStatus = dialogView.findViewById(R.id.btn_sunmi_printerstatus);
+                    btnSunmiPrintStatus.setOnClickListener(v1 -> {
+                        sunmi_printerstatus.setText(String.format("Sunmi POS Printer (%s)", SunmiPrintHelper.getInstance().showPrinterStatus(frmlogin.this)));
+                    });
+
+                    CardView btnSunmiPrintTest = dialogView.findViewById(R.id.btn_sunmi_printertest);
+                    btnSunmiPrintTest.setOnClickListener(v1 -> {
+//                        SunmiPrintHelper.getInstance().printText("Galaxy Software\niStock Mobile TV Sale\n\n\nSunmi Printer Testing!",
+//                                36, false, false, null);
+                        SunmiPrintHelper.getInstance().printTest(context);
+                    });
+
+                    CardView btnSunmiPrintFeed = dialogView.findViewById(R.id.btn_sunmi_printerfeed);
+                    btnSunmiPrintFeed.setOnClickListener(v1 -> {
+                        SunmiPrintHelper.getInstance().feedPaper();
+                    });
+
+                    CardView btnSunmiPrintCut = dialogView.findViewById(R.id.btn_sunmi_printercut);
+                    btnSunmiPrintCut.setOnClickListener(v1 -> {
+                        SunmiPrintHelper.getInstance().cutpaper();
+                    });
+
+                    //endregion
+
+                    //region BluetoothPrinter
+                    ImageView imgClose = dialogView.findViewById(R.id.btn_printersetup_close);
+                    imgClose.setOnClickListener(v1 -> {
+                        dialog.dismiss();
+                    });
+                    CardView btPrinterSetting = dialogView.findViewById(R.id.btn_btprinter_settings);
+                    CardView btnBTprintertest = dialogView.findViewById(R.id.btn_btprinter_test);
+                    tv_device_selected = dialogView.findViewById(R.id.tv_device_selected);
+
+                    btPrinterSetting.setOnClickListener(v1 -> {
+                        showConnectDialog();
+                    });
+
+                    btnBTprintertest.setOnClickListener(v1 -> {
+                        try {
+                            BluetoothPrinter bluetoothPrinter = new BluetoothPrinter(frmlogin.this, rtPrinter);
+                            if (isInConnectList(configObj)) {
+                                final String testPrintString = "Galaxy Software\niStock Mobile TV Sale\nPrinter is connected!\n\n\n";
+                                String callback = bluetoothPrinter.escTextPrint(testPrintString, 30);
+                                if (!callback.isEmpty()) {
+                                    GlobalClass.showToast(frmlogin.this, callback);
+                                }
+                            } else {
+                                GlobalClass.showToast(frmlogin.this, "Please connect to Printer!");
+                            }
+
+                        } catch (UnsupportedEncodingException e) {
+                            GlobalClass.showToast(frmlogin.this, e.getMessage());
+                            e.printStackTrace();
+                        }
+                    });
+
+                    //endregion
+
                     dialog = bd.create();
                     dialog.show();
-                } catch (Exception ee) {
-                    String s = ee.getMessage();
-                    dialog.dismiss();
+
+                } catch (Exception ex) {
+                    GlobalClass.showToast(this, ex.getMessage());
                 }
                 break;
             case R.id.btnconnect:
@@ -369,7 +491,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             case R.id.btnUpload:
                 checkofflinedata = false;
                 pb.setTitle("Importing Data");
-                pb.setMessage("Please wait a few minute ...");
+                pb.setMessage("Please wait a few minutes ...");
                 UploadData();
                 break;
             case R.id.btnposdown:
@@ -377,17 +499,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     GetTableNames();
                     GetDownloading();
                 } else {
-                    new AlertDialog.Builder(this, R.style.AlertDialogTheme)
-                            .setTitle("iStock")
-                            .setMessage("Please, Register Before Downloading!")
-                            .setCancelable(false)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .create().show();
+                    GlobalClass.showAlertDialog(this, "iStock", "Please Register before Downloading!");
                 }
                 break;
             case R.id.login:
@@ -481,7 +593,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     GetTableNames();
                     GetData(dialogView);
                 } else {
-                    GlobalClass.showAlertDialog(this, "iStock", "Please Register Before Downloading!");
+                    GlobalClass.showAlertDialog(this, "iStock", "Please Register before Downloading!");
                 }
             });
             dialog.setNegativeButton("Cancel", (dialog1, which) -> {
@@ -513,7 +625,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
         ImageView btnSave = dialogView.findViewById(R.id.btn_setup_save);
         btnSave.setOnClickListener(v -> {
             if (setUpForm[0].equals("ip")) {
-                setUpIP();
+                GlobalClass.showProgressDialog(frmlogin.this, "Connecting ...");
+                setUpIP(dialogView);
             } else if (setUpForm[0].equals("key")) {
                 final String id = RegisterID.getString("register", "0");
                 setUpRegister(id, dialogView);
@@ -524,6 +637,16 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
         ImageView btnClose = dialogView.findViewById(R.id.btn_setup_close);
         btnClose.setOnClickListener(v -> {
             alertDialog.dismiss();
+        });
+
+        ImageView imgSetup = dialogView.findViewById(R.id.img_setup);
+        CheckConnection(connect -> {
+            imgSetup.setImageTintList(null);
+            if (connect) {
+                imgSetup.setImageDrawable(getResources().getDrawable(R.drawable.wificonnect));
+            } else {
+                imgSetup.setImageDrawable(getResources().getDrawable(R.drawable.wifidis));
+            }
         });
 
         alertDialog.show();
@@ -541,34 +664,42 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             tabLayout.getChildAt(i).setBackgroundColor(Color.parseColor("#333333"));
         }
 
+        ImageView imgSave = dialogView.findViewById(R.id.btn_setup_save);
         ImageView imgSetup = dialogView.findViewById(R.id.img_setup);
 
         switch (button.getId()) {
             case R.id.btn_setup_config:
                 containerLayout.getChildAt(0).setVisibility(View.VISIBLE);
-                tabLayout.getChildAt(0).setBackgroundColor(Color.parseColor("#E87D2D"));
+                tabLayout.getChildAt(0).setBackgroundResource(R.color.colorPrimary);
                 imgSetup.setImageDrawable(getResources().getDrawable(R.drawable.wificonnect));
+                imgSave.setVisibility(View.VISIBLE);
                 break;
             case R.id.btn_setup_key:
                 containerLayout.getChildAt(1).setVisibility(View.VISIBLE);
-                tabLayout.getChildAt(1).setBackgroundColor(Color.parseColor("#E87D2D"));
+                tabLayout.getChildAt(1).setBackgroundResource(R.color.colorPrimary);
+                imgSetup.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
                 imgSetup.setImageDrawable(getResources().getDrawable(R.drawable.passwordicon));
+                imgSave.setVisibility(View.VISIBLE);
                 break;
             case R.id.btn_setup_download:
                 //containerLayout.getChildAt(2).setVisibility(View.VISIBLE);
-                tabLayout.getChildAt(2).setBackgroundColor(Color.parseColor("#E87D2D"));
+                tabLayout.getChildAt(2).setBackgroundResource(R.color.colorPrimary);
+                imgSetup.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
                 imgSetup.setImageDrawable(getResources().getDrawable(R.drawable.datadownload));
+                imgSave.setVisibility(View.GONE);
                 break;
             case R.id.btn_setup_upload:
                 //containerLayout.getChildAt(3).setVisibility(View.VISIBLE);
-                tabLayout.getChildAt(3).setBackgroundColor(Color.parseColor("#E87D2D"));
+                tabLayout.getChildAt(3).setBackgroundResource(R.color.colorPrimary);
+                imgSetup.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
                 imgSetup.setImageDrawable(getResources().getDrawable(R.drawable.dataupload));
+                imgSave.setVisibility(View.GONE);
                 break;
         }
 
     }
 
-    private void setUpIP() {
+    private void setUpIP(View dialogView) {
         if ((!edtserver.getText().toString().trim().isEmpty() || !edtserver.getText().toString().trim().equals(""))) {
             SharedPreferences.Editor editor = sh_ip.edit();
             editor.remove("ip");
@@ -587,7 +718,18 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             }
             editor_port.putString("port", edtport.getText().toString().trim());
             editor_port.commit();
-            CheckConnection();
+
+            ImageView imgSetup = dialogView.findViewById(R.id.img_setup);
+            CheckConnection(connect -> {
+                if (connect) {
+                    imgSetup.setImageTintList(null);
+                    imgSetup.setImageDrawable(getResources().getDrawable(R.drawable.wificonnect));
+                } else {
+                    imgSetup.setImageTintList(null);
+                    imgSetup.setImageDrawable(getResources().getDrawable(R.drawable.wifidis));
+                }
+            });
+
         } else {
             Toast.makeText(frmlogin.this, "Enter Server Information!", Toast.LENGTH_SHORT).show();
         }
@@ -685,6 +827,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
     //endregion
 
     private void Register(String sqlString) {
+        GlobalClass.showProgressDialog(frmlogin.this, "Registering ...");
         ip = sh_ip.getString("ip", "empty");
         port = sh_port.getString("port", "empty");
         try {
@@ -699,6 +842,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
         Response.Listener listener = new Response.Listener() {
             @Override
             public void onResponse(Object response) {
+                GlobalClass.hideProgressDialog();
                 final String[] result = response.toString().split("/");
                 AlertDialog.Builder bd = new AlertDialog.Builder(frmlogin.this, R.style.AlertDialogTheme);
                 bd.setMessage(result[0]);
@@ -725,6 +869,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
         final Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                GlobalClass.hideProgressDialog();
                 GlobalClass.showAlertDialog(frmlogin.this, "iStock",
                         "Process is Fail!\nCheck your Network Connection.");
             }
@@ -736,6 +881,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
     private void ResetData() {
         sqlString = "delete from Customer";
         DatabaseHelper.execute(sqlString);
+
         sqlString = "delete from usr_code";
         DatabaseHelper.execute(sqlString);
 
@@ -744,7 +890,6 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
 
         sqlString = "delete from Location";
         DatabaseHelper.execute(sqlString);
-
 
         sqlString = "delete from SystemSetting";
         DatabaseHelper.execute(sqlString);
@@ -1264,6 +1409,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                                 " values(" + Setting_No + ",'" + Setting_Name + "','" + Setting_Value + "','" + Remark + "')";
                         DatabaseHelper.execute(sql);
                     }
+
                     break;
                 case "Posuser":
                     JSONArray user = data.getJSONObject(0).getJSONArray("posuser");
@@ -1278,7 +1424,6 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                         int saleprice_level = postobj.optInt("saleprice_level", 0);
                         int select_location = postobj.optBoolean("select_location", false) == true ? 1 : 0;
                         int select_customer = postobj.optBoolean("select_customer", false) == true ? 1 : 0;
-                        ;
                         int change_price = postobj.optBoolean("change_price", false) == true ? 1 : 0;
                         int change_date = postobj.optBoolean("change_date", false) == true ? 1 : 0;
                         int allow_pricelevel = postobj.optBoolean("allow_pricelevel", false) == true ? 1 : 0;
@@ -1548,7 +1693,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     } else {
                         new AlertDialog.Builder(this, R.style.AlertDialogTheme)
                                 .setTitle("iStock")
-                                .setMessage("Your Network Condition is unavailable!Do you want to change offline?")
+                                .setMessage("Your Network is unavailable! Do you want to change offline?")
                                 .setCancelable(false)
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     @Override
@@ -1690,48 +1835,46 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                 } while (cursor.moveToNext());
 
             }
-
+            cursor.close();
         }
-        cursor.close();
-        posuserAdapter ad = new posuserAdapter(frmlogin.this, aryUsers);
-        lv.setAdapter(ad);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                useredit.setText(aryUsers.get(position).getName());
-                frmlogin.username = aryUsers.get(position).getName();
-                frmlogin.LoginUserid = aryUsers.get(position).getUserid();
-                frmlogin.det_locationid = aryUsers.get(position).getDef_locationid();
-                frmlogin.Confirm_PrintVou = aryUsers.get(position).getConfirm_PrintVou();
-                frmlogin.allow_priceLevel = aryUsers.get(position).getAllow_priceLevel();
-                frmlogin.change_price = aryUsers.get(position).getChange_price();
-                frmlogin.change_date = aryUsers.get(position).getChange_date();
-                frmlogin.discount = aryUsers.get(position).getDiscount();
-                frmlogin.tax = aryUsers.get(position).getTax();
-                frmlogin.select_customer = aryUsers.get(position).getSelect_customer();
-                frmlogin.select_location = aryUsers.get(position).getSelect_location();
-                frmlogin.def_payment = aryUsers.get(position).getDef_payment();
-                frmlogin.Allow_Over_Credit_Limit = aryUsers.get(position).getAllow_Over_Credit_Limit();
-                frmlogin.def_cashid = aryUsers.get(position).getDef_cashid();
-                frmlogin.Cashier_Printer = aryUsers.get(position).getCashier_Printer();
-                frmlogin.Cashier_PrinterType = aryUsers.get(position).getCashier_PrinterType();
-                frmlogin.UseOffline = aryUsers.get(position).getUse_offline();
-                frmlogin.allow_so_update = aryUsers.get(position).getAllow_so_update();
-                frmlogin.use_oil = aryUsers.get(position).getUse_oil();
-                dialog.dismiss();
-            }
-        });
-        dialog = builder.create();
-        if (aryUsers.size() > 0) {
-            dialog.show();
-            dialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        } else {
-            Toast.makeText(frmlogin.this, "Please Download Posuser!!", Toast.LENGTH_LONG).show();
 
+        if (aryUsers.size() > 0) {
+
+            posuserAdapter ad = new posuserAdapter(frmlogin.this, aryUsers);
+            lv.setAdapter(ad);
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    useredit.setText(aryUsers.get(position).getName());
+                    frmlogin.username = aryUsers.get(position).getName();
+                    frmlogin.LoginUserid = aryUsers.get(position).getUserid();
+                    frmlogin.det_locationid = aryUsers.get(position).getDef_locationid();
+                    frmlogin.Confirm_PrintVou = aryUsers.get(position).getConfirm_PrintVou();
+                    frmlogin.allow_priceLevel = aryUsers.get(position).getAllow_priceLevel();
+                    frmlogin.change_price = aryUsers.get(position).getChange_price();
+                    frmlogin.change_date = aryUsers.get(position).getChange_date();
+                    frmlogin.discount = aryUsers.get(position).getDiscount();
+                    frmlogin.tax = aryUsers.get(position).getTax();
+                    frmlogin.select_customer = aryUsers.get(position).getSelect_customer();
+                    frmlogin.select_location = aryUsers.get(position).getSelect_location();
+                    frmlogin.def_payment = aryUsers.get(position).getDef_payment();
+                    frmlogin.Allow_Over_Credit_Limit = aryUsers.get(position).getAllow_Over_Credit_Limit();
+                    frmlogin.def_cashid = aryUsers.get(position).getDef_cashid();
+                    frmlogin.Cashier_Printer = aryUsers.get(position).getCashier_Printer();
+                    frmlogin.Cashier_PrinterType = aryUsers.get(position).getCashier_PrinterType();
+                    frmlogin.UseOffline = aryUsers.get(position).getUse_offline();
+                    frmlogin.allow_so_update = aryUsers.get(position).getAllow_so_update();
+                    frmlogin.use_oil = aryUsers.get(position).getUse_oil();
+                    dialog.dismiss();
+                }
+            });
+            dialog = builder.create();
+            dialog.show();
+        } else {
+            Toast.makeText(frmlogin.this, "Please Register & Download Data!", Toast.LENGTH_LONG).show();
         }
 
     }
-
 
     private void showIpBox(String ip, String port) {
         builder = new AlertDialog.Builder(frmlogin.this, R.style.AlertDialogTheme);
@@ -1779,7 +1922,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                     editor_port.putString("port", edtport.getText().toString().trim());
                     editor_port.commit();
                     dialog.dismiss();
-                    CheckConnection();
+                    CheckConnection(null);
                 } else {
                     Toast.makeText(frmlogin.this, "Fill Server Information", Toast.LENGTH_SHORT).show();
                 }
@@ -1826,14 +1969,14 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
 
     }
 
-    private void CheckConnection() {
+    private void CheckConnection(OnConnectionListener checkConnection) {
 
         if (sh_ip.getString("ip", "empty").equals("empty") || sh_port.getString("port", "empty").equals("empty")) {
             //btnconnect.setImageResource(R.drawable.disconnect);
             btnconnect.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.wifidis, 0, 0);
             btnlogin.setEnabled(false);
             useredit.setEnabled(false);
-            Toast.makeText(frmlogin.this, "Please connect to server", Toast.LENGTH_LONG).show();
+            Toast.makeText(frmlogin.this, "Please Connect to Server", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -1843,27 +1986,25 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
 
         requestQueue = Volley.newRequestQueue(this);
 
-        final Response.Listener<String> listener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //btnconnect.setImageResource(R.drawable.connect);
-                btnconnect.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.wificonnect, 0, 0);
-                //btnLogin.setEnabled(true);
-                useredit.setEnabled(true);
-                btnlogin.setEnabled(true);
-                if (ptype.size() > 0) ptype.clear();
-                if (Printers.size() > 0) Printers.clear();
-                Binding_PrinterSetting();
-                Toast.makeText(frmlogin.this, "Server is Connected", Toast.LENGTH_LONG).show();
-            }
+        final Response.Listener<String> listener = response -> {
+            GlobalClass.hideProgressDialog();
+            btnconnect.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.wificonnect, 0, 0);
+            useredit.setEnabled(true);
+            btnlogin.setEnabled(true);
+            if (ptype.size() > 0) ptype.clear();
+            if (Printers.size() > 0) Printers.clear();
+            Binding_PrinterSetting();
+            GlobalClass.showToast(frmlogin.this, "Server is Connected");
+            if (checkConnection != null)
+                checkConnection.onConnect(true);
         };
 
-        final Response.ErrorListener error = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(frmlogin.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                btnconnect.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.wifidis, 0, 0);
-            }
+        final Response.ErrorListener error = error1 -> {
+            GlobalClass.hideProgressDialog();
+            GlobalClass.showToast(frmlogin.this, "No Connection with Server!");
+            btnconnect.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.wifidis, 0, 0);
+            if (checkConnection != null)
+                checkConnection.onConnect(false);
         };
 
         StringRequest req = new StringRequest(Request.Method.GET, Url, listener, error);
@@ -1962,12 +2103,17 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             super.onPostExecute(s);
             layoutUpload.setVisibility(View.GONE);
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(frmlogin.this, R.style.AlertDialogTheme);
-            dialogBuilder.setMessage(s);
+            dialogBuilder.setTitle(R.string.app_name);
+            if (s.equals("success")) {
+                dialogBuilder.setMessage("Importing Data is successful.");
+            } else {
+                dialogBuilder.setMessage("Fail to import data!");
+            }
             dialogBuilder.setCancelable(false);
             dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if (s.equals("Importing Data is successful.")) {
+                    if (s.equals("success")) {
                         sqlString = "delete from Sale_Head_Main";
                         DatabaseHelper.execute(sqlString);
 
@@ -1992,6 +2138,149 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
             });
             dialogBuilder.create().show();
         }
+    }
+
+    //added by ZYP [2021-12-23] for TV Sale
+    //region BluetoothPrinter
+    private void showConnectDialog() {
+        if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) { //蓝牙未开启，则开启蓝牙--
+            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+        } else {
+            showBluetoothDeviceChooseDialog();
+        }
+    }
+
+    private void showBluetoothDeviceChooseDialog() {
+        BluetoothDeviceChooseDialog bluetoothDeviceChooseDialog = new BluetoothDeviceChooseDialog();
+        bluetoothDeviceChooseDialog.setOnDeviceItemClickListener(new BluetoothDeviceChooseDialog.onDeviceItemClickListener() {
+            @Override
+            public void onDeviceItemClick(BluetoothDevice device) {
+                try {
+                    if (TextUtils.isEmpty(device.getName())) {
+                        tv_device_selected.setText(device.getAddress());
+                    } else {
+                        tv_device_selected.setText(device.getName());// + " [" + device.getAddress() + "]");
+                    }
+                    configObj = new BluetoothEdrConfigBean(device);
+                    tv_device_selected.setTag(BaseEnum.HAS_DEVICE);
+                    doConnect();
+                } catch (Exception ex) {
+                    GlobalClass.showAlertDialog(frmlogin.this, "iStock", ex.getMessage());
+                }
+
+            }
+        });
+        bluetoothDeviceChooseDialog.show(frmlogin.this.getFragmentManager(), null);
+    }
+
+    private void doConnect() {
+//        pb_connect.setVisibility(View.VISIBLE);
+        BluetoothEdrConfigBean bluetoothEdrConfigBean = (BluetoothEdrConfigBean) configObj;
+        iPrintTimes = 0;
+        connectBluetooth(bluetoothEdrConfigBean);
+//        connectBluetoothByMac();
+//        pb_connect.setVisibility(View.GONE);
+
+    }
+
+    private void connectBluetooth(BluetoothEdrConfigBean bluetoothEdrConfigBean) {
+        try {
+            PIFactory piFactory = new BluetoothFactory();
+            PrinterInterface printerInterface = piFactory.create();
+            printerInterface.setConfigObject(bluetoothEdrConfigBean);
+            rtPrinter.setPrinterInterface(printerInterface);
+
+            BaseApplication.getInstance().setRtPrinter(rtPrinter);
+
+            rtPrinter.connect(bluetoothEdrConfigBean);
+        } catch (Exception e) {
+            GlobalClass.showToast(frmlogin.this, e.getMessage());
+            e.printStackTrace();
+            // Log.e("mao",e.getMessage());
+        }
+    }
+
+    private boolean isInConnectList(Object configObj) {
+        if (configObj == null) return false;
+        boolean isInList = false;
+        for (int i = 0; i < printerInterfaceArrayList.size(); i++) {
+            PrinterInterface printerInterface = printerInterfaceArrayList.get(i);
+            if (configObj.toString().equals(printerInterface.getConfigObject().toString())) {
+                if (printerInterface.getConnectState() == ConnectStateEnum.Connected) {
+                    isInList = true;
+                    break;
+                }
+            }
+        }
+
+        return isInList;
+    }
+
+    @Override
+    public void printerObserverCallback(PrinterInterface printerInterface, int state) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //pb_connect.setVisibility(View.GONE);
+                switch (state) {
+                    case CommonEnum.CONNECT_STATE_SUCCESS:
+//                        TimeRecordUtils.record("RT连接end：", System.currentTimeMillis());
+                        GlobalClass.showToast(frmlogin.this, printerInterface.getConfigObject().toString() + " - connect success");
+                        tv_device_selected.setText(printerInterface.getConfigObject().toString());
+                        tv_device_selected.setTag(BaseEnum.HAS_DEVICE);
+                        curPrinterInterface = printerInterface;//设置为当前连接， set current Printer Interface
+                        printerInterfaceArrayList.add(printerInterface);//多连接-添加到已连接列表
+                        rtPrinter.setPrinterInterface(printerInterface);
+//                          BaseApplication.getInstance().setRtPrinter(rtPrinter);
+//                        setPrintEnable(true);
+                        break;
+                    case CommonEnum.CONNECT_STATE_INTERRUPTED:
+                        if (printerInterface != null && printerInterface.getConfigObject() != null) {
+                            GlobalClass.showToast(frmlogin.this, printerInterface.getConfigObject().toString() + " disconnected");
+                        } else {
+                            GlobalClass.showToast(frmlogin.this, "disconnected");
+                        }
+//                        TimeRecordUtils.record("RT连接断开：", System.currentTimeMillis());
+//                        tv_device_selected.setText(R.string.please_connect);
+                        tv_device_selected.setTag(BaseEnum.NO_DEVICE);
+                        curPrinterInterface = null;
+                        printerInterfaceArrayList.remove(printerInterface);//多连接-从已连接列表中移除
+                        //  BaseApplication.getInstance().setRtPrinter(null);
+//                        setPrintEnable(false);
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void printerReadMsgCallback(PrinterInterface printerInterface, byte[] bytes) {
+
+    }
+
+    //endregion
+
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this, R.style.AlertDialogTheme);
+        dialog.setTitle("iStock");
+        dialog.setMessage("Are you sure want to exit?");
+        dialog.setPositiveButton("OK", (dialog1, which) -> {
+            super.onBackPressed();
+        });
+        dialog.setNeutralButton("Cancel", (dialog1, which) -> {
+
+        });
+        dialog.create().show();
+    }
+
+    public interface OnConnectionListener {
+        void onConnect(boolean connect);
     }
 
 }

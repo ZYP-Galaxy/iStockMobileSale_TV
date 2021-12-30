@@ -953,7 +953,7 @@
 
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_class"
+                        android:id="@+id/recycler_without_class"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_alignParentStart="true"

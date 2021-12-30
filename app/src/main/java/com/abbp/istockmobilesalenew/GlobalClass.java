@@ -1,6 +1,7 @@
 package com.abbp.istockmobilesalenew;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
@@ -25,6 +26,23 @@ public class GlobalClass {
         dialog.setPositiveButton("OK", (dialog1, which) -> {
         });
         dialog.create().show();
+    }
+
+    static ProgressDialog progressDialog;
+
+    public static void showProgressDialog(Context context, String message) {
+        progressDialog = new ProgressDialog(context, R.style.AlertDialogTheme);
+        progressDialog.setTitle(R.string.app_name);
+        progressDialog.setMessage(message);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    public static void hideProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 
     public static void hideKeyboard(Context context, View view) {
@@ -75,7 +93,6 @@ public class GlobalClass {
         }
         return value;
     }
-
 
 
 }

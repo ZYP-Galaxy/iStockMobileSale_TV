@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="100dp"
-    android:layout_height="80dp"
-    android:layout_margin="5dp"
-    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:focusable="true"
     android:gravity="center_vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:focusable="false">
+    android:padding="5dp">
 
-
-       <Button
-           android:id="@+id/info_text"
-           android:layout_width="100dp"
-           android:layout_height="80dp"
-           android:text="Item"
-           android:background="@drawable/btnround1"
-           android:textColor="@color/white"
-           android:textSize="15dp"
-           android:textStyle="bold"
-           android:textAllCaps="false"
-           />
-
+    <Button
+        android:id="@+id/info_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent"
+        android:text="Item"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
 
 </RelativeLayout>

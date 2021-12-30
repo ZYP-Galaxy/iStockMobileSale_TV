@@ -8,11 +8,13 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,44 +51,45 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
     private JsonArrayRequest request;
     public static RequestQueue requestQueue;
     public static ArrayList<salelist> salelists = new ArrayList<>();
-    public static SharedPreferences sh_ip,sh_port;
+    public static SharedPreferences sh_ip, sh_port;
     RecyclerView rcv;
     public static ProgressDialog pb;
     TextView txtdate;
-    public static Date fdate,tdate;
+    public static Date fdate, tdate;
     List<Calendar> calendars = new ArrayList<>();
-    public static DateFormat dateFormat,griddateformat;
-    String filterString="and date between ";
-    ImageButton imgFilterClear,imgAdd,imgEdit,imgDelete,filtermenu;
-    public static saleListAdp adp;
-    public static TextView txtCount,txtUsername,txtTotal;
+    public static DateFormat dateFormat, griddateformat;
+    String filterString = "and date between ";
+    ImageButton imgFilterClear, imgAdd, imgEdit, imgDelete, filtermenu;
+    public static SaleListAdapter adp;
+    public static TextView txtCount, txtUsername, txtTotal;
     public static double total;
     public static boolean use_Category2;
     Button selectfilter;
-    AlertDialog da=null;
+    AlertDialog da = null;
     AlertDialog msg;
-    int filterV=0;
+    int filterV = 0;
     public static Context listcontext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frmsalelist);
-        listcontext=frmsalelist.this;
-        sh_ip=getSharedPreferences("ip",MODE_PRIVATE);
-        sh_port=getSharedPreferences("port",MODE_PRIVATE);
-        dateFormat= new SimpleDateFormat("yyyy-MM-dd");
-        griddateformat=new SimpleDateFormat("dd/MM/yyyy");
-        fdate=new Date();
-        tdate=new Date();
-        txtCount=findViewById(R.id.txtCount);
-        txtUsername=findViewById(R.id.txtUsername);
+        listcontext = frmsalelist.this;
+        sh_ip = getSharedPreferences("ip", MODE_PRIVATE);
+        sh_port = getSharedPreferences("port", MODE_PRIVATE);
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        griddateformat = new SimpleDateFormat("dd/MM/yyyy");
+        fdate = new Date();
+        tdate = new Date();
+        txtCount = findViewById(R.id.txtCount);
+        txtUsername = findViewById(R.id.txtUsername);
         txtUsername.setText(frmlogin.username);
         txtCount.setText("0");
-        txtTotal=(TextView)findViewById(R.id.txtTotal);
+        txtTotal = (TextView) findViewById(R.id.txtTotal);
         txtTotal.setText("0");
-        FilterCustomer.ccid=-1;
-        FilterUser.uid=-1;
-        FilterLocation.locid=-1;
+        FilterCustomer.ccid = -1;
+        FilterUser.uid = -1;
+        FilterLocation.locid = -1;
         getSystemSetting();
         setUI();
         BindingData();
@@ -95,8 +98,8 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
 
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId()== R.id.add) {
-            Intent intent=new Intent(frmsalelist.this,sale_entry.class);
+        if (item.getItemId() == R.id.add) {
+            Intent intent = new Intent(frmsalelist.this, sale_entry.class);
             startActivity(intent);
             finish();
             return true;
@@ -106,45 +109,40 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
     }
 
     private void getSystemSetting() {
-        Cursor cursor=DatabaseHelper.rawQuery("select use_Category2 from SystemSetting");
-        if(cursor!=null&&cursor.getCount()!=0)
-        {
-            if(cursor.moveToFirst())
-            {
+        Cursor cursor = DatabaseHelper.rawQuery("select use_Category2 from SystemSetting");
+        if (cursor != null && cursor.getCount() != 0) {
+            if (cursor.moveToFirst()) {
                 do {
-                    use_Category2=cursor.getInt(cursor.getColumnIndex("use_Category2"))==1?true:false;
+                    use_Category2 = cursor.getInt(cursor.getColumnIndex("use_Category2")) == 1 ? true : false;
 
-                }while (cursor.moveToNext());
-
+                } while (cursor.moveToNext());
             }
-
         }
-
 
     }
 
     private void setUI() {
-        rcv= findViewById(R.id.rcvsaleList);
-        pb=new ProgressDialog(frmsalelist.this,R.style.AlertDialogTheme);
+        rcv = findViewById(R.id.rcvsaleList);
+        pb = new ProgressDialog(frmsalelist.this, R.style.AlertDialogTheme);
         pb.setTitle("Downloading");
-        pb.setMessage("Please Wait...");
+        pb.setMessage("Please Wait ...");
         pb.setCancelable(true);
         pb.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         pb.setIndeterminate(true);
-        txtdate=findViewById(R.id.txtdate);
+        txtdate = findViewById(R.id.txtdate);
         txtdate.setOnClickListener(this);
-        imgFilterClear=findViewById(R.id.imgFilterClear);
-        filtermenu=(ImageButton) findViewById(R.id.filtermenu);
-        selectfilter=(Button)findViewById(R.id.selectfilter);
+        imgFilterClear = findViewById(R.id.imgFilterClear);
+        filtermenu = (ImageButton) findViewById(R.id.filtermenu);
+        selectfilter = (Button) findViewById(R.id.selectfilter);
         imgFilterClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 txtdate.setText("Today");
                 selectfilter.setText("Choose");
-                FilterCustomer.ccid=-1;
-                FilterUser.uid=-1;
-                FilterLocation.locid=-1;
-                FilterBrand.uid=-1;
+                FilterCustomer.ccid = -1;
+                FilterUser.uid = -1;
+                FilterLocation.locid = -1;
+                FilterBrand.uid = -1;
                 fdate = new Date();
                 tdate = new Date();
                 BindingData();
@@ -155,11 +153,9 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
         findViewById(R.id.imgAdd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent=new Intent(frmsalelist.this,sale_entry.class);
+                Intent intent = new Intent(frmsalelist.this, sale_entry.class);
                 startActivity(intent);
                 finish();
-
             }
         });
         findViewById(R.id.imgEdit).setOnClickListener(new View.OnClickListener() {
@@ -174,9 +170,9 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
 
             }
         });
-        adp=new saleListAdp(frmsalelist.this,salelists);
+        adp = new SaleListAdapter(frmsalelist.this, salelists);
         rcv.setAdapter(adp);
-        LinearLayoutManager lm=new LinearLayoutManager(frmsalelist.this,LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager lm = new LinearLayoutManager(frmsalelist.this, LinearLayoutManager.VERTICAL, false);
         rcv.setLayoutManager(lm);
 
         filtermenu.setOnClickListener(new View.OnClickListener() {
@@ -190,49 +186,47 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onClick(View v) {
 
-                if(selectfilter.getText().toString().trim().equals("Choose Customer") || (filterV==1 && !selectfilter.getText().toString().trim().equals("Choose User") && !selectfilter.getText().toString().trim().equals("Choose") && !selectfilter.getText().toString().trim().equals("Choose Location") && !selectfilter.getText().toString().trim().equals("Choose Brand"))){
-                    filterV=1;
-                    selecter("Customer",selectfilter);
-                }else if(selectfilter.getText().toString().trim().equals("Choose User") || (filterV==2 && !selectfilter.getText().toString().trim().equals("Choose Customer") && !selectfilter.getText().toString().trim().equals("Choose") && !selectfilter.getText().toString().trim().equals("Choose Location") && !selectfilter.getText().toString().trim().equals("Choose Brand"))){
-                    filterV=2;
-                    selecter("User",selectfilter);
-                }else if(selectfilter.getText().toString().trim().equals("Choose Location") || (filterV==3 && !selectfilter.getText().toString().trim().equals("Choose User") && !selectfilter.getText().toString().trim().equals("Choose") && !selectfilter.getText().toString().trim().equals("Choose Customer") && !selectfilter.getText().toString().trim().equals("Choose Brand"))) {
-                    filterV=3;
-                    selecter("Location",selectfilter);
-                }else if(selectfilter.getText().toString().trim().equals("Choose Brand") || (filterV==4 && !selectfilter.getText().toString().trim().equals("Choose Location") && !selectfilter.getText().toString().trim().equals("Choose") && !selectfilter.getText().toString().trim().equals("Choose Customer"))) {
-                    filterV=4;
-                    selecter("Brand",selectfilter);
+                if (selectfilter.getText().toString().trim().equals("Choose Customer") || (filterV == 1 && !selectfilter.getText().toString().trim().equals("Choose User") && !selectfilter.getText().toString().trim().equals("Choose") && !selectfilter.getText().toString().trim().equals("Choose Location") && !selectfilter.getText().toString().trim().equals("Choose Brand"))) {
+                    filterV = 1;
+                    selecter("Customer", selectfilter);
+                } else if (selectfilter.getText().toString().trim().equals("Choose User") || (filterV == 2 && !selectfilter.getText().toString().trim().equals("Choose Customer") && !selectfilter.getText().toString().trim().equals("Choose") && !selectfilter.getText().toString().trim().equals("Choose Location") && !selectfilter.getText().toString().trim().equals("Choose Brand"))) {
+                    filterV = 2;
+                    selecter("User", selectfilter);
+                } else if (selectfilter.getText().toString().trim().equals("Choose Location") || (filterV == 3 && !selectfilter.getText().toString().trim().equals("Choose User") && !selectfilter.getText().toString().trim().equals("Choose") && !selectfilter.getText().toString().trim().equals("Choose Customer") && !selectfilter.getText().toString().trim().equals("Choose Brand"))) {
+                    filterV = 3;
+                    selecter("Location", selectfilter);
+                } else if (selectfilter.getText().toString().trim().equals("Choose Brand") || (filterV == 4 && !selectfilter.getText().toString().trim().equals("Choose Location") && !selectfilter.getText().toString().trim().equals("Choose") && !selectfilter.getText().toString().trim().equals("Choose Customer"))) {
+                    filterV = 4;
+                    selecter("Brand", selectfilter);
 
-
-
-                }else if(selectfilter.getText().toString().trim().equals("Choose")){
-                        AlertDialog.Builder bd=new AlertDialog.Builder(frmsalelist.this,R.style.AlertDialogTheme);
-                        bd.setTitle("iStock");
-                        bd.setMessage("Please select filter type! ");
-                        bd.setCancelable(false);
-                        bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        bd.create().show();
-                    }
+                } else if (selectfilter.getText().toString().trim().equals("Choose")) {
+                    AlertDialog.Builder bd = new AlertDialog.Builder(frmsalelist.this, R.style.AlertDialogTheme);
+                    bd.setTitle("iStock");
+                    bd.setMessage("Please select filter type! ");
+                    bd.setCancelable(false);
+                    bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    bd.create().show();
                 }
+            }
         });
     }
 
-    private void selecter(final String name, final Button btn){
+    private void selecter(final String name, final Button btn) {
         try {
             String sqlString;
             final ArrayList<customer> customers = new ArrayList<>();
-            final ArrayList<user>users=new ArrayList<>();
-            final ArrayList<Location>locs=new ArrayList<>();
+            final ArrayList<user> users = new ArrayList<>();
+            final ArrayList<Location> locs = new ArrayList<>();
             final ArrayList<brand> brands = new ArrayList<>();
             Cursor cursor = null;
-            AlertDialog.Builder bd = new AlertDialog.Builder(frmsalelist.this,R.style.AlertDialogTheme);
+            AlertDialog.Builder bd = new AlertDialog.Builder(frmsalelist.this, R.style.AlertDialogTheme);
             View view = getLayoutInflater().inflate(R.layout.changeheadervalue, null);
-            bd.setCancelable(false);
+//            bd.setCancelable(false);
             bd.setView(view);
             final RecyclerView rv = view.findViewById(R.id.rcvChange);
             ImageButton imgClose = view.findViewById(R.id.imgNochange);
@@ -242,6 +236,7 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
                     da.dismiss();
                 }
             });
+
             EditText etdSearch = view.findViewById(R.id.etdSearch);
             ImageButton imgSearch = view.findViewById(R.id.imgSearch);
             imgSearch.setOnClickListener(new View.OnClickListener() {
@@ -249,7 +244,7 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
                 public void onClick(View v) {
                     try {
 
-                        AlertDialog.Builder searchBuilder = new AlertDialog.Builder(frmsalelist.this,R.style.AlertDialogTheme);
+                        AlertDialog.Builder searchBuilder = new AlertDialog.Builder(frmsalelist.this, R.style.AlertDialogTheme);
                         View view = getLayoutInflater().inflate(R.layout.searchbox, null);
                         searchBuilder.setView(view);
                         final EditText etdSearch = view.findViewById(R.id.etdSearch);
@@ -302,8 +297,6 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
                                             break;
 
 
-
-
                                     }
                                     msg.dismiss();
                                 }
@@ -330,10 +323,10 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
                                 String customername = cursor.getString(cursor.getColumnIndex("customer_name"));
                                 String customercode = cursor.getString(cursor.getColumnIndex("customer_code"));
                                 boolean credit = cursor.getInt(cursor.getColumnIndex("credit")) == 1 ? true : false;
-                                double custdis=cursor.getInt(cursor.getColumnIndex("Custdiscount"));
-                                int due_in_days=cursor.getInt(cursor.getColumnIndex("due_in_days"));
-                                double credit_limit=cursor.getDouble(cursor.getColumnIndex("credit_limit"));
-                                customers.add(new customer(customerid, customername, customercode, credit,custdis,due_in_days,credit_limit));
+                                double custdis = cursor.getInt(cursor.getColumnIndex("Custdiscount"));
+                                int due_in_days = cursor.getInt(cursor.getColumnIndex("due_in_days"));
+                                double credit_limit = cursor.getDouble(cursor.getColumnIndex("credit_limit"));
+                                customers.add(new customer(customerid, customername, customercode, credit, custdis, due_in_days, credit_limit));
                             } while (cursor.moveToNext());
 
                         }
@@ -351,14 +344,14 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
 
                     break;
                 case "User":
-                    sqlString="select userid,name from posuser";
+                    sqlString = "select userid,name from posuser";
                     cursor = DatabaseHelper.rawQuery(sqlString);
                     if (cursor != null && cursor.getCount() != 0) {
                         if (cursor.moveToFirst()) {
                             do {
                                 int userid = cursor.getInt(cursor.getColumnIndex("userid"));
                                 String usrname = cursor.getString(cursor.getColumnIndex("name"));
-                                users.add(new user(userid,usrname));
+                                users.add(new user(userid, usrname));
                             } while (cursor.moveToNext());
 
                         }
@@ -389,9 +382,7 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
 
                         }
 
-                    }
-                    else
-                    {
+                    } else {
                         da.dismiss();
                     }
                     cursor.close();
@@ -404,17 +395,16 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
                     break;
 
 
-
                 case "Brand":
-                    cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code",new String[]{"BrandID","BrandName"},"BrandName");
+                    cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code", new String[]{"BrandID", "BrandName"}, "BrandName");
 
                     if (cursor != null && cursor.getCount() != 0) {
-                        while (cursor.moveToNext() && cursor.getLong(cursor.getColumnIndex("BrandID"))!=0){
-                                long brandID = cursor.getLong(cursor.getColumnIndex("BrandID"));
-                                String brandName = cursor.getString(cursor.getColumnIndex("BrandName"));
+                        while (cursor.moveToNext() && cursor.getLong(cursor.getColumnIndex("BrandID")) != 0) {
+                            long brandID = cursor.getLong(cursor.getColumnIndex("BrandID"));
+                            String brandName = cursor.getString(cursor.getColumnIndex("BrandName"));
 
-                                brands.add(new brand(brandID,brandName));
-                            }
+                            brands.add(new brand(brandID, brandName));
+                        }
 
                         //}
 //                        if (cursor.moveToFirst()) {
@@ -429,55 +419,39 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
 
                     }
                     cursor.close();
-                    FilterBrand B = new FilterBrand(frmsalelist.this,brands,btn,da);
+                    FilterBrand B = new FilterBrand(frmsalelist.this, brands, btn, da);
                     rv.setAdapter(B);
-                    GridLayoutManager gridLayoutManagerUserBrand= new GridLayoutManager(frmsalelist.this, 4);
+                    GridLayoutManager gridLayoutManagerUserBrand = new GridLayoutManager(frmsalelist.this, 4);
                     rv.setLayoutManager(gridLayoutManagerUserBrand);
                     da.show();
                     break;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             da.dismiss();
         }
     }
-// Added by abbp salelist filter on 12/07/2019
-    private void showfiltermenu(){
 
-        PopupMenu popup = new PopupMenu(frmsalelist.this,filtermenu);
+    // Added by abbp salelist filter on 12/07/2019
+    private void showfiltermenu() {
+
+        PopupMenu popup = new PopupMenu(frmsalelist.this, filtermenu);
         //Inflating the Popup using xml file
         popup.getMenuInflater().inflate(R.menu.filterselectionmenu, popup.getMenu());
 
-        if(!use_Category2) { //for show hide brand
-            if(frmlogin.select_location==0){//Added by KLM QA-201187 30112020
+        if (!use_Category2) { //for show hide brand
+            if (frmlogin.select_location == 0) {//Added by KLM QA-201187 30112020
                 MenuItem menuitem = popup.getMenu().getItem(2);
                 menuitem.setVisible(false);
             }
 
-                MenuItem menuitem = popup.getMenu().getItem(3);
-                menuitem.setVisible(false);
+            MenuItem menuitem = popup.getMenu().getItem(3);
+            menuitem.setVisible(false);
 
 
-        }
-        else{
-            if(frmlogin.select_location==0){//Added by KLM QA-201187 30112020
+        } else {
+            if (frmlogin.select_location == 0) {//Added by KLM QA-201187 30112020
                 MenuItem menuitem = popup.getMenu().getItem(2);
                 menuitem.setVisible(false);
             }
@@ -509,14 +483,14 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
     public static void BindingData() {
         try {
 
-                DateFormat dateFormat;
-                dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                if(salelists.size()>0)salelists.clear();
-                if (frmlogin.UseOffline == 1) {
+            DateFormat dateFormat;
+            dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            if (salelists.size() > 0) salelists.clear();
+            if (frmlogin.UseOffline == 1) {
 
                 String sqlstring = "select sh.tranid,ifnull(invoice_no,docid) docid,sh.date,p.short user_short,c.customer_name,pt.short pay_type,sh.net_amount " +
-                        " from Sale_Head_Main sh join Posuser p on p.userid=sh.userid join customer c on c.customerid=sh.customerid join Payment_Type pt on pt.pay_type=sh.pay_type"+
-                         " ORDER BY DATE ASC,sh.tranid desc,docid ";//added sh.tranid by KLM
+                        " from Sale_Head_Main sh join Posuser p on p.userid=sh.userid join customer c on c.customerid=sh.customerid join Payment_Type pt on pt.pay_type=sh.pay_type" +
+                        " ORDER BY DATE ASC,sh.tranid desc,docid ";//added sh.tranid by KLM
                 Cursor cursor = DatabaseHelper.rawQuery(sqlstring);
                 if (cursor != null && cursor.getCount() != 0) {
                     if (cursor.moveToFirst()) {
@@ -527,15 +501,13 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
                             String pay_type = cursor.getString(cursor.getColumnIndex("pay_type"));
                             String dateStr = cursor.getString(cursor.getColumnIndex("date"));
 
-                            if(dateStr.split("/").length>1) {
+                            if (dateStr.split("/").length > 1) {
                                 String[] ds = dateStr.split("/");
-                                ds[0] = ds[0].length() >1 ? ds[0] : "0" + ds[0];
-                                ds[1] = ds[1].length()>1 ? ds[1] : "0" + ds[1];
+                                ds[0] = ds[0].length() > 1 ? ds[0] : "0" + ds[0];
+                                ds[1] = ds[1].length() > 1 ? ds[1] : "0" + ds[1];
                                 dateStr = ds[1] + "/" + ds[0] + "/" + ds[2];
-                            }
-                            else
-                            {
-                                dateStr=new SimpleDateFormat("dd/MM/yyyy").format(dateFormat.parse(dateStr));
+                            } else {
+                                dateStr = new SimpleDateFormat("dd/MM/yyyy").format(dateFormat.parse(dateStr));
                             }
                             double net_amount = cursor.getDouble(cursor.getColumnIndex("net_amount"));
                             total += net_amount;
@@ -546,9 +518,9 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
                         } while (cursor.moveToNext());
 
                     }
-
+                    cursor.close();
                 }
-                cursor.close();
+
                 adp.notifyDataSetChanged();
                 txtCount.setText(String.valueOf(salelists.size()));
                 txtTotal.setText(String.format("%,." + frmmain.price_places + "f", total));
@@ -557,9 +529,7 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
             } else {
                 GetData();
             }
-        }
-        catch (Exception ee)
-        {
+        } catch (Exception ee) {
             Toast.makeText(listcontext, ee.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -567,7 +537,7 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent=new Intent(frmsalelist.this,frmmain.class);
+        Intent intent = new Intent(frmsalelist.this, frmmain.class);
         startActivity(intent);
         finish();
     }
@@ -577,37 +547,36 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
 
             pb.show();
             salelists.clear();
-            total=0.0;
+            total = 0.0;
             String ip = sh_ip.getString("ip", "empty");
             String port = sh_port.getString("port", "empty");
-            url = "http://"+ip+":"+port+"/api/DataSync/GetHeader'?userid="+frmlogin.LoginUserid+"&uid="+FilterUser.uid+"&fdate="+dateFormat.format(fdate)+"&tdate="+dateFormat.format(tdate)+"&ccid="+FilterCustomer.ccid+"&locid="+FilterLocation.locid+"&brandid="+FilterBrand.uid+"&language="+frmlogin.Font_Language;
+            url = "http://" + ip + ":" + port + "/api/DataSync/GetHeader'?userid=" + frmlogin.LoginUserid + "&uid=" + FilterUser.uid + "&fdate=" + dateFormat.format(fdate) + "&tdate=" + dateFormat.format(tdate) + "&ccid=" + FilterCustomer.ccid + "&locid=" + FilterLocation.locid + "&brandid=" + FilterBrand.uid + "&language=" + frmlogin.Font_Language;
             requestQueue = Volley.newRequestQueue(listcontext);
             final Response.Listener<String> listener = new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
 
                     try {
-                        JSONArray jarr=new JSONArray(response);
-                        for(int i=0;i<jarr.length();i++)
-                        {
-                            JSONObject obj=jarr.getJSONObject(i);
-                            int tranid=obj.getInt("tranid");
-                            String docid=obj.getString("docid");
-                            String currency=obj.getString("currency");
-                            String pay_type=obj.getString("pay_type");
-                            String dateStr=  obj.getString("date");
-                            double net_amount=obj.getDouble("net_amount");
-                            total+=net_amount;
-                            String usershort=obj.getString("usershort");
-                            String customer_name=obj.getString("customer_name");
-                            salelists.add(new salelist(tranid,dateStr,docid,pay_type,currency,net_amount,usershort,customer_name));
-
-
+                        JSONArray jarr = new JSONArray(response);
+                        for (int i = 0; i < jarr.length(); i++) {
+                            JSONObject obj = jarr.getJSONObject(i);
+                            int tranid = obj.getInt("tranid");
+                            String docid = obj.getString("docid");
+                            String currency = obj.getString("currency");
+                            String pay_type = obj.getString("pay_type");
+                            String dateStr = obj.getString("date");
+                            double net_amount = obj.getDouble("net_amount");
+                            total += net_amount;
+                            String usershort = obj.getString("usershort");
+                            String customer_name = obj.getString("customer_name");
+                            salelists.add(new salelist(tranid, dateStr, docid, pay_type, currency, net_amount, usershort, customer_name));
                         }
+
                         adp.notifyDataSetChanged();
                         txtCount.setText(String.valueOf(salelists.size()));
-                        txtTotal.setText(String.format("%,."+frmmain.price_places+"f",total));
+                        txtTotal.setText(String.format("%,." + frmmain.price_places + "f", total));
                         pb.dismiss();
+
                     } catch (JSONException e) {
 
                         pb.dismiss();
@@ -637,10 +606,7 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
             requestQueue.add(req);
 
 
-
-        }
-        catch (Exception ee)
-        {
+        } catch (Exception ee) {
             Toast.makeText(listcontext, ee.getMessage(), Toast.LENGTH_LONG).show();
             pb.dismiss();
 
@@ -649,8 +615,7 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.txtdate:
                 ShowDateFilter();
                 break;
@@ -659,24 +624,24 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
 
     private void ShowDateFilter() {
         LayoutInflater inflater = (LayoutInflater) frmsalelist.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.daterangefilterpopup,null);
-        float density=frmsalelist.this.getResources().getDisplayMetrics().density;
-        final PopupWindow pw = new PopupWindow(layout, (int)density*310, WindowManager.LayoutParams.WRAP_CONTENT, true);
+        View layout = inflater.inflate(R.layout.daterangefilterpopup, null);
+        float density = frmsalelist.this.getResources().getDisplayMetrics().density;
+        final PopupWindow pw = new PopupWindow(layout, (int) density * 500, WindowManager.LayoutParams.WRAP_CONTENT, true);
         pw.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         pw.setOutsideTouchable(false);
         pw.showAsDropDown(txtdate);
-        ImageButton imgDone=layout.findViewById(R.id.imgDone);
-        final com.applandeo.materialcalendarview.CalendarView calendarView =layout.findViewById(R.id.calendarView);
+        ImageButton imgDone = layout.findViewById(R.id.imgDone);
+        final com.applandeo.materialcalendarview.CalendarView calendarView = layout.findViewById(R.id.calendarView);
         imgDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calendars=calendarView.getSelectedDates();
-                if(calendars.size()>0) {
+                calendars = calendarView.getSelectedDates();
+                if (calendars.size() > 0) {
                     fdate = calendars.get(0).getTime();
                     tdate = calendars.get(calendars.size() - 1).getTime();
                 }
                 pw.dismiss();
-                txtdate.setText(new SimpleDateFormat("dd/MM/yyyy").format(fdate)+" - "+new SimpleDateFormat("dd/MM/yyyy").format(tdate));
+                txtdate.setText(new SimpleDateFormat("dd/MM/yyyy").format(fdate) + " - " + new SimpleDateFormat("dd/MM/yyyy").format(tdate));
                 BindingData();
 
             }

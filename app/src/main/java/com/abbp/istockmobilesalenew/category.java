@@ -5,8 +5,6 @@ public class category {
     long classid;
     String name;
 
-
-
     public category(long category, long classid, String name) {
         this.category = category;
         this.classid = classid;
