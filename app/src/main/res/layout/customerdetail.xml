@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="450dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -76,7 +76,8 @@
                         android:id="@+id/txtCustomerName"
                         android:layout_height="35dp"
                         android:textSize="12dp"
-                        android:background="@color/headertext"/>
+                        android:background="@color/headertext"
+                        android:layout_marginRight="30dp"/>
 
                 </RelativeLayout>
                 <RelativeLayout
@@ -103,7 +104,8 @@
                         android:id="@+id/txtCustomerCode"
                         android:layout_height="35dp"
                         android:textSize="12dp"
-                        android:background="@color/headertext"/>
+                        android:background="@color/headertext"
+                        android:layout_marginRight="30dp"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -131,6 +133,7 @@
                         android:textAllCaps="false"
                         android:text="Merchant"
                         android:textAlignment="textStart"
+                        android:layout_marginRight="30dp"
                         />
                 </RelativeLayout>
                 <RelativeLayout
@@ -159,6 +162,7 @@
                         android:id="@+id/btnTownship"
                         android:textSize="15dp"
                         android:textAlignment="textStart"
+                        android:layout_marginRight="30dp"
                         />
 
 
@@ -180,10 +184,11 @@
                         android:textSize="14dp"/>
 
                     <RelativeLayout
-                    android:layout_width="185dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_height="40dp">
+                        android:layout_width="185dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="30dp">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -193,7 +198,9 @@
                                 android:layout_width="45dp"
                                 android:layout_height="10dp"
                                 android:layout_alignParentRight="true"
-                                android:layout_marginRight="20dp"/>
+                                android:layout_marginRight="20dp"
+                                android:trackTint="#30E108"
+                                android:foregroundTint="#30E108"/>
 
                             <EditText
                                 android:id="@+id/txtdue"
@@ -203,7 +210,7 @@
                                 android:layout_centerVertical="true"
                                 android:background="@color/headertext"
                                 android:hint="Enter DueDay"
-                                android:textColor="@color/white"
+                                android:textColor="@color/black"
                                 android:textColorHint="#4A000000"
                                 android:textSize="12dp" />
                         </LinearLayout>

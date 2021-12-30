@@ -1,5 +1,9 @@
 package com.abbp.istockmobilesalenew;
 
+import androidx.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
+
 public class customergroup {
     private   long custgroupid;
     private String name;
@@ -35,4 +39,10 @@ public class customergroup {
         Shortname = shortname;
     }
 
+    @NonNull
+    @NotNull
+    @Override
+    public String toString() {
+        return name;
+    }
 }

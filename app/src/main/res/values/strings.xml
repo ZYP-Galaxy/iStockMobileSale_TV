@@ -2,4 +2,25 @@
     <string name="app_name">iStock</string>
     <string name="register"><u>Register</u></string>
     <string name="content_description">Content Description</string>
+    <string name="_0">0</string>
+    <string name="amount">Amount</string>
+    <string name="qty">Qty</string>
+    <string name="liter">Liter</string>
+    <string name="item_discount">Item Discount</string>
+    <string name="choose">Choose</string>
+    <string name="unit">Unit</string>
+    <string name="price_level">Price Level</string>
+    <string name="sale_price">Sale Price</string>
+    <string name="mmk">MMK</string>
+    <string name="remark">Remark</string>
+    <string name="enter_remark">Enter remark</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="paid_amount">Paid Amount</string>
+
+    <string name="change">Change</string>
+    <string name="bill_not_print">Bill Not Print</string>
+    <string name="bluetooth_printer">Bluetooth Printer</string>
+
+    <string name="_1">1</string>
 </resources>

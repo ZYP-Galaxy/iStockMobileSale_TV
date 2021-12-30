@@ -361,10 +361,10 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener 
                 }
                 break;
             case R.id.btnconnect:
-//                ip = sh_ip.getString("ip", "empty");
-//                port = sh_port.getString("port", "empty");
-//                showIpBox(ip, port);
-                showRegisterSetup();
+                ip = sh_ip.getString("ip", "empty");
+                port = sh_port.getString("port", "empty");
+                showIpBox(ip, port);
+                //showRegisterSetup();
                 break;
             case R.id.btnUpload:
                 checkofflinedata = false;

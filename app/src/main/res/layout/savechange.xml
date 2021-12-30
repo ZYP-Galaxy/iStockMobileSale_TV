@@ -5,57 +5,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:focusable="false"
-    android:background="#d9d4d4"
-    android:padding="10dp">
+    android:background="@color/headerinfo">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="500dp"
         app:cardBackgroundColor="#d9d4d4">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
+            android:orientation="vertical"
+            android:background="@color/headerinfo">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="@color/headerbar">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
+                    android:layout_centerInParent="true"
                     android:text="Sale Change"
                     android:textColor="#ffffff"
                     android:textStyle="bold"
-                    android:textSize="20dp"/>
-
+                    android:textSize="20sp"/>
                 <ImageButton
-                    android:id="@+id/imgSave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/imgClose"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
                     android:background="@null"
-                    app:srcCompat="@drawable/editsavesmall" />
+                    app:srcCompat="@drawable/editsavesmall"
+                    android:visibility="gone"/>
                 <ImageButton
-                    android:id="@+id/imgClose"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/arrow"/>
-
+                    android:background="@drawable/arrow"
+                    android:visibility="gone"/>
             </RelativeLayout>
-
-
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -67,21 +57,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="Amount"
-                    android:textColor="#46509E"
+                    android:layout_marginStart="200dp"
+                    android:text="@string/amount"
+                    android:textColor="#FFF"
                     android:id="@+id/txtAmounttext"
                     android:textStyle="bold"
-                    android:textSize="20dp"/>
-
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/txtAmount"
+                    android:layout_width="185dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="120dp"
+                    android:gravity="center|end"
+                    android:padding="5dp"
+                    android:text="@string/_0"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:background="#77FFFFFF"
+                    android:enabled="false" />
                 <RelativeLayout
                     android:layout_width="185dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_height="50dp"
-                    android:background="@drawable/txtinvoice">
+                    android:background="@drawable/txtinvoice"
+                    android:visibility="gone">
                     <TextView
-                        android:id="@+id/txtAmount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -91,25 +95,37 @@
                         android:textAlignment="textEnd"
                         android:textStyle="bold"
                         android:textSize="20dp"/>
-
                 </RelativeLayout>
-
-
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_height="40dp">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="Amount Paid"
-                    android:textColor="#46509E"
+                    android:layout_marginStart="200dp"
+                    android:text="@string/paid_amount"
+                    android:textColor="#FFF"
                     android:textStyle="bold"
-                    android:textSize="20dp"/>
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/txtpaidAmount"
+                    android:layout_width="185dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="120dp"
+                    android:gravity="center|end"
+                    android:padding="5dp"
+                    android:text="@string/_0"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:inputType="number"
+                    android:background="@color/headertext"
+                    tools:ignore="TextViewEdits" />
 
                 <RelativeLayout
                     android:layout_width="185dp"
@@ -117,18 +133,18 @@
                     android:layout_centerVertical="true"
                     android:layout_height="50dp"
                     android:id="@+id/rlPaid"
-                    android:background="@drawable/txtinvoice">
+                    android:background="@drawable/txtinvoice"
+                    android:visibility="gone">
                     <TextView
-                        android:id="@+id/txtpaidAmount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="10dp"
-                        android:text="0"
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/_0"
                         android:textColor="#ffffff"
                         android:textAlignment="textEnd"
                         android:textStyle="bold"
-                        android:textSize="20dp"/>
+                        android:textSize="20sp"/>
 
                 </RelativeLayout>
 
@@ -137,25 +153,38 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_height="40dp">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="Change"
-                    android:textColor="#46509E"
+                    android:layout_marginStart="200dp"
+                    android:text="@string/change"
+                    android:textColor="#FFF"
                     android:textStyle="bold"
-                    android:textSize="20dp"/>
-
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/txtChange"
+                    android:layout_width="185dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="120dp"
+                    android:gravity="center|end"
+                    android:padding="5dp"
+                    android:text="@string/_0"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:background="#77FFFFFF"
+                    android:enabled="false" />
                 <RelativeLayout
                     android:layout_width="185dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_height="50dp"
-                    android:background="@drawable/txtinvoice">
+                    android:background="@drawable/txtinvoice"
+                    android:visibility="gone">
                     <TextView
-                        android:id="@+id/txtChange"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -173,12 +202,83 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_height="40dp">
+                <Switch
+                    android:id="@+id/switchBill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bill_not_print"
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:trackTint="#30E108"
+                    android:foregroundTint="#30E108"
+                    android:layout_marginStart="200dp"
+                    android:layout_marginTop="5dp"
+                    />
+                <TextView
+                    android:id="@+id/billcounttxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="Bill Count"
+                    android:textColor="#FFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="280dp"
+                    android:layout_marginTop="5dp"/>
+                <TextView
+                    android:id="@+id/billcount"
+                    android:layout_width="50dp"
+                    android:background="@color/headertext"
+                    android:layout_height="35dp"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:text="@string/_1"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="165dp"
+                    android:layout_marginTop="3dp"
+                    android:inputType="number"
+                    tools:ignore="TextViewEdits" />
+                <ImageView
+                    android:id="@+id/img_qty_minus"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:tint="@color/colorPrimary"
+                    app:srcCompat="@drawable/ic_remove_circle"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="220dp"/>
+                <ImageView
+                    android:id="@+id/img_qty_plus"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:tint="@color/colorPrimary"
+                    app:srcCompat="@drawable/custadd"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="120dp"/>
+                <Switch
+                    android:id="@+id/switchBluetooth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bluetooth_printer"
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:trackTint="#30E108"
+                    android:foregroundTint="#30E108"
+                    android:layout_marginEnd="160dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone"
+                    />
                 <CheckBox
                     android:id="@+id/chkBluetooth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="0dp" />
+                    android:layout_marginRight="0dp"
+                    android:visibility="gone"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -187,42 +287,68 @@
                     android:textColor="#46509E"
                     android:textSize="20sp"
                     android:layout_toLeftOf="@+id/chkBluetooth"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
             </RelativeLayout>
             <RelativeLayout
+                android:id="@+id/rlBillCount"
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
-                android:layout_height="40dp">
+                android:layout_height="40dp"
+                android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/billcounttxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="Bill Count"
-                    android:textColor="#46509E"
-                    android:textSize="20sp"
-                    android:layout_marginLeft="10dp"
-                    android:textStyle="bold" />
-                <RelativeLayout
+                    android:textColor="#FFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="200dp"/>
+                <TextView
                     android:layout_width="50dp"
-                    android:layout_toRightOf="@+id/billcounttxt"
+                    android:background="@color/headertext"
+                    android:layout_height="35dp"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:text="@string/_1"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="250dp"
+                    android:inputType="number"
+                    tools:ignore="TextViewEdits" />
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:tint="@color/colorPrimary"
+                    app:srcCompat="@drawable/ic_remove_circle"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="315dp"/>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:tint="@color/colorPrimary"
+                    app:srcCompat="@drawable/custadd"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="190dp"/>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_centerVertical="true"
                     android:layout_height="50dp"
-                    android:id="@+id/rlBillCount"
-                    android:background="@drawable/txtinvoice">
+                    android:background="@drawable/txtinvoice"
+                    android:visibility="gone">
                     <TextView
-                        android:id="@+id/billcount"
-                        android:layout_width="match_parent"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="10dp"
-                        android:text="0"
+                        android:text="@string/_0"
                         android:textColor="#ffffff"
                         android:textAlignment="textEnd"
                         android:textStyle="bold"
-                        android:textSize="20dp"/>
+                        android:textSize="20sp"/>
 
                 </RelativeLayout>
 
@@ -232,7 +358,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/billcounttxt"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="0dp" />
+                    android:layout_marginRight="0dp"
+                    android:visibility="gone"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -241,12 +368,43 @@
                     android:textColor="#46509E"
                     android:textSize="20sp"
                     android:layout_toLeftOf="@+id/chkPrint"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
+                <Button
+                    android:id="@+id/imgClose"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="200dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="@string/cancel"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/cancel_button"
+                    android:textStyle="bold"/>
+                <Button
+                    android:id="@+id/imgSave"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="120dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="@string/confirm"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/bg_button"
+                    android:textStyle="bold"/>
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:layout_height="40dp">
 
                 <TextView
@@ -283,7 +441,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:layout_height="40dp">
 
                 <TextView
@@ -320,7 +478,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:layout_height="40dp">
 
                 <TextView

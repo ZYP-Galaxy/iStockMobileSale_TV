@@ -29,6 +29,7 @@
     <color name="headerinfo">#4b5d67</color>
     <color name="headerbar">#235667</color>
     <color name="headertext">#ededed</color>
+    <color name="cancel">#514C4C</color>
 
 
 </resources>

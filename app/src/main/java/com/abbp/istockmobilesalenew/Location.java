@@ -1,5 +1,9 @@
 package com.abbp.istockmobilesalenew;
 
+import androidx.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
+
 public class Location {
     private long locationid;
     private String name;
@@ -43,5 +47,12 @@ public class Location {
 
     public void setBranchid(long branchid) {
         this.branchid = branchid;
+    }
+
+    @NonNull
+    @NotNull
+    @Override
+    public String toString() {
+        return name;
     }
 }

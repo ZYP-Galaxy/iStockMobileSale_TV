@@ -1,5 +1,9 @@
 package com.abbp.istockmobilesalenew;
 
+import androidx.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
+
 public class Township {
     private long Townshipid;
     private String name;
@@ -33,5 +37,12 @@ public class Township {
 
     public void setTownshipCode(String townshipCode) {
         TownshipCode = townshipCode;
+    }
+
+    @NonNull
+    @NotNull
+    @Override
+    public String toString() {
+        return name;
     }
 }

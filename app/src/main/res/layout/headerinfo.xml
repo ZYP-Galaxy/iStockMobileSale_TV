@@ -32,7 +32,7 @@
             android:layout_marginRight="60dp"
             android:background="@drawable/save" />
         <ImageButton
-            android:id="@+id/imgback"
+            android:id="@+id/imgBack"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
@@ -74,8 +74,7 @@
                 android:layout_width="185dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:textColorHint="#fff"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:id="@+id/txtInvoiceNo"
                 android:layout_height="35dp"
                 android:textSize="15dp"
@@ -83,6 +82,7 @@
                 android:textStyle="bold"
                 android:textAlignment="textStart"
                 android:layout_marginRight="50dp"
+                android:padding="5dp"
                 />
 
         </RelativeLayout>
@@ -106,8 +106,7 @@
                 android:layout_width="185dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:textColorHint="#fff"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:id="@+id/txtheadremark"
                 android:layout_height="35dp"
                 android:textSize="15dp"
@@ -115,6 +114,7 @@
                 android:textStyle="bold"
                 android:textAlignment="textStart"
                 android:layout_marginRight="50dp"
+                android:padding="5dp"
                 />
 
         </RelativeLayout>
@@ -133,17 +133,16 @@
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 android:textSize="15dp"/>
-            <Button
+            <Spinner
                 android:layout_width="185dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:id="@+id/btnCustGroup"
+                android:id="@+id/spinCustGp"
                 android:layout_height="40dp"
                 android:background="@color/headertext"
                 android:textColor="#090505"
                 android:textSize="15dp"
                 android:textAllCaps="false"
-                android:text="Merchant"
                 android:textAlignment="textStart"
                 android:layout_marginRight="50dp"
                 />
@@ -164,16 +163,15 @@
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 android:textSize="15dp"/>
-            <Button
+            <Spinner
                 android:layout_width="185dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:textAllCaps="false"
-                android:text="Yangon"
                 android:layout_height="40dp"
                 android:background="@color/headertext"
                 android:textColor="#000000"
-                android:id="@+id/btnTownship"
+                android:id="@+id/spinTownship"
                 android:textSize="15dp"
                 android:textAlignment="textStart"
                 android:layout_marginRight="50dp"
@@ -196,7 +194,6 @@
                 android:textSize="15dp"/>
             <Button
                 android:layout_width="185dp"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:textAllCaps="false"
                 android:id="@+id/btnCustomer"
@@ -206,15 +203,26 @@
                 android:textSize="15dp"
                 android:textAlignment="textStart"
                 android:layout_marginRight="50dp"
+                android:visibility="gone"
                 />
-            <ImageButton
+            <AutoCompleteTextView
+                android:id="@+id/searchCustomer"
+                android:layout_width="185dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="50dp"
+                android:background="@color/headertext"
+                />
+            <ImageView
                 android:id="@+id/imgNewCust"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="12dp"
-                android:background="@drawable/plus" />
+                android:layout_marginRight="5dp"
+                android:tint="@color/colorPrimary"
+                app:srcCompat="@drawable/custadd" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -231,35 +239,18 @@
                 android:textStyle="bold"
                 android:textSize="15dp"/>
 
-            <ImageButton
-                android:id="@+id/imgLeft"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="460dp"
-                android:layout_alignParentLeft="true"
-                android:background="@drawable/leftarrow"/>
-            <Button
-                android:id="@+id/btnpaytype"
+            <Spinner
+                android:id="@+id/spinPaytype"
                 android:layout_width="185dp"
                 android:layout_height="40dp"
                 android:layout_alignParentRight="true"
                 android:background="@color/headertext"
-                android:text="Cash Down"
                 android:textAllCaps="false"
                 android:textColor="#070505"
                 android:textSize="15dp"
                 android:textAlignment="center"
                 android:layout_marginRight="50dp"
                 android:layout_marginTop="5dp"/>
-            <ImageButton
-                android:id="@+id/imgRight"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="12dp"
-                android:background="@drawable/rightarrow" />
 
         </RelativeLayout>
         <RelativeLayout
@@ -276,7 +267,7 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="15dp"/>
-            <Button
+            <Spinner
                 android:layout_width="185dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
@@ -309,12 +300,11 @@
                 android:textSize="15dp"
                 android:textStyle="bold"
                 />
-            <Button
+            <Spinner
                 android:layout_width="185dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:textAllCaps="false"
-                android:text="Mb"
                 android:layout_height="40dp"
                 android:background="@color/headertext"
                 android:textColor="#000000"
@@ -323,8 +313,6 @@
                 android:textAlignment="textStart"
                 android:layout_marginRight="50dp"
                 />
-
-
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -347,7 +335,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="190dp"
-                android:layout_marginTop="12dp"/>
+                android:layout_marginTop="12dp"
+                android:trackTint="#1FEF08"/>
         </RelativeLayout>
     </LinearLayout>
 </ScrollView>

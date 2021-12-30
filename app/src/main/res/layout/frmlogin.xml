@@ -83,7 +83,7 @@
                 android:textColor="#ffffff"
                 android:textSize="15dp"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/btnRegister"
@@ -97,7 +97,7 @@
                 android:textColor="#ffffff"
                 android:textSize="15dp"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <TextClock
                 android:id="@+id/textClock"

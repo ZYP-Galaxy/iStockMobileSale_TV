@@ -1526,7 +1526,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
         StringRequest req = new StringRequest(Request.Method.GET,Url,listener,error);
         requestQueue.add(req);
     }
-
+/*
     private  void InitializeHeader(ArrayList<String> id,ArrayList<Button> btn)
     {
         Cursor cursor=null;
@@ -1652,6 +1652,8 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
 
 
     }
+
+ */
     private void CustomerSetup(String name,Button btn,Button btnpay)
     {
         try {
@@ -4281,6 +4283,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                 RelativeLayout rlCustGroup=view.findViewById(R.id.rlCustGroup);
                 RelativeLayout rlTownship=view.findViewById(R.id.rlTownship);
                 RelativeLayout rlLocatin=view.findViewById(R.id.rlLocation);
+                /*
                 RelativeLayout rlsalesmen=view.findViewById(R.id.rlsalesmen);
                 btncustgroup=view.findViewById(R.id.btnCustGroup);
                 btntownship=view.findViewById(R.id.btnTownship);
@@ -4302,6 +4305,8 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                 else {
                     rlsalesmen.setVisibility(View.VISIBLE);
                 }
+
+                 */
                 if(!use_customergroup)
                 {
                     rlCustGroup.setVisibility(View.GONE);
@@ -4318,19 +4323,19 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                     if(frmlogin.select_location == 0){
 
                         rlLocatin.setEnabled(false);
-                        btnStlocation.setEnabled(false);
+                        //btnStlocation.setEnabled(false);
                     }
                     else{
 
                         rlLocatin.setEnabled(true);
-                        btnStlocation.setEnabled(true);
+                       // btnStlocation.setEnabled(true);
                     }
                 }else{
                     rlLocatin.setVisibility(View.GONE);
                 }
                 //not select_customer in sale entry modified by ABBP
                 if(frmlogin.select_customer == 0){
-                    btncustomer.setEnabled(false);
+                    //btncustomer.setEnabled(false);
                 }
                 TextView txtinvoiceNo=view.findViewById(R.id.txtInvoiceNo);
                 txtinvoiceNo.setText(sh.get(0).getInvoice_no()=="NULL"?"":sh.get(0).getInvoice_no());
@@ -4339,7 +4344,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                 //add headremark in header
                 headremark=view.findViewById(R.id.txtheadremark);
                 headremark.setText(sh.get(0).getHeadremark()=="NULL"?"":sh.get(0).getHeadremark());
-
+/*
 //salesmen selcet to btn
                 if(SaleVouSalesmen.size()>0){
                     String salesmen="";
@@ -4369,9 +4374,11 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                     btnSalesmen.setText(salesmen);
                 }
 
+ */
+
 
                 ImageButton btnsave=view.findViewById(R.id.imgSave);
-
+/*
                 btncustgroup.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -4400,6 +4407,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                         ChangeHeader("Customer",btncustomer,btnpaytype);
                     }
                 });
+
                 btnpaytype=view.findViewById(R.id.btnpaytype);
                 btnpaytype.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -4419,6 +4427,8 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                     }
                 });
 
+
+ */
 
                 btnsave.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -4441,6 +4451,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                         dialog.dismiss();
                     }
                 });
+                /*
                 ArrayList<String> id=new ArrayList<>();
                 ArrayList<Button> btn=new ArrayList<>();
 
@@ -4458,6 +4469,8 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
 
                 InitializeHeader(id,btn);
 
+
+                 */
                 dialog=builder.create();
                 dialog.show();
 

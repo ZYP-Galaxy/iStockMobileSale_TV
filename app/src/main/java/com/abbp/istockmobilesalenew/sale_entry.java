@@ -34,6 +34,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -47,6 +49,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -80,7 +83,7 @@ import java.util.Date;
 
 import me.myatminsoe.mdetect.Rabbit;
 
-public class sale_entry extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemLongClickListener {
+public class sale_entry extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemLongClickListener{
 
     //region variables
     public static ArrayList<category> categories = new ArrayList<>();
@@ -129,7 +132,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     boolean isqty = false;
     boolean isGallon = false;
     public static int itemPosition;
-    ImageButton imgDeleteAll, imgDelete, imgSummary, imgEdit, imgConfrim, imgPrint, imgHeader, imgBack, imgLogout, imgNewCust;
+    ImageButton imgDeleteAll, imgDelete, imgSummary, imgEdit, imgConfrim, imgPrint, imgHeader, imgBack, imgLogout;
+    ImageView imgNewCust;
     ImageButton imgAllDetails;//added by YLT on [15-06-2020]
     AlertDialog dialog, custdia;
     AlertDialog.Builder builder;
@@ -149,6 +153,9 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     com.applandeo.materialcalendarview.CalendarView calendar;
     public static long selected_custgroupid = -1;
     public static long selected_townshipid = -1;
+    public static long selected_customerid = 1;
+    public static long locationid = 1;
+    public static int pay_type = 1;
     public static boolean creditcustomer = false;
     public static double dis_percent;
     public static double disamt;
@@ -1874,13 +1881,13 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 RelativeLayout rlLocatin = view.findViewById(R.id.rlLocation);
                 RelativeLayout rlsalesmen = view.findViewById(R.id.rlsalesmen);
                 RelativeLayout rlcash = view.findViewById(R.id.rlcash);
-                btncustgroup = view.findViewById(R.id.btnCustGroup);
-                btntownship = view.findViewById(R.id.btnTownship);
-                btncustomer = view.findViewById(R.id.btnCustomer);
-                btnStlocation = view.findViewById(R.id.location);
+                //btncustgroup = view.findViewById(R.id.btnCustGroup);
+                //btntownship = view.findViewById(R.id.btnTownship);
+                //btncustomer = view.findViewById(R.id.btnCustomer);
+                //btnStlocation = view.findViewById(R.id.location);
                 //btnSalesmen=view.findViewById(R.id.salesmen);
                 imgNewCust = view.findViewById(R.id.imgNewCust);
-                btnCash = view.findViewById(R.id.cash);
+//                btnCash = view.findViewById(R.id.cash);
                 /*
                 chkDeliver=view.findViewById(R.id.chkToDeliver);
                 if(!Use_Delivery)
@@ -1895,7 +1902,14 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     chkDeliver.setChecked(sh.get(0).getDeliverValue());//added by YLT on [18-06-20220]
                 }
                 */
-
+                Switch deliver = view.findViewById(R.id.deliver);
+                if(!Use_Delivery){
+                    deliver.setVisibility(View.GONE);
+                }
+                else{
+                    deliver.setVisibility(View.VISIBLE);
+                    deliver.setChecked(sh.get(0).getDeliverValue());
+                }
                 if (!use_salesperson) {
                     rlsalesmen.setVisibility(View.GONE);
                 } else {
@@ -1906,6 +1920,265 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     rlCustGroup.setVisibility(View.GONE);
 
                 }
+
+                ArrayList<customergroup> cg = new ArrayList<>();
+                if (cg.size() > 0) {
+                    cg.clear();
+                }
+                Cursor custgp = DatabaseHelper.DistinctSelectQuery("Customer", new String[]{"CustGroupID", "CustGroupname", "CustGroupCode"});
+                if (custgp != null && custgp.getCount() != 0) {
+                    if (custgp.moveToFirst()) {
+                        do {
+                            long custgroupid = custgp.getLong(custgp.getColumnIndex("CustGroupID"));
+                            String custgroupname = custgp.getString(custgp.getColumnIndex("CustGroupname"));
+                            String shortname = custgp.getString(custgp.getColumnIndex("CustGroupCode"));
+                            cg.add(new customergroup(custgroupid, custgroupname, shortname));
+                        } while (custgp.moveToNext());
+                    }
+                }
+                custgp.close();
+                Spinner spinCustGp = view.findViewById(R.id.spinCustGp);
+//                spinCustGp.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
+                // Creating adapter for spinner
+                ArrayAdapter custgroup = new ArrayAdapter(this, android.R.layout.simple_spinner_item, cg);
+
+                // Drop down layout style - list view with radio button
+                custgroup.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                // attaching data adapter to spinner
+                spinCustGp.setAdapter(custgroup);
+
+                spinCustGp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        selected_custgroupid = position;
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        // TODO Auto-generated method stub
+                    }
+                });
+
+                ArrayList<Township> townships = new ArrayList<>();
+                Cursor township = DatabaseHelper.DistinctSelectQuerySelection("Customer", new String[]{"Townshipid", "Townshipname", "TownshipCode"}, "CustGroupID=?", new String[]{String.valueOf(1)});
+                if (township != null && township.getCount() != 0) {
+                    if (township.moveToFirst()) {
+                        do {
+                            long townshipid = township.getLong(township.getColumnIndex("Townshipid"));
+                            String townshipname = township.getString(township.getColumnIndex("Townshipname"));
+                            String shortname = township.getString(township.getColumnIndex("TownshipCode"));
+                            // if(townshipid>0)//Added by KLM
+                            townships.add(new Township(townshipid, townshipname, shortname));
+                        } while (township.moveToNext());
+                    }
+                }
+                township.close();
+                Spinner spinTownship = view.findViewById(R.id.spinTownship);
+                //spinTownship.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
+                // Creating adapter for spinner
+                ArrayAdapter townshipAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, townships);
+
+                // Drop down layout style - list view with radio button
+                townshipAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                // attaching data adapter to spinner
+                spinTownship.setAdapter(townshipAdapter);
+
+                spinTownship.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        selected_townshipid = position;
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        // TODO Auto-generated method stub
+                    }
+                });
+
+                ArrayList<customer> customers = new ArrayList<>();
+                if (!use_customergroup) {
+                    selected_custgroupid = -1;
+                }
+                if (!use_township) {
+                    selected_townshipid = -1;
+                }
+                String filter = " where  ((CustGroupID<>-1 and CustGroupID=" + selected_custgroupid + ") or " + selected_custgroupid + "=-1)" +
+                        " and ((townshipid<>-1 and townshipid=" + selected_townshipid + ") or " + selected_townshipid + "=-1)";
+                String sqlString = "select customerid,customer_code,customer_name,credit,Custdiscount,due_in_days,credit_limit from Customer " + filter + " order by customer_code,customer_name";
+                Cursor customer = DatabaseHelper.rawQuery(sqlString);
+                if (customer != null && customer.getCount() != 0) {
+                    if (customer.moveToFirst()) {
+                        do {
+                            long customerid = customer.getLong(customer.getColumnIndex("customerid"));
+                            String customername = customer.getString(customer.getColumnIndex("customer_name"));
+                            String customercode = customer.getString(customer.getColumnIndex("customer_code"));
+                            boolean credit = customer.getInt(customer.getColumnIndex("credit")) == 1 ? true : false;
+                            double custdis = customer.getDouble(customer.getColumnIndex("Custdiscount"));
+                            int due_in_days = customer.getInt(customer.getColumnIndex("due_in_days"));
+                            double credit_limit = customer.getDouble(customer.getColumnIndex("credit_limit"));
+                            isCreditcustomer = credit;
+                            customers.add(new customer(customerid, customername, customercode, credit, custdis, due_in_days, credit_limit));
+                        } while (customer.moveToNext());
+                    }
+                }
+                customer.close();
+
+                AutoCompleteTextView searchCustomer= view.findViewById(R.id.searchCustomer);
+                searchCustomer.setThreshold(1);
+
+                ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, customers);
+
+                searchCustomer.setAdapter(adapter);
+                searchCustomer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        selected_customerid = position;
+                    }
+                });
+
+                /*
+                String sql = "select customer_name from Customer where customerid=" + selected_customerid;
+                Cursor  customer_data = DatabaseHelper.rawQuery(sql);
+                if (customer_data != null && customer_data.getCount() != 0) {
+                    if (customer_data.moveToFirst()) {
+                        do {
+                            String customername = customer_data.getString(customer_data.getColumnIndex("customer_name"));
+                            //searchCustomer.setText(customername);
+                        } while (customer_data.moveToNext());
+                    }
+                }
+                customer_data.close();
+
+                 */
+
+                ArrayList<Location> locations = new ArrayList<>();
+                String location = "select locationid,Location_Name,Location_Short,branchID from Location ";
+                Cursor locationdata = DatabaseHelper.rawQuery(location);
+                if (locationdata != null && locationdata.getCount() != 0) {
+                    if (locationdata.moveToFirst()) {
+                        do {
+                            long locationid = locationdata.getLong(locationdata.getColumnIndex("locationid"));
+                            String locationname = locationdata.getString(locationdata.getColumnIndex("Location_Name"));
+                            String shortname = locationdata.getString(locationdata.getColumnIndex("Location_Short"));
+                            long branchid = locationdata.getLong(locationdata.getColumnIndex("branchID"));
+                            locations.add(new Location(locationid, locationname, shortname, branchid));
+                        } while (locationdata.moveToNext());
+
+                    }
+                }
+                locationdata.close();
+                Spinner spinLocation = view.findViewById(R.id.location);
+
+                // Creating adapter for spinner
+                ArrayAdapter locationAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, locations);
+
+                // Drop down layout style - list view with radio button
+                locationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                // attaching data adapter to spinner
+                spinLocation.setAdapter(locationAdapter);
+
+                spinLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        defloc = position;
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        // TODO Auto-generated method stub
+                    }
+                });
+
+                if (defloc != 1) {
+                    locationid = Long.valueOf(defloc);
+                }
+
+                ArrayList<pay_type> pay_types = new ArrayList<>();
+                if (pay_types.size() > 0) {
+                    pay_types.clear();
+                }
+                String sqlPay=null;
+                if (isCreditcustomer) {
+                    sqlPay = "select * from Payment_Type";
+                } else {
+                    sqlPay = "select * from Payment_Type where pay_type=1";
+                }
+                Cursor paytype = DatabaseHelper.rawQuery(sqlPay);
+                if (paytype != null && paytype.getCount() != 0) {
+                    if (paytype.moveToFirst()) {
+                        do {
+                            int pay_type = paytype.getInt(paytype.getColumnIndex("pay_type"));
+                            String pay_typename = paytype.getString(paytype.getColumnIndex("name"));
+                            String shortname = paytype.getString(paytype.getColumnIndex("short"));
+                            pay_types.add(new pay_type(pay_type, pay_typename, shortname));
+                        } while (paytype.moveToNext());
+                    }
+                }
+                paytype.close();
+                Spinner spinPaytype = view.findViewById(R.id.spinPaytype);
+                // Creating adapter for spinner
+                ArrayAdapter paytypeAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, pay_types);
+
+                // Drop down layout style - list view with radio button
+                paytypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                // attaching data adapter to spinner
+                spinPaytype.setAdapter(paytypeAdapter);
+
+                spinPaytype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        pay_type = position;
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        // TODO Auto-generated method stub
+                    }
+                });
+
+                ArrayList<Cash> cash = new ArrayList<>();
+                if (cash.size() > 0) {
+                    cash.clear();
+                }
+                Cursor cashCursor = DatabaseHelper.rawQuery("select * from cash where userid=" + frmlogin.LoginUserid);
+                if (cashCursor != null && cashCursor.getCount() != 0) {
+                    if (cashCursor.moveToFirst()) {
+                        do {
+                            int cash_id = cashCursor.getInt(cashCursor.getColumnIndex("cash_id"));
+                            String cashname = cashCursor.getString(cashCursor.getColumnIndex("name"));
+                            int userid = cashCursor.getInt(cashCursor.getColumnIndex("userid"));
+                            cash.add(new Cash(cash_id, cashname, userid));
+                        } while (cashCursor.moveToNext());
+                    }
+                }
+                cashCursor.close();
+                Spinner spinCash = view.findViewById(R.id.cash);
+                // Creating adapter for spinner
+                ArrayAdapter cashAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, cash);
+
+                // Drop down layout style - list view with radio button
+                cashAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                // attaching data adapter to spinner
+                spinCash.setAdapter(cashAdapter);
+
+                spinCash.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        def_cashid = position;
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        // TODO Auto-generated method stub
+                    }
+                });
+
                 if (!use_township) {
                     rlTownship.setVisibility(View.GONE);
 
@@ -1915,18 +2188,21 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     if (frmlogin.select_location == 0) {
 
                         rlLocatin.setEnabled(false);
-                        btnStlocation.setEnabled(false);
+                        //btnStlocation.setEnabled(false);
+                        spinLocation.setEnabled(false);
                     } else {
 
                         rlLocatin.setEnabled(true);
-                        btnStlocation.setEnabled(true);
+                        //btnStlocation.setEnabled(true);
+                        spinLocation.setEnabled(true);
                     }
                 } else {
                     rlLocatin.setVisibility(View.GONE);
                 }
                 //not select_customer in sale entry modified by ABBP
                 if (frmlogin.select_customer == 0) {
-                    btncustomer.setEnabled(false);
+                    //btncustomer.setEnabled(false);
+                    searchCustomer.setEnabled(false);
                 }
                 TextView txtinvoiceNo = view.findViewById(R.id.txtInvoiceNo);
                 txtinvoiceNo.setText(sh.get(0).getInvoice_no() == "NULL" ? "" : sh.get(0).getInvoice_no());
@@ -1935,7 +2211,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 //add headremark in header
                 headremark = view.findViewById(R.id.txtheadremark);
                 headremark.setText(sh.get(0).getHeadremark() == "NULL" ? "" : sh.get(0).getHeadremark());
-
+/*
 //salesmen selcet to btn
                 if (SaleVouSalesmen.size() > 0) {
                     String salesmen = "";
@@ -1964,9 +2240,11 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     btnSalesmen.setText(salesmen);
                 }
 
+ */
+
 
                 ImageButton btnsave = view.findViewById(R.id.imgSave);
-
+            /*
                 btncustgroup.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1974,13 +2252,15 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                         ChangeHeader("Customer Group", btncustgroup, btnpaytype);
                     }
                 });
-//                btnSalesmen.setOnClickListener(new View.OnClickListener() {
-                //          @Override
-                //      public void onClick(View v)
+
+
+              btnSalesmen.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                     public void onClick(View v)
             {
                 ChangeHeader("Salesmen", btnSalesmen, btnpaytype);
             }
-            //     });
+                });
             btntownship.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1995,12 +2275,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     ChangeHeader("Customer", btncustomer, btnpaytype);
                 }
             });
-            imgNewCust.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Add_Customer();
-                }
-            });
+
             btnCash.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -2026,12 +2301,18 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 }
             });
 
+            */
 
-            btnsave.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                imgNewCust.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Add_Customer();
+                    }
+                });
 
-
+                btnsave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                     invoice_no = txtinvoiceNo.getText().toString().trim().isEmpty() ? "NULL" : txtinvoiceNo.getText().toString().trim();
                     sh.get(0).setInvoice_no(invoice_no);
 
@@ -2064,9 +2345,24 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     } else {
                         txtoutstand.setText("0");
                     }
+                    sh.get(0).setTownshipid(selected_townshipid);
+                    sh.get(0).setCustomerid(selected_customerid);
+                    sh.get(0).setLocationid(locationid);
+                    sh.get(0).setPay_type(pay_type);
+                    sh.get(0).setDef_cashid(def_cashid);
+
+
                     dialog.dismiss();
                 }
             });
+            ImageButton imgBack = view.findViewById(R.id.imgBack);
+            imgBack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            /*
             ArrayList<String> id = new ArrayList<>();
             ArrayList<Button> btn = new ArrayList<>();
 
@@ -2083,6 +2379,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             id.add(String.valueOf(sh.get(0).getDef_cashid()));
 
             InitializeHeader(id, btn);
+
+             */
 
             dialog = builder.create();
             dialog.show();
@@ -2692,7 +2990,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         requestQueue.add(req);
     }
 
-    private void InitializeHeader(ArrayList<String> id, ArrayList<Button> btn) {
+    /*private void InitializeHeader(ArrayList<String> id, ArrayList<Button> btn) {
         Cursor cursor = null;
         String sqlString = "";
         // Cash
@@ -2831,7 +3129,9 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
     }
 
-    private void CustomerSetup(String name, Button btn, Button btnpay) {
+     */
+
+    /*private void CustomerSetup(String name, Button btn, Button btnpay) {
         try {
 
             String sqlString;
@@ -3021,6 +3321,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         }
     }
 
+
+     */
     private void ChangeHeader(String name, Button btn, Button btnpay) {
 
         try {
@@ -3585,6 +3887,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         AlertDialog.Builder addcustomer = new AlertDialog.Builder(sale_entry.this);
         View v = getLayoutInflater().inflate(R.layout.customerdetail, null);
         ImageButton imgAddCustomer = v.findViewById(R.id.imgAddCustomer);
+        ImageButton imgBack = v.findViewById(R.id.imgback);
         EditText etdCustomerName = v.findViewById(R.id.txtCustomerName);
         EditText etdCustomerCode = v.findViewById(R.id.txtCustomerCode);
         EditText etddue = v.findViewById(R.id.txtdue);
@@ -3622,7 +3925,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
 
          */
-        Switch switchCredit = (Switch) findViewById(R.id.credit);
+        Switch switchCredit =  v.findViewById(R.id.credit);
         switchCredit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -3643,6 +3946,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 }
             }
         });
+
+        /*
         imgCustomerTownship.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -3657,6 +3962,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 CustomerSetup("Customer Group", imgCustomerGroup, imgCustomerGroup);
             }
         });
+
+         */
         imgAddCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -3734,6 +4041,12 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
             }
         });
+        imgBack.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                addDialog.dismiss();
+            }
+        });
         addcustomer.setView(v);
         addDialog = addcustomer.create();
         addDialog.show();
@@ -3778,8 +4091,10 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             AlertDialog.Builder change = new AlertDialog.Builder(sale_entry.this);
             change.setCancelable(false);
             View v = getLayoutInflater().inflate(R.layout.savechange, null);
-            ImageButton imgSave = v.findViewById(R.id.imgSave);
-            ImageButton imgClose = v.findViewById(R.id.imgClose);
+            //ImageButton imgSave = v.findViewById(R.id.imgSave);
+            //ImageButton imgClose = v.findViewById(R.id.imgClose);
+            Button imgSave = v.findViewById(R.id.imgSave);
+            Button imgClose = v.findViewById(R.id.imgClose);
             tvAmount = v.findViewById(R.id.txtAmount);
             tvAmount.setText(txtnet.getText().toString());
 
@@ -3787,6 +4102,35 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             TextView tvPaid = v.findViewById(R.id.txtpaidAmount);
             CheckBox chkPrint = v.findViewById(R.id.chkPrint);
             CheckBox chkBluetooth = v.findViewById(R.id.chkBluetooth);
+
+            RelativeLayout rlBillCount = v.findViewById(R.id.rlBillCount);
+            Switch switchBill = v.findViewById(R.id.switchBill);
+            switchBill.setChecked(false);
+            bill_not_print = false;
+            switchBill.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    bill_not_print = isChecked;
+                    if(isChecked){
+                        rlBillCount.setVisibility(View.GONE);
+                    }
+                    else{
+                        rlBillCount.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+            Switch switchBluetooth = v.findViewById(R.id.switchBluetooth);
+            switchBluetooth.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    use_bluetooth = isChecked;
+                }
+            });
+
+            ImageView btnMinus = v.findViewById(R.id.img_qty_minus);
+            ImageView btnPlus = v.findViewById(R.id.img_qty_plus);
+
+/*
             chkBluetooth.setChecked(false);
             use_bluetooth = false;
             chkBluetooth.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -3804,10 +4148,14 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     bill_not_print = isChecked;
                 }
             });
+
+ */
+
             TextView tvBillCount = v.findViewById(R.id.billcount);
             tvBillCount.setText(String.valueOf(billprintcount));
-            RelativeLayout rlBillCount = v.findViewById(R.id.rlBillCount);
+            //RelativeLayout rlBillCount = v.findViewById(R.id.rlBillCount);
             TextView txtAmounttext = v.findViewById(R.id.txtAmounttext);
+            /*
             tvBillCount.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -3826,6 +4174,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 }
             });
 
+
+             */
 
             RelativeLayout rlPaid = v.findViewById(R.id.rlPaid);
             rlPaid.setOnClickListener(new View.OnClickListener() {
@@ -5241,6 +5591,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             txtChangeQty = view.findViewById(R.id.txtChangeQty);
             txtChangeQty.setText(String.valueOf(sd.get(itemPosition).getUnit_qty()));
             ImageButton imgaddQty, imgsubQty, imgPaddQty, imgPSubQty;
+            ImageView img_qty_minus,img_qty_plus;
             rcvUnit = view.findViewById(R.id.rcvUnit);
             rcvSP = view.findViewById(R.id.rcvSP);
             btndiscount = view.findViewById(R.id.btndiscountype);
@@ -5399,6 +5750,9 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             imgPaddQty = view.findViewById(R.id.imgPAddqty);
             imgPSubQty = view.findViewById(R.id.imgPSubqty);
 
+            img_qty_minus = view.findViewById(R.id.img_qty_minus);
+            img_qty_plus = view.findViewById(R.id.img_qty_plus);
+
 
             //Initialize Dis_Type
             sqlString = "select * from Dis_Type where dis_type= " + sd.get(itemPosition).getDis_type();
@@ -5502,6 +5856,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
 
             txtsqty.setText(String.valueOf(sd.get(itemPosition).getQty()));
+            /*
             imgaddQty.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -5518,7 +5873,44 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 }
             });
 
+             */
+
+            img_qty_plus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    txtChangeQty.setText(String.valueOf(Double.parseDouble(txtChangeQty.getText().toString()) + 1));
+                    sd.get(itemPosition).setUnit_qty(Double.parseDouble(txtChangeQty.getText().toString()));
+                    GetSpecialPrice(itemPosition, Double.parseDouble(txtChangeQty.getText().toString()), editUnit_type);
+                    Double amt = Double.parseDouble(txtChangeQty.getText().toString()) * Double.parseDouble(ClearFormat(txtChangePrice.getText().toString()));
+                    String numberAsString = String.format("%." + frmmain.price_places + "f", amt);
+                    txtamt.setText(numberAsString);
+                    double sqty = sd.get(itemPosition).getQty() * Double.parseDouble(txtChangeQty.getText().toString());
+                    txtsqty.setText(String.valueOf(sqty));
+
+
+                }
+            });
+
+            /*
             imgsubQty.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (Double.parseDouble(txtChangeQty.getText().toString()) >= 2) {
+                        txtChangeQty.setText(String.valueOf(Double.parseDouble(txtChangeQty.getText().toString()) - 1));
+                        sd.get(itemPosition).setUnit_qty(Double.parseDouble(txtChangeQty.getText().toString()));
+                        GetSpecialPrice(itemPosition, Double.parseDouble(txtChangeQty.getText().toString()), editUnit_type);
+                        Double amt = Double.parseDouble(txtChangeQty.getText().toString()) * Double.parseDouble(ClearFormat(txtChangePrice.getText().toString()));
+                        String numberAsString = String.format("%,." + frmmain.price_places + "f", amt);
+                        txtamt.setText(String.valueOf(numberAsString));
+                        double sqty = sd.get(itemPosition).getQty() * Double.parseDouble(txtChangeQty.getText().toString());
+                        txtsqty.setText(String.valueOf(sqty));
+                    }
+                }
+            });
+
+             */
+
+            img_qty_minus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (Double.parseDouble(txtChangeQty.getText().toString()) >= 2) {
@@ -5611,14 +6003,10 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     isqty = true;
                     changeheader = true;
                     keynum = txtChangeQty.getText().toString();
-                    showKeyPad(txtChangeQty, txtChangeQty);
+                    //showKeyPad(txtChangeQty, txtChangeQty);
                     double sqty = sd.get(itemPosition).getQty() * Double.parseDouble(txtChangeQty.getText().toString());
                     txtsqty.setText(String.valueOf(sqty));
-
-
                 }
-
-
             });
 
 //not change_price in sale entry modified by ABBP
@@ -5667,7 +6055,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             txtamt.setText(numberAsString);
 
 
-            ImageButton save = view.findViewById(R.id.imgSave);
+            //ImageButton save = view.findViewById(R.id.imgSave);
+            Button save = view.findViewById(R.id.imgSave);
             save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -5716,6 +6105,14 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     dialog.dismiss();
                 }
             });
+            Button cancel = view.findViewById(R.id.Cancel);
+            cancel.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
             if (frmlogin.use_oil == 1) {
                 rlPetrol.setVisibility(View.GONE);
                 rlUnit.setVisibility(View.GONE);
@@ -5756,6 +6153,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             rlsqty.setVisibility(View.GONE);
         }
     }
+
+
 
 
     public class addCust extends AsyncTask<String, Void, String> {

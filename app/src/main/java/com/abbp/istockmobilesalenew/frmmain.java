@@ -53,8 +53,8 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
     public static boolean Allow_SaleOrder;
     public static boolean All_Users;
     AlertDialog dialog, msg, downloadAlert;
-    public static TextView shopname; //added by MPPA on 14-12-2021
-    public static String title;
+    public TextView shopname; //added by MPPA on 14-12-2021
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +95,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
         cardoutstandlist = (CardView) findViewById(R.id.cardOutstandlist);//added by YLT on [09-08-2020]
         cardsalelist = (CardView) findViewById(R.id.cardsalelist);
         cardstock = (CardView) findViewById(R.id.cardstock);
-        cardsetting = (CardView) findViewById(R.id.cardSetting); //added by MPPA on [08-12-2021]
+        //cardsetting = (CardView) findViewById(R.id.cardSetting); //added by MPPA on [08-12-2021]
         cardlogout = (ImageView) findViewById(R.id.cardlogout);
         shopname = (TextView) findViewById(R.id.shopname);
         //txtUsername=(TextView)findViewById(R.id.txtUsername);
@@ -109,7 +109,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
         cardsalelist.setOnClickListener(this);
         cardstock.setOnClickListener(this);
         cardlogout.setOnClickListener(this);
-        cardsetting.setOnClickListener(this); //added by MPPA on [09-12-2021]
+        //cardsetting.setOnClickListener(this); //added by MPPA on [09-12-2021]
         getdecimal();
         getclassview();
         getpic();
@@ -121,10 +121,11 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
             cardoutstandlist.setVisibility(View.GONE);
             //cardStockstatuslist.setVisibility(View.GONE);
         }
-        getShopname();
-        shopname.setText(title);
+        //getShopname();
+        shopname.setText(GlobalClass.GetSystemSetting("title"));
     }
 
+    /*
     private void getShopname(){
         Cursor cursor = DatabaseHelper.rawQuery("select title from systemsetting");
         if (cursor != null && cursor.getCount() != 0) {
@@ -135,6 +136,8 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
             }
         }
     }
+
+     */
     private void getCustid() {
         Cursor cursor = DatabaseHelper.rawQuery("select Max(customerid)as custc from Customer");
         if (cursor != null && cursor.getCount() != 0) {
@@ -300,11 +303,6 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
                 finish();
                 break;
 
-            case R.id.cardSetting:
-                //intent = new Intent(frmmain.this, frmmain.class);
-                //startActivity(intent);
-                //finish();
-                break;
         }
 
     }

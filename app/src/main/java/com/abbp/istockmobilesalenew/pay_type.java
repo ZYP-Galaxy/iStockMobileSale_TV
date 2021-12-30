@@ -1,5 +1,9 @@
 package com.abbp.istockmobilesalenew;
 
+import androidx.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
+
 public class pay_type {
     private  int pay_type;
     private String name;
@@ -33,5 +37,12 @@ public class pay_type {
 
     public void setShortdes(String shortdes) {
         this.shortdes = shortdes;
+    }
+
+    @NonNull
+    @NotNull
+    @Override
+    public String toString() {
+        return name;
     }
 }

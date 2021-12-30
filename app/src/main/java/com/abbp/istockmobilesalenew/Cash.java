@@ -1,5 +1,9 @@
 package com.abbp.istockmobilesalenew;
 
+import androidx.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
+
 public class Cash {
     int cash_id;
     String name;
@@ -33,5 +37,12 @@ public class Cash {
 
     public void setUserid(int userid) {
         this.userid = userid;
+    }
+
+    @NonNull
+    @NotNull
+    @Override
+    public String toString() {
+        return name;
     }
 }

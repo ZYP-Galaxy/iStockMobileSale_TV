@@ -1,5 +1,9 @@
 package com.abbp.istockmobilesalenew;
 
+import androidx.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
+
 public class customer {
     long customerid;
     String name;
@@ -73,5 +77,12 @@ public class customer {
         this.custDis=custDis;
         this.due_in_days=due_in_days;
         this.credit_limit=credit_limit;
+    }
+
+    @NonNull
+    @NotNull
+    @Override
+    public String toString() {
+        return name;
     }
 }

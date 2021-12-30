@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="500dp"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:orientation="vertical">
@@ -241,7 +241,7 @@
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cardstock"
-                            android:layout_width="0dp"
+                            android:layout_width="100dp"
                             android:layout_height="90dp"
                             android:layout_marginRight="3dp"
                             android:layout_marginTop="3dp"
@@ -312,43 +312,6 @@
                                     android:layout_marginTop="5dp"
                                     android:layout_marginBottom="0dp"
                                     android:background="@drawable/coin"
-                                    android:padding="10dp" />
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/cardSetting"
-                            android:layout_width="0dp"
-                            android:layout_height="90dp"
-                            android:layout_marginTop="3dp"
-                            android:layout_weight="1"
-                            android:elevation="10dp"
-                            app:cardBackgroundColor="@color/setting"
-                            app:cardCornerRadius="0dp"
-                            app:cardElevation="6dp"
-                            app:cardMaxElevation="10dp"
-                            app:contentPadding="8dp">
-
-                            <LinearLayout
-                                android:layout_width="80dp"
-                                android:layout_height="80dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:text="Settings"
-                                    android:textColor="@color/white"
-                                    android:textSize="15dp"/>
-                                <ImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-                                    android:layout_marginTop="5dp"
-                                    android:layout_marginBottom="0dp"
-                                    android:background="@drawable/setting"
                                     android:padding="10dp" />
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
